@@ -1,6 +1,10 @@
-# ftc_app_5452
-This is the official coding repository for FTC Team 5452: Robot to the Knee.
+dan is a cool cat
+sda
+sadsadasd
+fdsdf
 
-This repository is kept updated with ftc_app, at https://github.com/ftctechnh/ftc_app.
 
-9/29/15
+fdsfdsf
+
+
+hi
