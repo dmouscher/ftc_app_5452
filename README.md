@@ -3,6 +3,4 @@ This is the official coding repository for FTC Team 5452: Robot to the Knee.
 
 This repository is kept updated with ftc_app, at https://github.com/ftctechnh/ftc_app.
 
-the coolest repo for all the cool cats
-
 9/29/15
