@@ -19,73 +19,73 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 public class RTTK_Artreads extends LinearOpMode
 {
-    DcMotor motorRight;
-    DcMotor motorLeft;
+	DcMotor motorRight;
+	DcMotor motorLeft;
 
-    public int reverseMultiplier()
-    {
-        if(gamepad1.b)
-        {
-            return -1;
-        }
-        else
-        {
-            return 1;
-        }
-    }
+	public int reverseMultiplier()
+	{
+		if (gamepad1.b)
+		{
+			return -1;
+		}
+		else
+		{
+			return 1;
+		}
+	}
 
-    @Override
-    public void runOpMode() throws InterruptedException
-    {
-        motorLeft = hardwareMap.dcMotor.get("motor_left");
-        motorRight = hardwareMap.dcMotor.get("motor_right");
-        motorLeft.setDirection(DcMotor.Direction.REVERSE);
+	@Override
+	public void runOpMode() throws InterruptedException
+	{
+		motorLeft = hardwareMap.dcMotor.get("motor_left");
+		motorRight = hardwareMap.dcMotor.get("motor_right");
+		motorLeft.setDirection(DcMotor.Direction.REVERSE);
 
-        double speed = 0.5;
-        final double DEADZONE = 0.05;
+		double speed = 0.5;
+		final double DEADZONE = 0.05;
 
-        waitForStart();
+		waitForStart();
 
-        while (opModeIsActive())
-        {
-            if(gamepad1.left_stick_y < DEADZONE || gamepad1.right_stick_y < DEADZONE)
-            {
-                motorRight.setPower(gamepad1.right_stick_y);
-                motorLeft.setPower(gamepad1.right_stick_x);
-            }
-            else
-            {
-                if(gamepad1.left_bumper)
-                {
-                    motorLeft.setPower(speed*reverseMultiplier());
-                }
-                if(gamepad1.right_bumper)
-                {
-                    motorRight.setPower(speed*reverseMultiplier());
-                }
-                if(gamepad1.y)
-                {
-                    motorRight.setPower(speed);
-                    motorLeft.setPower(speed);
-                }
-                if(gamepad1.a)
-                {
-                    motorRight.setPower(-speed);
-                    motorLeft.setPower(-speed);
-                }
-            }
+		while (opModeIsActive())
+		{
+			if (gamepad1.left_stick_y < DEADZONE || gamepad1.right_stick_y < DEADZONE)
+			{
+				motorRight.setPower(gamepad1.right_stick_y);
+				motorLeft.setPower(gamepad1.right_stick_x);
+			}
+			else
+			{
+				if (gamepad1.left_bumper)
+				{
+					motorLeft.setPower(speed * reverseMultiplier());
+				}
+				if (gamepad1.right_bumper)
+				{
+					motorRight.setPower(speed * reverseMultiplier());
+				}
+				if (gamepad1.y)
+				{
+					motorRight.setPower(speed);
+					motorLeft.setPower(speed);
+				}
+				if (gamepad1.a)
+				{
+					motorRight.setPower(-speed);
+					motorLeft.setPower(-speed);
+				}
+			}
 
-            if(gamepad1.dpad_up && speed < 1)
-            {
-                speed += 0.005;
-            }
-            else if(gamepad1.dpad_down && speed > 0)
-            {
-                speed -= 0.005;
-            }
+			if (gamepad1.dpad_up && speed < 1)
+			{
+				speed += 0.005;
+			}
+			else if (gamepad1.dpad_down && speed > 0)
+			{
+				speed -= 0.005;
+			}
 
-            telemetry.addData("Speed: ", speed*100 + "%");
-            waitOneFullHardwareCycle();
-        }
-    }
+			telemetry.addData("Speed: ", speed * 100 + "%");
+			waitOneFullHardwareCycle();
+		}
+	}
 }

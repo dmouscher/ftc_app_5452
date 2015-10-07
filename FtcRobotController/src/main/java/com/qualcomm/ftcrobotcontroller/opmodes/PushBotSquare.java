@@ -9,34 +9,37 @@ import com.qualcomm.robotcore.hardware.DcMotorController;
  * will drive in a square pattern using sleep() 
  * and a for loop.
  */
-public class PushBotSquare extends LinearOpMode {
-    DcMotor leftMotor;
-    DcMotor rightMotor;
+public class PushBotSquare extends LinearOpMode
+{
+	DcMotor leftMotor;
+	DcMotor rightMotor;
 
-    @Override
-    public void runOpMode() throws InterruptedException {
-        leftMotor = hardwareMap.dcMotor.get("left_drive");
-        rightMotor = hardwareMap.dcMotor.get("right_drive");
-        rightMotor.setDirection(DcMotor.Direction.REVERSE);
-        leftMotor.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        rightMotor.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+	@Override
+	public void runOpMode() throws InterruptedException
+	{
+		leftMotor = hardwareMap.dcMotor.get("left_drive");
+		rightMotor = hardwareMap.dcMotor.get("right_drive");
+		rightMotor.setDirection(DcMotor.Direction.REVERSE);
+		leftMotor.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+		rightMotor.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 
-        waitForStart();
+		waitForStart();
 
-        for(int i=0; i<4; i++) {
-            leftMotor.setPower(1.0);
-            rightMotor.setPower(1.0);
+		for (int i = 0; i < 4; i++)
+		{
+			leftMotor.setPower(1.0);
+			rightMotor.setPower(1.0);
 
-            sleep(1000);
+			sleep(1000);
 
-            leftMotor.setPower(0.5);
-            rightMotor.setPower(-0.5);
+			leftMotor.setPower(0.5);
+			rightMotor.setPower(-0.5);
 
-            sleep(500);
-        }
+			sleep(500);
+		}
 
-        leftMotor.setPowerFloat();
-        rightMotor.setPowerFloat();
+		leftMotor.setPowerFloat();
+		rightMotor.setPowerFloat();
 
-    }
+	}
 }
