@@ -38,12 +38,11 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 /**
  * TeleOp Mode
- * <p/>
+ * <p>
  * Enables control of the robot via the gamepad
  */
-public class K9Line extends OpMode
-{
-
+public class K9Line extends OpMode {
+	
 	final static double MOTOR_POWER = 0.15; // Higher values will cause the robot to move faster
 	final static double HOLD_IR_SIGNAL_STRENGTH = 0.20; // Higher values will cause the robot to follow closer
 	final static double LIGHT_THRESHOLD = 0.5;
@@ -56,12 +55,11 @@ public class K9Line extends OpMode
 	Servo claw;
 	Servo arm;
 	LightSensor reflectedLight;
-
+	
 	/**
 	 * Constructor
 	 */
-	public K9Line()
-	{
+	public K9Line() {
 
 	}
 
@@ -71,8 +69,7 @@ public class K9Line extends OpMode
 	 * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#start()
 	 */
 	@Override
-	public void init()
-	{
+	public void init() {
 
 		/*
 		 * Use the hardwareMap to get the dc motors and servos by name.
@@ -93,7 +90,7 @@ public class K9Line extends OpMode
 		motorRight = hardwareMap.dcMotor.get("motor_2");
 		motorLeft = hardwareMap.dcMotor.get("motor_1");
 		motorLeft.setDirection(DcMotor.Direction.REVERSE);
-
+		
 		arm = hardwareMap.servo.get("servo_1");
 		claw = hardwareMap.servo.get("servo_6");
 
@@ -107,8 +104,8 @@ public class K9Line extends OpMode
 		 */
 		reflectedLight = hardwareMap.lightSensor.get("light_sensor");
 
-		// turn on LED of light sensor.
-		reflectedLight.enableLed(true);
+        // turn on LED of light sensor.
+        reflectedLight.enableLed(true);
 	}
 
 	/*
@@ -117,40 +114,36 @@ public class K9Line extends OpMode
 	 * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#run()
 	 */
 	@Override
-	public void loop()
-	{
+	public void loop() {
 		double reflection = 0.0;
 		double left, right = 0.0;
-
+		
 		// keep manipulator out of the way.
 		arm.setPosition(armPosition);
 		claw.setPosition(clawPosition);
 
         /*
-		 * As a temporary fix, turn on LED in run() event rather than in start().
+         * As a temporary fix, turn on LED in run() event rather than in start().
          */
-		// turn on LED of light sensor.
-		//reflectedLight.enableLed(true);
+        // turn on LED of light sensor.
+        //reflectedLight.enableLed(true);
 
 		/*
 		 * read the light sensor.
 		 */
-		reflection = reflectedLight.getLightDetected();
-
+		//reflection = reflectedLight.getLightLevel();
+		
 		/*
 		 * compare measured value to threshold.
 		 */
-		if (reflection < LIGHT_THRESHOLD)
-		{
+		if (reflection < LIGHT_THRESHOLD) {
 			/*
 			 * if reflection is less than the threshold value, then assume we are above dark spot.
 			 * turn to the right.
 			 */
 			left = MOTOR_POWER;
 			right = 0.0;
-		}
-		else
-		{
+		} else {
 			/*
 			 * assume we are over a light spot.
 			 * turn to the left.
@@ -174,7 +167,7 @@ public class K9Line extends OpMode
 
 		telemetry.addData("Text", "*** Robot Data***");
 		telemetry.addData("reflection", "reflection:  " + Double.toString(reflection));
-		telemetry.addData("left tgt pwr", "left  pwr: " + Double.toString(left));
+		telemetry.addData("left tgt pwr",  "left  pwr: " + Double.toString(left));
 		telemetry.addData("right tgt pwr", "right pwr: " + Double.toString(right));
 	}
 
@@ -184,8 +177,7 @@ public class K9Line extends OpMode
 	 * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#stop()
 	 */
 	@Override
-	public void stop()
-	{
+	public void stop() {
 
 	}
 
