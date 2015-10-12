@@ -19,8 +19,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 public class Artreads extends LinearOpMode
 {
-	DcMotor motorRight;
-	DcMotor motorLeft;
+	DcMotor motorFL;
+	DcMotor motorFR;
+	DcMotor motorBL;
+	DcMotor motorBR;
 
 	public int reverseMultiplier()
 	{
@@ -37,9 +39,13 @@ public class Artreads extends LinearOpMode
 	@Override
 	public void runOpMode() throws InterruptedException
 	{
-		motorLeft = hardwareMap.dcMotor.get("motor_left");
-		motorRight = hardwareMap.dcMotor.get("motor_right");
-		motorLeft.setDirection(DcMotor.Direction.REVERSE);
+		motorFL = hardwareMap.dcMotor.get("motor_fl");
+		motorFR = hardwareMap.dcMotor.get("motor_fr");
+		motorBL = hardwareMap.dcMotor.get("motor_bl");
+		motorBR = hardwareMap.dcMotor.get("motor_br");
+
+		motorFL.setDirection(DcMotor.Direction.REVERSE);
+		motorFR.setDirection(DcMotor.Direction.REVERSE);
 
 		double speed = 0.5;
 		final double DEADZONE = 0.05;
@@ -50,28 +56,36 @@ public class Artreads extends LinearOpMode
 		{
 			if (gamepad1.left_stick_y < DEADZONE || gamepad1.right_stick_y < DEADZONE)
 			{
-				motorRight.setPower(gamepad1.right_stick_y);
-				motorLeft.setPower(gamepad1.right_stick_x);
+				motorFL.setPower(gamepad1.left_stick_y);
+				motorBL.setPower(gamepad1.left_stick_y);
+				motorFR.setPower(gamepad1.right_stick_y);
+				motorBR.setPower(gamepad1.right_stick_y);
 			}
 			else
 			{
 				if (gamepad1.left_bumper)
 				{
-					motorLeft.setPower(speed * reverseMultiplier());
+					motorFL.setPower(speed * reverseMultiplier());
+					motorBL.setPower(speed * reverseMultiplier());
 				}
 				if (gamepad1.right_bumper)
 				{
-					motorRight.setPower(speed * reverseMultiplier());
+					motorFR.setPower(speed * reverseMultiplier());
+					motorBR.setPower(speed * reverseMultiplier());
 				}
 				if (gamepad1.y)
 				{
-					motorRight.setPower(speed);
-					motorLeft.setPower(speed);
+					motorFL.setPower(speed);
+					motorBL.setPower(speed);
+					motorFR.setPower(speed);
+					motorBR.setPower(speed);
 				}
 				if (gamepad1.a)
 				{
-					motorRight.setPower(-speed);
-					motorLeft.setPower(-speed);
+					motorFL.setPower(-speed);
+					motorBL.setPower(-speed);
+					motorFR.setPower(-speed);
+					motorBR.setPower(-speed);
 				}
 			}
 
