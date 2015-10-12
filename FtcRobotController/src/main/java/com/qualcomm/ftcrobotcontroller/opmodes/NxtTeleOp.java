@@ -117,7 +117,7 @@ public class NxtTeleOp extends OpMode
 		if (allowedToWrite())
 		{
 	/*
-     * Gamepad 1
+	 * Gamepad 1
      *
      * Gamepad 1 controls the motors via the left stick, and it controls the wrist/claw via the a,b,
      * x, y buttons

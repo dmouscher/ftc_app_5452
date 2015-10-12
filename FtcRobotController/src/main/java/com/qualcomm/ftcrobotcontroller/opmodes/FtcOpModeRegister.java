@@ -66,7 +66,7 @@ public class FtcOpModeRegister implements OpModeRegister
 		//manager.register ("PushBotManual", PushBotManual.class);
 
     /*
-     * Uncomment any of the following lines if you want to register an op mode.
+	 * Uncomment any of the following lines if you want to register an op mode.
      */
 
 		//manager.register("AdafruitRGBExample", AdafruitRGBExample.class);

@@ -144,7 +144,7 @@ public class K9IrSeeker extends OpMode
 			if (angle < -60)
 			{
 				/*
-                 * IR source is to the way left.
+				 * IR source is to the way left.
                  * Point turn to the left.
                  */
 				left = -MOTOR_POWER;
