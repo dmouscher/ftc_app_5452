@@ -11,7 +11,7 @@ This is a one-gamepad teleop op mode is meant for testing the prototype drive tr
 
  */
 
-package com.qualcomm.ftcrobotcontroller.opmodes;
+package com.qualcomm.ftcrobotcontroller.opmodes.custom;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
