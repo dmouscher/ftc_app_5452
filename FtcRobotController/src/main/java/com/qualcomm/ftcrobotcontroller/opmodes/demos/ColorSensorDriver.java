@@ -64,7 +64,7 @@ public class ColorSensorDriver extends LinearOpMode
 	{
 		hardwareMap.logDevices();
 
-		cdim = hardwareMap.deviceInterfaceModule.get("dim");
+		//cdim = hardwareMap.deviceInterfaceModule.get("dim");
 		switch (device)
 		{
 			case HITECHNIC_NXT:
@@ -77,8 +77,8 @@ public class ColorSensorDriver extends LinearOpMode
 				colorSensor = hardwareMap.colorSensor.get("mr");
 				break;
 		}
-		led = hardwareMap.led.get("led");
-		t = hardwareMap.touchSensor.get("t");
+		//led = hardwareMap.led.get("led");
+		//t = hardwareMap.touchSensor.get("t");
 
 		waitForStart();
 
