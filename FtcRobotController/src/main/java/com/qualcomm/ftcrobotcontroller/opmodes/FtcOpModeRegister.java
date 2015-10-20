@@ -70,7 +70,8 @@ public class FtcOpModeRegister implements OpModeRegister
 		//manager.register ("PushBotManual", PushBotManual.class);
 
 		//manager.register("AdafruitRGBExample", AdafruitRGBExample.class);
-		manager.register("ColorSensorDriver", ColorSensorDriver.class);
+		manager.register("Color Sensor Driver", ColorSensorDriver.class);
+		manager.register("Color Sensor Testing", ColorSensorTesting.class);
 
 		//manager.register("IrSeekerOp", IrSeekerOp.class);
 		//manager.register("CompassCalibration", CompassCalibration.class);
