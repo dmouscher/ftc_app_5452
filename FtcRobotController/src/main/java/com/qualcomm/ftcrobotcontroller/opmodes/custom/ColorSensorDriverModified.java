@@ -29,7 +29,7 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
-package com.qualcomm.ftcrobotcontroller.opmodes.demos;
+package com.qualcomm.ftcrobotcontroller.opmodes.custom;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -42,7 +42,7 @@ import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
 import com.qualcomm.robotcore.hardware.LED;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
-public class ColorSensorDriver extends LinearOpMode
+public class ColorSensorDriverModified extends LinearOpMode
 {
 
     public enum ColorSensorDevice
@@ -55,8 +55,8 @@ public class ColorSensorDriver extends LinearOpMode
     public ColorSensorDevice device = ColorSensorDevice.MODERN_ROBOTICS_I2C;
 
     ColorSensor colorSensor;
-    DeviceInterfaceModule cdim;
-    LED led;
+    //DeviceInterfaceModule cdim;
+    //LED led;
     TouchSensor t;
 
     @Override
@@ -64,7 +64,7 @@ public class ColorSensorDriver extends LinearOpMode
     {
         hardwareMap.logDevices();
 
-        cdim = hardwareMap.deviceInterfaceModule.get("dim");
+        //cdim = hardwareMap.deviceInterfaceModule.get("dim");
         switch (device)
         {
             case HITECHNIC_NXT:
@@ -77,8 +77,8 @@ public class ColorSensorDriver extends LinearOpMode
                 colorSensor = hardwareMap.colorSensor.get("mr");
                 break;
         }
-        led = hardwareMap.led.get("led");
-        t = hardwareMap.touchSensor.get("t");
+        //led = hardwareMap.led.get("led");
+        //t = hardwareMap.touchSensor.get("t");
 
         waitForStart();
 
@@ -88,7 +88,7 @@ public class ColorSensorDriver extends LinearOpMode
         while (opModeIsActive())
         {
 
-            enableLed(t.isPressed());
+            //enableLed(t.isPressed());
 
             switch (device)
             {
@@ -118,20 +118,23 @@ public class ColorSensorDriver extends LinearOpMode
             waitOneFullHardwareCycle();
         }
     }
-
-    private void enableLed(boolean value)
-    {
-        switch (device)
-        {
-            case HITECHNIC_NXT:
-                colorSensor.enableLed(value);
-                break;
-            case ADAFRUIT:
-                led.enable(value);
-                break;
-            case MODERN_ROBOTICS_I2C:
-                colorSensor.enableLed(value);
-                break;
-        }
-    }
 }
+
+/**
+ * private void enableLed(boolean value)
+ * {
+ * switch (device)
+ * {
+ * case HITECHNIC_NXT:
+ * colorSensor.enableLed(value);
+ * break;
+ * case ADAFRUIT:
+ * led.enable(value);
+ * break;
+ * case MODERN_ROBOTICS_I2C:
+ * colorSensor.enableLed(value);
+ * break;
+ * }
+ * }
+ * }
+ */
