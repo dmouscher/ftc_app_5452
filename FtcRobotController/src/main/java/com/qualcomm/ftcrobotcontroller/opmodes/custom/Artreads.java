@@ -28,12 +28,6 @@ public class Artreads extends LinearOpMode
 	double speed = 0.5;
 	final double DEADZONE = 0.2;
 
-	private int reverseMultiplier()
-	{
-		if (gamepad1.b) { return -1; }
-		           else { return  1; }
-	}
-
 	private void runAllMotors(double speed)
 	{
 		motorFL.setPower(speed);
@@ -80,8 +74,8 @@ public class Artreads extends LinearOpMode
 			{
 				runAllMotors(0);
 
-				if  (gamepad1.left_bumper) {  runLeftMotors(speed * reverseMultiplier()); }
-				if (gamepad1.right_bumper) { runRightMotors(speed * reverseMultiplier()); }
+				if  (gamepad1.left_bumper) {  runLeftMotors(speed * (gamepad1.b ? -1 : 1)); }
+				if (gamepad1.right_bumper) { runRightMotors(speed * (gamepad1.b ? -1 : 1)); }
 
 				if (gamepad1.y) { runAllMotors( speed); }
 				if (gamepad1.a) { runAllMotors(-speed); }
