@@ -63,7 +63,7 @@ public class FtcOpModeRegister implements OpModeRegister
 		manager.register("Artreads", Artreads.class);
 		//manager.register("SmallBotTest", SmallBotTest.class);
 		manager.register("Color Sensor Driver", ColorSensorDriverModified.class);
-		manager.register("Color Sensor Testing", ColorSensorTesting.class);
+		manager.register("Encoder Testing", EncoderTesting.class);
 
 		//manager.register("NullOp", NullOp.class);
 
