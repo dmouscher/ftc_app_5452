@@ -3,15 +3,14 @@ package com.qualcomm.ftcrobotcontroller.opmodes.custom;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.Range;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 public class EncoderTesting extends OpMode {
-     DcMotor testmotor, testmotor1;
+     DcMotor testmotor1, testmotor2;
+     DcMotorController DMC;
      double finalEncoderValue;
      double currentEncoderValue;
      boolean firstloop = true;
+     double power = 0;
 
     public EncoderTesting()
     {
@@ -23,32 +22,52 @@ public class EncoderTesting extends OpMode {
      public void init()
      {
          hardwareMap.logDevices();
-         testmotor = hardwareMap.dcMotor.get("motor1");
-         testmotor1 = hardwareMap.dcMotor.get("motor2");
-         testmotor.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
+         testmotor1 = hardwareMap.dcMotor.get("motor1");
+         testmotor2 = hardwareMap.dcMotor.get("motor2");
+         testmotor1.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
      }
 
     @Override
     public void loop()
     {
+        /**
+         * While the channel modes of things are usually meant to be set in the init() function, setting this there didn;t seem to to work for some reason.
+         * So we set it here in the loop function, but just once so not to waste what ever possessing time it takes up.
+         *
+         * I would like to credit Brendan from team 3785 for finding this fix. May we someday hope the FTC Software Wizards patch it.
+         */
         if(firstloop)
         {
-            testmotor.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
+            testmotor1.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
             firstloop = false;
         }
 
-        testmotor.setTargetPosition(1440);
-        testmotor.setPower(1);
+        testmotor1.setTargetPosition(1440); // Setting the desired position
 
         /**
-         * So from here untill the end of the loop method, this code is meant for a very specific scenario but might be useful for later reference
-         * The scenario is that we want to run a second motor, without an encoder at the same speed as the first.
+         * So from here until the end of the loop method, this code is meant for a very specific scenario but might be useful for later reference
+         * The scenario is that we want to run a second motor, without an encoder at the same speed as the first (The first motor has an encoder).
          * And we are using the older motor controllers that used I2C and none of this fancy USB reading and writing at the same time.
+         * This last part is more of a programming exercise to better understand the new system.
          *
-         * If this code is unneeded when using this program, comment out the lines untill the end of the void method and anything to do with testmotor1
+         * If this code is unneeded when using this program, comment out the lines until the end of the void method and anything to do with testmotor1
          */
-        //if(testmotor1.getMotorControllerDeviceMode() == DcMotorController.DeviceMode.values()[4]) // I think this is WRITE_ONLY and 0 is READ_ONLY (according to ftc_app_5452/doc/javadoc/com/qualcomm/robotcore/hardware/DcMotorController.DeviceMode.html)
-        //testmotor1.setPower(testmotor.getPower());
+        if(DMC.getMotorControllerDeviceMode() == DcMotorController.DeviceMode.WRITE_ONLY) // The first comparison of the state of the device. This is done so an error is not thrown and we can do the things we need.
+        {
+            testmotor2.setPower(power);
+            testmotor1.setPower(1);
+
+            DMC.setMotorControllerDeviceMode(DcMotorController.DeviceMode.READ_ONLY); // Setting it to the other state to make sure that when we want to read the power that the first motor is set to, we can.
+        }
+
+        else if(DMC.getMotorControllerDeviceMode() == DcMotorController.DeviceMode.READ_ONLY)
+        {
+            power = testmotor1.getPower();
+
+            DMC.setMotorControllerDeviceMode(DcMotorController.DeviceMode.WRITE_ONLY);
+        }
+
+        //telemetry.addData(String.toString(DMC.getMotorControllerDeviceMode()));
     }
 
     @Override
