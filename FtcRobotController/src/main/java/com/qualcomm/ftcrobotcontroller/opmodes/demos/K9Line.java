@@ -29,7 +29,7 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
-package com.qualcomm.ftcrobotcontroller.opmodes.demos;
+package com.qualcomm.ftcrobotcontroller.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -38,11 +38,10 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 /**
  * TeleOp Mode
- * <p/>
+ * <p>
  * Enables control of the robot via the gamepad
  */
-public class K9Line extends OpMode
-{
+public class K9Line extends OpMode {
 
 	final static double MOTOR_POWER = 0.15; // Higher values will cause the robot to move faster
 	final static double HOLD_IR_SIGNAL_STRENGTH = 0.20; // Higher values will cause the robot to follow closer
@@ -60,32 +59,30 @@ public class K9Line extends OpMode
 	/**
 	 * Constructor
 	 */
-	public K9Line()
-	{
+	public K9Line() {
 
 	}
 
 	/*
 	 * Code to run when the op mode is first enabled goes here
-	 * 
+	 *
 	 * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#start()
 	 */
 	@Override
-	public void init()
-	{
+	public void init() {
 
 		/*
 		 * Use the hardwareMap to get the dc motors and servos by name.
 		 * Note that the names of the devices must match the names used
 		 * when you configured your robot and created the configuration file.
 		 */
-		
+
 		/*
 		 * For the demo Tetrix K9 bot we assume the following,
 		 *   There are two motors "motor_1" and "motor_2"
 		 *   "motor_1" is on the right side of the bot.
 		 *   "motor_2" is on the left side of the bot..
-		 *   
+		 *
 		 * We also assume that there are two servos "servo_1" and "servo_6"
 		 *    "servo_1" controls the arm joint of the manipulator.
 		 *    "servo_6" controls the claw joint of the manipulator.
@@ -107,18 +104,17 @@ public class K9Line extends OpMode
 		 */
 		reflectedLight = hardwareMap.lightSensor.get("light_sensor");
 
-		// turn on LED of light sensor.
-		reflectedLight.enableLed(true);
+        // turn on LED of light sensor.
+        reflectedLight.enableLed(true);
 	}
 
 	/*
 	 * This method will be called repeatedly in a loop
-	 * 
+	 *
 	 * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#run()
 	 */
 	@Override
-	public void loop()
-	{
+	public void loop() {
 		double reflection = 0.0;
 		double left, right = 0.0;
 
@@ -127,30 +123,27 @@ public class K9Line extends OpMode
 		claw.setPosition(clawPosition);
 
         /*
-		 * As a temporary fix, turn on LED in run() event rather than in start().
+         * As a temporary fix, turn on LED in run() event rather than in start().
          */
-		// turn on LED of light sensor.
-		//reflectedLight.enableLed(true);
+        // turn on LED of light sensor.
+        //reflectedLight.enableLed(true);
 
 		/*
 		 * read the light sensor.
 		 */
-		//reflection = reflectedLight.getLightLevel();
-		
+		reflection = reflectedLight.getLightDetected();
+
 		/*
 		 * compare measured value to threshold.
 		 */
-		if (reflection < LIGHT_THRESHOLD)
-		{
+		if (reflection < LIGHT_THRESHOLD) {
 			/*
 			 * if reflection is less than the threshold value, then assume we are above dark spot.
 			 * turn to the right.
 			 */
 			left = MOTOR_POWER;
 			right = 0.0;
-		}
-		else
-		{
+		} else {
 			/*
 			 * assume we are over a light spot.
 			 * turn to the left.
@@ -158,7 +151,7 @@ public class K9Line extends OpMode
 			left = 0.0;
 			right = MOTOR_POWER;
 		}
-		
+
 		/*
 		 * set the motor power
 		 */
@@ -174,18 +167,17 @@ public class K9Line extends OpMode
 
 		telemetry.addData("Text", "*** Robot Data***");
 		telemetry.addData("reflection", "reflection:  " + Double.toString(reflection));
-		telemetry.addData("left tgt pwr", "left  pwr: " + Double.toString(left));
+		telemetry.addData("left tgt pwr",  "left  pwr: " + Double.toString(left));
 		telemetry.addData("right tgt pwr", "right pwr: " + Double.toString(right));
 	}
 
 	/*
 	 * Code to run when the op mode is first disabled goes here
-	 * 
+	 *
 	 * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#stop()
 	 */
 	@Override
-	public void stop()
-	{
+	public void stop() {
 
 	}
 
