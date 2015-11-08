@@ -19,30 +19,24 @@ public class Teleop extends LinearOpMode
 	Servo dropperBase;
 	Servo dropperJoint;
 
-	final float  DEADZONE              = 0.20f;
-	final double TRIGGER_THRESHOLD     = 0.70 ;
-	final double ROTATE_SPEED          = 0.85 ;
-	final double MOTOR_SLOW_MULTIPLIER = 0.50 ;
-	final double ARM_SLOW_MULTIPLIER   = 0.50 ;
-	final double EXTEND_SPEED          = 0.85 ; //needs to be done!!
-	final double WINCH_SPEED           = 0.05 ;
-	final double FORWARD_SPEED         = 0.85 ;
-	final double BASE_SPEED            = 0.20 ;
-	final double JOINT_SPEED           = 0.20 ;
-	final boolean TELEMETRY            = true ;//Turns it on/off
+	final float   DEADZONE              = 0.20f;
+	final double  TRIGGER_THRESHOLD     = 0.70 ;
+	final double  ROTATE_SPEED          = 0.85 ;
+	final double  MOTOR_SLOW_MULTIPLIER = 0.50 ;
+	final double  ARM_SLOW_MULTIPLIER   = 0.50 ;
+	final double  EXTEND_SPEED          = 0.85 ; //needs to be done!
+	final double  WINCH_SPEED           = 0.05 ;
+	final double  FORWARD_SPEED         = 0.85 ;
+	final double  BASE_SPEED            = 0.20 ;
+	final double  JOINT_SPEED           = 0.20 ;
+	final boolean TELEMETRY             = true ; //enables/disables telemetry
+	final int     LEFT                  = 0    ;
+	final int     RIGHT                 = 1    ; //poor man's enumeration
 
 	double motorSlowMultiplier = 1;
 	double armSlowMultiplier = 1;
 
 	double lastX[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; //length 10
-
-	private void runAllMotors(double speed)
-	{
-		motorFL.setPower(speed);
-		motorBL.setPower(speed);
-		motorFR.setPower(speed);
-		motorBR.setPower(speed);
-	}
 
 	@Override
 	public void runOpMode() throws InterruptedException
@@ -88,22 +82,32 @@ public class Teleop extends LinearOpMode
 				winch    .setPower(WINCH_SPEED   * (gamepad2.y ? 1 : -1));
 			}
 
-			if((Math.abs(gamepad1.left_stick_y) < DEADZONE || Math.abs(gamepad1.right_stick_y) < DEADZONE) && (gamepad1.y ^ gamepad1.b))
+			if((isTriggered(LEFT) || isTriggered(RIGHT)) && (gamepad1.y ^ gamepad1.b))
 				{ runAllMotors(FORWARD_SPEED * motorSlowMultiplier * (gamepad1.y ? 1 : -1)); }
 
-			if(gamepad2.left_bumper ^ gamepad2.left_trigger > TRIGGER_THRESHOLD)
+			if(gamepad2.left_bumper ^ isTriggered(LEFT))
 				{ dropperBase.setPosition(BASE_SPEED * (gamepad2.left_bumper ? 1 : -1)); }
 
-			if(gamepad2.right_bumper ^ gamepad2.right_trigger > TRIGGER_THRESHOLD)
+			if(gamepad2.right_bumper ^ isTriggered(RIGHT))
 				{ dropperJoint.setPosition(JOINT_SPEED * (gamepad2.right_bumper ? 1 : -1)); }
 
 			if(TELEMETRY)
 			{
 				telemetry.addData("Joysticks", gamepad1.left_stick_y+", "+gamepad1.right_stick_y+", "+gamepad2.left_stick_y+", "+gamepad2.right_stick_y);
-				telemetry.addData("Buttons 1", (gamepad1.y?"[1Y]":"")+(gamepad1.b?"[1B]":"")+(gamepad1.dpad_up?"[1DPU]":"")+(gamepad1.dpad_down?"[1DPD]":"")+(gamepad1.left_bumper?"[1LB]":""));//Update when button usage changes
-				telemetry.addData("Buttons 2", (gamepad2.a?"[2A]":"")+(gamepad2.b?"[2B]":"")+(gamepad2.y?"[2Y]":"")+(gamepad2.left_bumper?"[2LB]":"")+(gamepad2.right_bumper?"[2RB]":""));//Update when button usage changes
+				telemetry.addData("Buttons 1", (gamepad1.y?"[1Y] ":"")+(gamepad1.b?"[1B] ":"")+(gamepad1.dpad_up?"[1DPU] ":"")+(gamepad1.dpad_down?"[1DPD] ":"")+(gamepad1.left_bumper?"[1LB] ":"")); //Update when button usage changes
+				telemetry.addData("Buttons 2", (gamepad2.a?"[2A] ":"")+(gamepad2.b?"[2B] ":"")+(gamepad2.y?"[2Y] ":"")+(gamepad2.left_bumper?"[2LB] ":"")+(gamepad2.right_bumper?"[2RB] ":"")+(isTriggered(LEFT)?"[2LT] ":"")+(isTriggered(RIGHT)?"[2RT] ":"")); //Update when button usage changes
 			}
+
+			waitOneFullHardwareCycle();
 		}
+	}
+
+	private void runAllMotors(double speed)
+	{
+		motorFL.setPower(speed);
+		motorBL.setPower(speed);
+		motorFR.setPower(speed);
+		motorBR.setPower(speed);
 	}
 
 	public double smooth(double input)
@@ -125,4 +129,6 @@ public class Teleop extends LinearOpMode
 
 		return scaleArray[(int)lastXAvg*(scaleArray.length-1)] * (lastXAvg >= 0 ? 1 : -1);
 	}
+
+	public boolean isTriggered(int dir) { return (dir == LEFT ? gamepad1.left_trigger : gamepad1.right_trigger) > TRIGGER_THRESHOLD; }
 }
