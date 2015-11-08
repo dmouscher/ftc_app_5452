@@ -24,11 +24,12 @@ public class Teleop extends LinearOpMode
 	final double ROTATE_SPEED          = 0.85 ;
 	final double MOTOR_SLOW_MULTIPLIER = 0.50 ;
 	final double ARM_SLOW_MULTIPLIER   = 0.50 ;
-	final double EXTEND_SPEED          = 0.85 ; //needs to be done!
+	final double EXTEND_SPEED          = 0.85 ; //needs to be done!!
 	final double WINCH_SPEED           = 0.05 ;
 	final double FORWARD_SPEED         = 0.85 ;
 	final double BASE_SPEED            = 0.20 ;
 	final double JOINT_SPEED           = 0.20 ;
+	final boolean TELEMETRY            = true ;//Turns it on/off
 
 	double motorSlowMultiplier = 1;
 	double armSlowMultiplier = 1;
@@ -95,6 +96,12 @@ public class Teleop extends LinearOpMode
 
 			if(gamepad2.right_bumper ^ gamepad2.right_trigger > TRIGGER_THRESHOLD)
 				{ dropperJoint.setPosition(JOINT_SPEED * (gamepad2.right_bumper ? 1 : -1)); }
+
+			if(TELEMETRY)
+			{
+				telemetry.addData("Joysticks", gamepad1.left_stick_y+", "+gamepad1.right_stick_y+", "+gamepad2.left_stick_y+", "+gamepad2.right_stick_y);
+				telemetry.addData("Buttons", (gamepad1.a?"[1A]":"")+(gamepad1.b?"[1B]":"")+(gamepad1.x?"[1X]":"")+(gamepad1.left_bumper?"[1LB]":"")+(gamepad1.right_bumper?"[1RB]":"")+(gamepad2.a?"[2A]":"")+(gamepad2.b?"[2B]":"")+(gamepad2.x?"[2X]":"")+(gamepad2.y?"[2Y]":"")+(gamepad1.left_bumper?"[1LB]":"")+(gamepad1.right_bumper?"[1RB]":""));
+			}
 		}
 	}
 
