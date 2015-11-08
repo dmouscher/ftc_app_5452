@@ -29,7 +29,7 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
-package com.qualcomm.ftcrobotcontroller.opmodes;
+package com.qualcomm.ftcrobotcontroller.opmodes.demos;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -38,10 +38,11 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 /**
  * TeleOp Mode
- * <p>
+ * <p/>
  * Enables control of the robot via the gamepad
  */
-public class K9IrSeeker extends OpMode {
+public class K9IrSeeker extends OpMode
+{
 
 	final static double MOTOR_POWER = 0.15; // Higher values will cause the robot to move faster
 	final static double HOLD_IR_SIGNAL_STRENGTH = 0.50; // Higher values will cause the robot to follow closer
@@ -58,7 +59,8 @@ public class K9IrSeeker extends OpMode {
 	/**
 	 * Constructor
 	 */
-	public K9IrSeeker() {
+	public K9IrSeeker()
+	{
 
 	}
 
@@ -68,7 +70,8 @@ public class K9IrSeeker extends OpMode {
 	 * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#start()
 	 */
 	@Override
-	public void init() {
+	public void init()
+	{
 
 		/*
 		 * Use the hardwareMap to get the dc motors and servos by name.
@@ -110,7 +113,8 @@ public class K9IrSeeker extends OpMode {
 	 * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#run()
 	 */
 	@Override
-	public void loop() {
+	public void loop()
+	{
 		double angle = 0.0;
 		double strength = 0.0;
 		double left, right = 0.0;
@@ -122,7 +126,8 @@ public class K9IrSeeker extends OpMode {
 		/*
 		 * Do we detect an IR signal?
 		 */
-		if (irSeeker.signalDetected())  {
+		if (irSeeker.signalDetected())
+		{
 			/*
 			 * Signal was detected. Follow it.
 			 */
@@ -136,34 +141,45 @@ public class K9IrSeeker extends OpMode {
 			angle = irSeeker.getAngle();
 			strength = irSeeker.getStrength();
 
-            if (angle < -60)  {
-                /*
+			if (angle < -60)
+			{
+				/*
                  * IR source is to the way left.
                  * Point turn to the left.
                  */
-                left = -MOTOR_POWER;
-                right = MOTOR_POWER;
+				left = -MOTOR_POWER;
+				right = MOTOR_POWER;
 
-            } else if (angle < -5) {
-                // turn to the left and move forward.
-                left = MOTOR_POWER - 0.05;
-                right = MOTOR_POWER;
-            } else if (angle > 5 && angle < 60) {
-                // turn to the right and move forward.
-                left = MOTOR_POWER;
-                right = MOTOR_POWER - 0.05;
-            } else if (angle > 60) {
-                // point turn to right.
-                left = MOTOR_POWER;
-                right = -MOTOR_POWER;
-            } else if (strength < HOLD_IR_SIGNAL_STRENGTH) {
+			}
+			else if (angle < -5)
+			{
+				// turn to the left and move forward.
+				left = MOTOR_POWER - 0.05;
+				right = MOTOR_POWER;
+			}
+			else if (angle > 5 && angle < 60)
+			{
+				// turn to the right and move forward.
+				left = MOTOR_POWER;
+				right = MOTOR_POWER - 0.05;
+			}
+			else if (angle > 60)
+			{
+				// point turn to right.
+				left = MOTOR_POWER;
+				right = -MOTOR_POWER;
+			}
+			else if (strength < HOLD_IR_SIGNAL_STRENGTH)
+			{
 				/*
 				 * Signal is dead ahead but weak.
 				 * Move forward towards signal
 				 */
 				left = MOTOR_POWER;
 				right = MOTOR_POWER;
-			} else {
+			}
+			else
+			{
 				/*
 				 * Signal is dead ahead and strong.
 				 * Stop motors.
@@ -171,7 +187,9 @@ public class K9IrSeeker extends OpMode {
 				left = 0.0;
 				right = 0.0;
 			}
-		} else {
+		}
+		else
+		{
 			/*
 			 * Signal was not detected.
 			 * Shut off motors
@@ -196,7 +214,7 @@ public class K9IrSeeker extends OpMode {
 		telemetry.addData("Text", "*** Robot Data***");
 		telemetry.addData("angle", "angle:  " + Double.toString(angle));
 		telemetry.addData("strength", "sig strength: " + Double.toString(strength));
-		telemetry.addData("left tgt pwr",  "left  pwr: " + Double.toString(left));
+		telemetry.addData("left tgt pwr", "left  pwr: " + Double.toString(left));
 		telemetry.addData("right tgt pwr", "right pwr: " + Double.toString(right));
 	}
 
@@ -206,7 +224,8 @@ public class K9IrSeeker extends OpMode {
 	 * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#stop()
 	 */
 	@Override
-	public void stop() {
+	public void stop()
+	{
 
 	}
 
