@@ -100,7 +100,8 @@ public class Teleop extends LinearOpMode
 			if(TELEMETRY)
 			{
 				telemetry.addData("Joysticks", gamepad1.left_stick_y+", "+gamepad1.right_stick_y+", "+gamepad2.left_stick_y+", "+gamepad2.right_stick_y);
-				telemetry.addData("Buttons", (gamepad1.a?"[1A]":"")+(gamepad1.b?"[1B]":"")+(gamepad1.x?"[1X]":"")+(gamepad1.left_bumper?"[1LB]":"")+(gamepad1.right_bumper?"[1RB]":"")+(gamepad2.a?"[2A]":"")+(gamepad2.b?"[2B]":"")+(gamepad2.x?"[2X]":"")+(gamepad2.y?"[2Y]":"")+(gamepad1.left_bumper?"[1LB]":"")+(gamepad1.right_bumper?"[1RB]":""));
+				telemetry.addData("Buttons 1", (gamepad1.y?"[1Y]":"")+(gamepad1.b?"[1B]":"")+(gamepad1.dpad_up?"[1DPU]":"")+(gamepad1.dpad_down?"[1DPD]":"")+(gamepad1.left_bumper?"[1LB]":""));//Update when button usage changes
+				telemetry.addData("Buttons 2", (gamepad2.a?"[2A]":"")+(gamepad2.b?"[2B]":"")+(gamepad2.y?"[2Y]":"")+(gamepad2.left_bumper?"[2LB]":"")+(gamepad2.right_bumper?"[2RB]":""));//Update when button usage changes
 			}
 		}
 	}
