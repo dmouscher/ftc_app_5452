@@ -121,11 +121,11 @@ public class Teleop extends LinearOpMode
 			0.36, 0.43, 0.50, 0.60, 0.72, 0.85, 1.00, 1.00
 		};
 
-		for(int i = lastX.length-1; i >= 0; i--) { lastX[i] = i != 0 ? lastX[i - 1] : input; }
+		for(int i = lastX.length-1; i >= 0; i--) { lastX[i] = (i != 0) ? lastX[i - 1] : input; } // Put the latest value into slot 0 and move all the values up a slot
 
-		for(int i = 0; i <= lastX.length-1; i++) { sum += lastX[i]; }
+		for(int i = 0; i <= lastX.length-1; i++) { sum += lastX[i]; } // Add all the values from the last ten array into one variable
 
-		lastXAvg = sum/lastX.length;
+		lastXAvg = sum/lastX.length; // Take the average and store it into a variable
 
 		return scaleArray[(int)lastXAvg*(scaleArray.length-1)] * (lastXAvg >= 0 ? 1 : -1);
 	}
