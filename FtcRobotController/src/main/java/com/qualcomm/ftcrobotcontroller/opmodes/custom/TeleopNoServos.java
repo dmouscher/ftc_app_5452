@@ -66,10 +66,10 @@ public class TeleopNoServos extends LinearOpMode
 			motorSlowMultiplier = gamepad1.left_bumper ? MOTOR_SLOW_MULTIPLIER : 1;
 			armSlowMultiplier   = gamepad2.a           ? ARM_SLOW_MULTIPLIER   : 1;
 
-			motorFL.setPower(smooth(gamepad1.left_stick_y  * motorSlowMultiplier));
-			motorBL.setPower(smooth(gamepad1.left_stick_y  * motorSlowMultiplier));
-			motorFR.setPower(smooth(gamepad1.right_stick_y * motorSlowMultiplier));
-			motorBR.setPower(smooth(gamepad1.right_stick_y * motorSlowMultiplier));
+			motorFL.setPower(gamepad1.left_stick_y  * motorSlowMultiplier);
+			motorBL.setPower(gamepad1.left_stick_y  * motorSlowMultiplier);
+			motorFR.setPower(gamepad1.right_stick_y * motorSlowMultiplier);
+			motorBR.setPower(gamepad1.right_stick_y * motorSlowMultiplier);
 
 			if     (gamepad1.dpad_up  ) { armRotate.setPower( ROTATE_SPEED * armSlowMultiplier); }
 			else if(gamepad1.dpad_down) { armRotate.setPower(-ROTATE_SPEED * armSlowMultiplier); }
