@@ -61,7 +61,7 @@ public class FtcOpModeRegister implements OpModeRegister
      *
      * If two or more op modes are registered with the same name, the app will display an error.
      */
-
+		manager.register("Servo Test", ServoTest.class);
 		manager.register("Teleop", Teleop.class);
 		manager.register("Teleop (No Servos)", TeleopNoServos.class);
 		//manager.register("Color Sensor Driver", ColorSensorDriverModified.class);
