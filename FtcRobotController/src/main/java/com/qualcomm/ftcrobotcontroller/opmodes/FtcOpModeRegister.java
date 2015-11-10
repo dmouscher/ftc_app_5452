@@ -64,6 +64,7 @@ public class FtcOpModeRegister implements OpModeRegister
 		manager.register("Servo Test", ServoTest.class);
 		manager.register("Teleop", Teleop.class);
 		manager.register("Teleop (No Servos)", TeleopNoServos.class);
+		manager.register("Jackie Skeleton", Jackie_Skeleton.class);
 		//manager.register("Color Sensor Driver", ColorSensorDriverModified.class);
 		//manager.register("Encoder Testing", EncoderTesting.class);
 		//manager.register("Color Sensor Testing", ColorSensorTesting.class);
