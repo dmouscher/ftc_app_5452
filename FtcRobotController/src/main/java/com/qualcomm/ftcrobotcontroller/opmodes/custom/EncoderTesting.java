@@ -24,7 +24,7 @@ public class EncoderTesting extends OpMode {
          hardwareMap.logDevices();
          testmotor1 = hardwareMap.dcMotor.get("motor1");
          testmotor2 = hardwareMap.dcMotor.get("motor2");
-         testmotor1.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
+         testmotor1.setMode(DcMotorController.RunMode.RESET_ENCODERS);
      }
 
     @Override
@@ -38,7 +38,7 @@ public class EncoderTesting extends OpMode {
          */
         if(firstloop)
         {
-            testmotor1.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
+            testmotor1.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
             firstloop = false;
         }
 
