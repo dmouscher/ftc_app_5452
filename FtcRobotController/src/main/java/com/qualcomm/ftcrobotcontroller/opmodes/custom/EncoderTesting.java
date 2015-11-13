@@ -1,3 +1,5 @@
+//This op mode is used to test motor encoders
+
 package com.qualcomm.ftcrobotcontroller.opmodes.custom;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -31,7 +33,7 @@ public class EncoderTesting extends OpMode {
     public void loop()
     {
         /**
-         * While the channel modes of things are usually meant to be set in the init() function, setting this there didn;t seem to to work for some reason.
+         * While channel modes are usually meant to be set in the init() function, setting this there didn't seem to to work for some reason.
          * So we set it here in the loop function, but just once so not to waste what ever possessing time it takes up.
          *
          * I would like to credit Brendan from team 3785 for finding this fix. May we someday hope the FTC Software Wizards patch it.
@@ -50,16 +52,16 @@ public class EncoderTesting extends OpMode {
          * And we are using the older motor controllers that used I2C and none of this fancy USB reading and writing at the same time.
          * This last part is more of a programming exercise to better understand the new system.
          *
-         * If this code is unneeded when using this program, comment out the lines until the end of the void method and anything to do with testmotor1
+         * If this code is unneeded, comment out the lines until the end of the void method and anything to do with testmotor1
          */
-        if(DMC.getMotorControllerDeviceMode() == DcMotorController.DeviceMode.WRITE_ONLY) // The first comparison of the state of the device. This is done so an error is not thrown and we can do the things we need.
-        {
-            testmotor2.setPower(power);
+        if(DMC.getMotorControllerDeviceMode() == DcMotorController.DeviceMode.WRITE_ONLY) // The first comparison of the state of the device.
+        {                                                                                 // This is done so an error is not thrown
+            testmotor2.setPower(power);                                                   // and we can do the things we need.
             testmotor1.setPower(1);
 
-            DMC.setMotorControllerDeviceMode(DcMotorController.DeviceMode.READ_ONLY); // Setting it to the other state to make sure that when we want to read the power that the first motor is set to, we can.
-        }
-
+            DMC.setMotorControllerDeviceMode(DcMotorController.DeviceMode.READ_ONLY);     // Setting it to the other state to make sure that
+        }                                                                                 // when we want to read the power that
+                                                                                          // the first motor is set to, we can.
         else if(DMC.getMotorControllerDeviceMode() == DcMotorController.DeviceMode.READ_ONLY)
         {
             power = testmotor1.getPower();

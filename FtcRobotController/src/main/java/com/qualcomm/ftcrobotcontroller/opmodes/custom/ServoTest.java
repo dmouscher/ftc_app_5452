@@ -1,3 +1,5 @@
+//This code is used to test servos
+
 package com.qualcomm.ftcrobotcontroller.opmodes.custom;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
