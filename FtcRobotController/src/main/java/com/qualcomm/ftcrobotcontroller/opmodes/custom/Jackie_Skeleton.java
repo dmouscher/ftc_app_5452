@@ -14,7 +14,7 @@ public class Jackie_Skeleton extends LinearOpMode
 	public void runOpMode() throws InterruptedException
 	{
 		motor = hardwareMap.dcMotor.get("motor");
-        motor.(DcMotorController.RunMode.RESET_ENCODERS);
+        //motor.(DcMotorController.RunMode.RESET_ENCODERS); //I've commented this line out because it's throwing a syntax error. --DM
 
 		waitForStart();
 		while(opModeIsActive())
@@ -22,7 +22,7 @@ public class Jackie_Skeleton extends LinearOpMode
 			motor.setPower(0.8);
 			if(firstloop)
 			{
-				motor.(DcMotorController.RunMode.RUN_TO_POSITION);
+				//motor.(DcMotorController.RunMode.RUN_TO_POSITION); //I've commented this line out because it's throwing a syntax error. --DM
 				firstloop = false;
 			}
 
