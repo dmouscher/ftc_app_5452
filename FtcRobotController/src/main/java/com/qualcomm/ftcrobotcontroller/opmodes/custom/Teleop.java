@@ -32,7 +32,7 @@ public class Teleop extends LinearOpMode
 	final double  ARM_SLOW_MULTIPLIER   = 0.500 ;
 	final double  EXTEND_SPEED          = 0.990 ;
 	//final double  WINCH_SPEED           = 0.850 ;
-	final double  FORWARD_SPEED         = 0.850 ;
+	final double  FORWARD_SPEED         = 0.900 ;
 	final double  BASE_SPEED            = 0.005 ;
 	final double  JOINT_SPEED           = 0.010 ;
 	final boolean TELEMETRY             = true  ; //enables/disables telemetry
@@ -41,6 +41,11 @@ public class Teleop extends LinearOpMode
 
 	double motorSlowMultiplier = 1;
 	double armSlowMultiplier = 1;
+
+	boolean isBumperPrimed      = true ;
+	boolean isRescueLeftActive  = false;
+	boolean isTriggerPrimed     = true ;
+	boolean isRescueRightActive = false;
 
 	double lastXLeft[]  = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; //length 10
 	double lastXRight[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; //length 10 //lastXLeft.length() should always equal lastXRight.length()
@@ -65,6 +70,7 @@ public class Teleop extends LinearOpMode
 		motorFR.setDirection(DcMotor.Direction.REVERSE);
 		motorBR.setDirection(DcMotor.Direction.REVERSE);
 		//	winch  .setDirection(DcMotor.Direction.REVERSE);
+		rescueRight.setDirection(Servo.Direction.REVERSE);
 
 		gamepad1.setJoystickDeadzone(DEADZONE);
 		gamepad2.setJoystickDeadzone(DEADZONE);
@@ -75,6 +81,9 @@ public class Teleop extends LinearOpMode
 		motorBR.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 
 		waitForStart();
+
+		dropperBase.setPosition(0.25);
+		dropperJoint.setPosition(1);
 
 		while(opModeIsActive())
 		{
@@ -98,35 +107,44 @@ public class Teleop extends LinearOpMode
 			else { armExtend.setPower(0); } //todo: add an encoder limit for this conditional
 
 			if(gamepad1.y ^ gamepad1.b) //gamepad1.y moves the robot straight and forwards, gamepad1.b moves it straight and backwards
-			{ runAllMotors(FORWARD_SPEED * motorSlowMultiplier * (gamepad1.y ? 1 : -1)); }
+				{ runAllMotors(FORWARD_SPEED * motorSlowMultiplier * (gamepad1.y ? 1 : -1)); }
 
 			if(gamepad2.left_bumper ^ isTriggered(2, LEFT)) //gamepad2.left_bumper extends the base servo, gamepad2.left_trigger retracts it
-			{ dropperBase.setPosition(Range.clip(dropperBase.getPosition() + BASE_SPEED * (gamepad2.left_bumper ? 1 : -1), 0.125, 1)); }
+				{ dropperBase.setPosition(Range.clip(dropperBase.getPosition() + BASE_SPEED * (gamepad2.left_bumper ? 1 : -1), 0.125, 1)); }
 
 			if(gamepad2.right_bumper ^ isTriggered(2, RIGHT)) //gamepad2.right_bumper extends the joint servo, gamepad2.right_trigger retracts it
-			{ dropperJoint.setPosition(Range.clip(dropperJoint.getPosition() + JOINT_SPEED * (gamepad2.right_bumper ? 1 : -1), 0, 1)); }
+				{ dropperJoint.setPosition(Range.clip(dropperJoint.getPosition() + JOINT_SPEED * (gamepad2.right_bumper ? 1 : -1), 0, 1)); }
 
-			if(gamepad1.right_bumper) { rescueLeft.setPosition(Range.clip(rescueLeft.getPosition() + 0.03, 0, 1)); } //rescueLeft only extends if
-			else                      { rescueLeft.setPosition(Range.clip(rescueLeft.getPosition() - 0.03, 0, 1)); } //gamepad1.right_bumper is true
-			//otherwise it retracts
+			if(gamepad1.right_bumper && isBumperPrimed)
+			{
+				isBumperPrimed = false;
+				isRescueLeftActive ^= true;
+			}
+			else if(!gamepad1.right_bumper) { isBumperPrimed = true; }
 
-			if(isTriggered(1, RIGHT)) { rescueRight.setPosition(Range.clip(rescueRight.getPosition() + 0.03, 0, 1)); } //rescueRight only extends if
-			else                      { rescueRight.setPosition(Range.clip(rescueRight.getPosition() - 0.03, 0, 1)); } //gamepad1.right_trigger has
-			//exceeded its threshold
-			//otherwise it retracts
-			if(TELEMETRY) //Shows which buttons are being used currently and which are not
+			if(isTriggered(1, RIGHT) && isTriggerPrimed)
+			{
+				isTriggerPrimed = false;
+				isRescueRightActive ^= true;
+			}
+			else if(!isTriggered(1, RIGHT)) { isTriggerPrimed = true; }
+
+			rescueLeft .setPosition(isRescueLeftActive  ? 0.5 : 0.0);
+			rescueRight.setPosition(isRescueRightActive ? 1.0 : 0.5);
+
+			if(TELEMETRY) //Shows which buttons are being used currently and which are not being used
 			{
 				telemetry.addData("Joysticks", gamepad1.left_stick_y + ", " + gamepad1.right_stick_y);
 
-				telemetry.addData("Buttons 1", (gamepad1.y            ? "[1Y] "   : "") + (gamepad1.b            ? "[1B] "  : "") +
-						(gamepad1.left_bumper  ? "[1LB] "  : "") + (gamepad1.right_bumper ? "[1RB] " : "") +
-						(isTriggered(1, RIGHT) ? "[1RT] "  : "")); //Update when button usage changes
+				telemetry.addData("Buttons 1", (gamepad1.y            ? "[1Y] "  : "") + (gamepad1.b            ? "[1B] "  : "") +
+						                       (gamepad1.left_bumper  ? "[1LB] " : "") + (gamepad1.right_bumper ? "[1RB] " : "") +
+						                       (isTriggered(1, RIGHT) ? "[1RT] " : "")); //Update when button usage changes
 
-				telemetry.addData("Buttons 2", (gamepad2.a            ? "[2A] "   : "") + (gamepad2.b            ? "[2B] "  : "") +
-						(gamepad2.y            ? "[2Y] "   : "") + (gamepad2.left_bumper  ? "[2LB] " : "") +
-						(gamepad2.right_bumper ? "[2RB] "  : "") + (isTriggered(2, LEFT)  ? "[2LT] " : "") +
-						(isTriggered(2,RIGHT)  ? "[2RT] "  : "") + (gamepad1.dpad_up      ? "[1DU] " : "") +
-						(gamepad1.dpad_down    ? "[1DD] "  : "")); //Update when button usage changes
+				telemetry.addData("Buttons 2", (gamepad2.a            ? "[2A] "  : "") + (gamepad2.b           ? "[2B] "  : "") +
+						                       (gamepad2.y            ? "[2Y] "  : "") + (gamepad2.left_bumper ? "[2LB] " : "") +
+	                  					       (gamepad2.right_bumper ? "[2RB] " : "") + (isTriggered(2, LEFT) ? "[2LT] " : "") +
+						                       (isTriggered(2, RIGHT) ? "[2RT] " : "") + (gamepad1.dpad_up     ? "[1DU] " : "") +
+						                       (gamepad1.dpad_down    ? "[1DD] " : "")); //Update when button usage changes
 
 				//todo: add actual motor values to telemetry
 			}
