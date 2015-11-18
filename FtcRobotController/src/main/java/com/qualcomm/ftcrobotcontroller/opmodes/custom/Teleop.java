@@ -80,7 +80,11 @@ public class Teleop extends LinearOpMode
 		motorBL.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 		motorBR.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 
-		waitForStart();
+        EncoderSpeed ES = new EncoderSpeed(motorFL, motorFR, motorBL, motorBR); // Look in EncoderSpeed.java for what is going on and how to use it
+
+        waitForStart();
+
+        ES.start();
 
 		dropperBase.setPosition(0.25);
 		dropperJoint.setPosition(1);
@@ -90,10 +94,10 @@ public class Teleop extends LinearOpMode
 			motorSlowMultiplier = gamepad1.left_bumper ? MOTOR_SLOW_MULTIPLIER : 1; //gamepad1.left_bumper triggers slow mode for motors
 			armSlowMultiplier   = gamepad2.a           ? ARM_SLOW_MULTIPLIER   : 1; //gamepad2.a does the same for the arm
 
-			motorFL.setPower(smoothLeft (gamepad1.left_stick_y  * motorSlowMultiplier)); //basic tank drive control
-			motorBL.setPower(smoothLeft (gamepad1.left_stick_y  * motorSlowMultiplier));
-			motorFR.setPower(smoothRight(gamepad1.right_stick_y * motorSlowMultiplier));
-			motorBR.setPower(smoothRight(gamepad1.right_stick_y * motorSlowMultiplier));
+			motorFL.setPower(smooth(gamepad1.left_stick_y * motorSlowMultiplier, lastXLeft)); //basic tank drive control
+			motorBL.setPower(smooth(gamepad1.left_stick_y * motorSlowMultiplier, lastXLeft));
+			motorFR.setPower(smooth(gamepad1.right_stick_y * motorSlowMultiplier, lastXRight));
+			motorBR.setPower(smooth(gamepad1.right_stick_y * motorSlowMultiplier, lastXRight));
 
 			if     (gamepad2.dpad_up  ) { armRotate.setPower( ROTATE_SPEED * armSlowMultiplier); } //gamepad2.dpad_up/down angles the arm up/down
 			else if(gamepad2.dpad_down) { armRotate.setPower(-ROTATE_SPEED * armSlowMultiplier); }
@@ -149,8 +153,12 @@ public class Teleop extends LinearOpMode
 				//todo: add actual motor values to telemetry
 			}
 
-			waitOneFullHardwareCycle();
+            ES.getRealSpeed(EncoderSpeed.motorList.motorBL);
+
+            waitOneFullHardwareCycle();
 		}
+
+        ES.terminate();
 	}
 
 	private void runAllMotors(double speed) //simply runs all drivetrain motors at the given speed
@@ -162,50 +170,18 @@ public class Teleop extends LinearOpMode
 	}
 
 
-	public double smoothLeft(double input) //todo: fix scaling
-	{                                      //currently takes the average of the last ten inputs
-		double lastXAvg;                   //in the future will scale output so that the driver can drive the robot more precisely at slow speeds
+	public double smooth(double input, double lastX[]) //todo: implement PI/PID
+	{                                                  //currently takes the average of the last ten input
+	                                                   // in the future will scale output so that the driver can drive the robot more precisely at slow speeds
 		double sum = 0;
 
-		/*double[] scaleArray =  //length 17
-				{
-						0.00, 0.05, 0.09, 0.10, 0.12, 0.15, 0.18, 0.24, 0.30,
-						0.36, 0.43, 0.50, 0.60, 0.72, 0.85, 1.00, 1.00
-				};*/
-
-		for(int i = lastXLeft.length-1; i >= 0; i--) { lastXLeft[i] = (i != 0) ? lastXLeft[i - 1] : input; }
+		for(int i = lastX.length-1; i >= 0; i--) { lastX[i] = (i != 0) ? lastX[i - 1] : input; }
 		// Put the latest value into slot 0 and move all the values up a slot
 
-		for(int i = 0; i <= lastXLeft.length-1; i++) { sum += lastXLeft[i]; }
+		for(int i = 0; i <= lastX.length-1; i++) { sum += lastX[i]; }
 		// Add all the values from the last ten array into one variable
 
-		lastXAvg = sum/lastXLeft.length;
-		// Take the average and store it into a variable
-
-		return lastXAvg;
-	}
-
-	public double smoothRight(double input) //Also this should really be one method, I'm sorry.
-	{                                       //todo: merge smoothLeft() and smoothRight()
-		double lastXAvg;
-		double sum = 0;
-
-		/*double[] scaleArray =  //length 17
-				{
-						0.00, 0.05, 0.09, 0.10, 0.12, 0.15, 0.18, 0.24, 0.30,
-						0.36, 0.43, 0.50, 0.60, 0.72, 0.85, 1.00, 1.00
-				};*/
-
-		for(int i = lastXRight.length-1; i >= 0; i--) { lastXRight[i] = (i != 0) ? lastXRight[i - 1] : input; }
-		// Put the latest value into slot 0 and move all the values up a slot
-
-		for(int i = 0; i <= lastXRight.length-1; i++) { sum += lastXRight[i]; }
-		// Add all the values from the last ten array into one variable
-
-		lastXAvg = sum/lastXRight.length;
-		// Take the average and store it into a variable
-
-		return lastXAvg;
+		return sum/lastX.length;
 	}
 
 	public boolean isTriggered(int gamepad, int dir) //returns true if the given trigger has been pressed past the threshold constant
