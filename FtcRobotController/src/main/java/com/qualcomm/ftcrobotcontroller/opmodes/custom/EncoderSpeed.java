@@ -47,17 +47,17 @@ public class EncoderSpeed extends Thread {
 
     public void run() // The actuall function were motor speed is calculated
     {
-        long lastNum = System.currentTimeMillis()/1000;
+        long lastNum = System.currentTimeMillis();
 
         while(dontStop)
         {
-            while(System.currentTimeMillis()/1000 == lastNum){} // wait one second
-            lastNum = System.currentTimeMillis()/1000;
+            while(System.currentTimeMillis() == lastNum){} // wait one ms // May cause lag
+            lastNum = System.currentTimeMillis();
 
-            speedFL = (motorFL.getDirection() == DcMotor.Direction.FORWARD)?(1):(-1)*(Math.abs(motorFL.getCurrentPosition()) - Math.abs(lastSpeedFL)); // now speed is distance/time, but this is just one second so dividing my 1 is a waste of time
-            speedFR = (motorFR.getDirection() == DcMotor.Direction.FORWARD)?(1):(-1)*(Math.abs(motorFR.getCurrentPosition()) - Math.abs(lastSpeedFR));
-            speedBL = (motorBL.getDirection() == DcMotor.Direction.FORWARD)?(1):(-1)*(Math.abs(motorBL.getCurrentPosition()) - Math.abs(lastSpeedBL));
-            speedBR = (motorBR.getDirection() == DcMotor.Direction.FORWARD)?(1):(-1)*(Math.abs(motorBR.getCurrentPosition()) - Math.abs(lastSpeedBR));
+            speedFL = ((motorFL.getDirection() == DcMotor.Direction.FORWARD)?(1):(-1)*(Math.abs(motorFL.getCurrentPosition()) - Math.abs(lastSpeedFL)))/1000; // The /1000 is to convert from clicks/ms to clicks/s
+            speedFR = ((motorFR.getDirection() == DcMotor.Direction.FORWARD)?(1):(-1)*(Math.abs(motorFR.getCurrentPosition()) - Math.abs(lastSpeedFR)))/1000;
+            speedBL = ((motorBL.getDirection() == DcMotor.Direction.FORWARD)?(1):(-1)*(Math.abs(motorBL.getCurrentPosition()) - Math.abs(lastSpeedBL)))/1000;
+            speedBR = ((motorBR.getDirection() == DcMotor.Direction.FORWARD)?(1):(-1)*(Math.abs(motorBR.getCurrentPosition()) - Math.abs(lastSpeedBR)))/1000;
 
             lastSpeedFL = speedFL;
             lastSpeedFR = speedFR;
