@@ -1,14 +1,13 @@
 package com.qualcomm.ftcrobotcontroller.opmodes.custom;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorController;
+import java.lang.Math;
 
 public class EncoderSpeed extends Thread {
 
     public DcMotor motorFL, motorFR, motorBL, motorBR;
     public double speedFL, speedFR, speedBL, speedBR = 0;
-    public double lastSpeedFL, lastSpeedFR, lastSpeedFRspeedBL, lastSpeedBR = 0;
+    public double lastSpeedFL, lastSpeedFR, lastSpeedBL, lastSpeedBR = 0;
     public enum motorList {motorFL, motorFR, motorBL, motorBR};
     public boolean dontStop = true;
 
@@ -48,9 +47,22 @@ public class EncoderSpeed extends Thread {
 
     public void run() // The actuall function were motor speed is calculated
     {
+        long lastNum = System.currentTimeMillis()/1000;
+
         while(dontStop)
         {
-            //while(waitonesec){} https://stackoverflow.com/questions/5369682/get-current-time-and-date-on-android
+            while(System.currentTimeMillis()/1000 == lastNum){} // wait one second
+            lastNum = System.currentTimeMillis()/1000;
+
+            speedFL = (motorFL.getDirection() == DcMotor.Direction.FORWARD)?(1):(-1)*(Math.abs(motorFL.getCurrentPosition()) - Math.abs(lastSpeedFL)); // now speed is distance/time, but this is just one second so dividing my 1 is a waste of time
+            speedFR = (motorFR.getDirection() == DcMotor.Direction.FORWARD)?(1):(-1)*(Math.abs(motorFR.getCurrentPosition()) - Math.abs(lastSpeedFR));
+            speedBL = (motorBL.getDirection() == DcMotor.Direction.FORWARD)?(1):(-1)*(Math.abs(motorBL.getCurrentPosition()) - Math.abs(lastSpeedBL));
+            speedBR = (motorBR.getDirection() == DcMotor.Direction.FORWARD)?(1):(-1)*(Math.abs(motorBR.getCurrentPosition()) - Math.abs(lastSpeedBR));
+
+            lastSpeedFL = speedFL;
+            lastSpeedFR = speedFR;
+            lastSpeedBL = speedBL;
+            lastSpeedBR = speedBR;
         }
     }
 }

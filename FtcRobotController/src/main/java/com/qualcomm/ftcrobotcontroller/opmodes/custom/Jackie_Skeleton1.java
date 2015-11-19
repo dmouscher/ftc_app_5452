@@ -21,9 +21,11 @@ public class Jackie_Skeleton1 extends LinearOpMode
 
 		{
 			motor.setPower(0.8);
-			if (firstloop)
+		/*	if (firstloop)
 		}
 		{
+		*/ //delete this line and the /* on line 24 to fix this, I dont like errors
+
 			motor.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
 			firstloop = false;
 		}
