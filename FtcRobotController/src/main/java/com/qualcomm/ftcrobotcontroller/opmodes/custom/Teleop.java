@@ -21,6 +21,8 @@ public class Teleop extends LinearOpMode
 	DcMotor armRotate;
 	DcMotor armExtend;
 
+	DcMotor plow;
+
 	Servo dropperBase;
 	Servo dropperJoint;
 	Servo rescueLeft;
@@ -35,6 +37,7 @@ public class Teleop extends LinearOpMode
 	final double  FORWARD_SPEED         = 0.900 ;
 	final double  BASE_SPEED            = 0.005 ;
 	final double  JOINT_SPEED           = 0.010 ;
+	final double  PLOW_SPEED            = 0.500 ;
 	final boolean TELEMETRY             = true  ; //enables/disables telemetry
 
 	double driveSlowMultiplier = 1;
@@ -56,6 +59,8 @@ public class Teleop extends LinearOpMode
 
 		armRotate = hardwareMap.dcMotor.get("rotate");
 		armExtend = hardwareMap.dcMotor.get("extend");
+
+		plow = hardwareMap.dcMotor.get("plow");
 
 		dropperBase  = hardwareMap.servo.get("base" );
 		dropperJoint = hardwareMap.servo.get("joint");
@@ -86,28 +91,27 @@ public class Teleop extends LinearOpMode
 			driveSlowMultiplier = gamepad1.left_bumper ? DRIVE_SLOW_MULTIPLIER : 1; //gamepad1.left_bumper triggers slow mode for motors
 			armSlowMultiplier   = gamepad2.a           ? ARM_SLOW_MULTIPLIER   : 1; //gamepad2.a does the same for the arm
 
-			driveLeft.setPower(smooth(gamepad1.left_stick_y * driveSlowMultiplier, lastXLeft)); //basic tank drive control
+			driveLeft .setPower(smooth(gamepad1.left_stick_y  * driveSlowMultiplier, lastXLeft )); //basic tank drive control
 			driveRight.setPower(smooth(gamepad1.right_stick_y * driveSlowMultiplier, lastXRight));
 
 			if     (gamepad2.dpad_up  ) { armRotate.setPower( ROTATE_SPEED * armSlowMultiplier); } //gamepad2.dpad_up/down angles the arm up/down
 			else if(gamepad2.dpad_down) { armRotate.setPower(-ROTATE_SPEED * armSlowMultiplier); }
 			else                        { armRotate.setPower( 0                               ); }
 
-			if(gamepad2.y ^ gamepad2.b) //xor is used so nothing funky happens when both buttons are pressed at the same time
-			{
-				armExtend.setPower(EXTEND_SPEED * (gamepad2.y ? 1 : -1)); //gamepad2.y extends the arm, gamepad2.b retracts it
-				//winch    .setPower(WINCH_SPEED  * (gamepad2.y ? 1 : -1));
-			}
+			if(gamepad2.y ^ gamepad2.b) { armExtend.setPower(EXTEND_SPEED * (gamepad2.y ? 1 : -1)); } //todo: readd comments for printout
 			else { armExtend.setPower(0); } //todo: add an encoder limit for this conditional
 
+			if(gamepad2.x ^ gamepad2.a) { plow.setPower(PLOW_SPEED * (gamepad2.x ? 1 : -1)); } //todo: add comments for printout
+			else { plow.setPower(0); } //todo: add an encoder limit for this conditional
+
 			if(gamepad1.y ^ gamepad1.b) //gamepad1.y moves the robot straight and forwards, gamepad1.b moves it straight and backwards
-				{ runAllMotors(FORWARD_SPEED * driveSlowMultiplier * (gamepad1.y ? 1 : -1)); }
+				runAllMotors(FORWARD_SPEED * driveSlowMultiplier * (gamepad1.y ? 1 : -1));
 
 			if(gamepad2.left_bumper ^ isTriggered(2, Direction.LEFT)) //gamepad2.left_bumper extends the base servo, gamepad2.left_trigger retracts it
-				{ dropperBase.setPosition(Range.clip(dropperBase.getPosition() + BASE_SPEED * (gamepad2.left_bumper ? 1 : -1), 0.125, 1)); }
+				dropperBase.setPosition(Range.clip(dropperBase.getPosition() + BASE_SPEED * (gamepad2.left_bumper ? 1 : -1), 0.125, 1));
 
 			if(gamepad2.right_bumper ^ isTriggered(2, Direction.RIGHT)) //gamepad2.right_bumper extends the joint servo, gamepad2.right_trigger retracts it
-				{ dropperJoint.setPosition(Range.clip(dropperJoint.getPosition() + JOINT_SPEED * (gamepad2.right_bumper ? 1 : -1), 0, 1)); }
+				dropperJoint.setPosition(Range.clip(dropperJoint.getPosition() + JOINT_SPEED * (gamepad2.right_bumper ? 1 : -1), 0, 1));
 
 			if(gamepad1.right_bumper && isBumperPrimed)
 			{
@@ -134,12 +138,12 @@ public class Teleop extends LinearOpMode
 						                       (gamepad1.left_bumper  ? "[1LB] " : "") + (gamepad1.right_bumper ? "[1RB] " : "") +
 						                       (isTriggered(1, Direction.RIGHT) ? "[1RT] " : "")); //Update when button usage changes
 
-				telemetry.addData("Buttons 2", (gamepad2.a            ? "[2A] "  : "") + (gamepad2.b            ? "[2B] "  : "") +
-						                       (gamepad2.y            ? "[2Y] "  : "") + (gamepad2.left_bumper  ? "[2LB] " : "") +
-	                  					       (gamepad2.right_bumper ? "[2RB] " : "") + (gamepad1.dpad_up      ? "[1DU] " : "") +
-						                       (gamepad1.dpad_down    ? "[1DD] " : "") +
-						                       (isTriggered(2, Direction.LEFT ) ? "[2LT] " : "") +
-						                       (isTriggered(2, Direction.RIGHT) ? "[2RT] " : "")); //Update when button usage changes
+				telemetry.addData("Buttons 2", (gamepad2.a ? "[2A] " : "") + (gamepad2.b ? "[2B] " : "") +
+						(gamepad2.y ? "[2Y] " : "") + (gamepad2.left_bumper ? "[2LB] " : "") +
+						(gamepad2.right_bumper ? "[2RB] " : "") + (gamepad1.dpad_up ? "[1DU] " : "") +
+						(gamepad1.dpad_down ? "[1DD] " : "") +
+						(isTriggered(2, Direction.LEFT) ? "[2LT] " : "") +
+						(isTriggered(2, Direction.RIGHT) ? "[2RT] " : "")); //Update when button usage changes
 
 				//todo: add actual motor values to telemetry
 			}
@@ -161,8 +165,7 @@ public class Teleop extends LinearOpMode
 
 	public double smooth(double input, double lastX[]) //todo: implement PI/PID
 	{                                                  //currently takes the average of the last ten input
-	                                                   // in the future will scale output so that the driver can drive the robot more precisely at slow speeds
-		double sum = 0;
+		double sum = 0;                                // in the future will scale output so that the driver can drive the robot more precisely at slow speeds
 
 		for(int i = lastX.length-1; i >= 0; i--) { lastX[i] = (i != 0) ? lastX[i - 1] : input; }
 		// Put the latest value into slot 0 and move all the values up a slot
