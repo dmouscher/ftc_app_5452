@@ -11,14 +11,11 @@ import com.qualcomm.robotcore.util.Range;
 
 public class Teleop extends LinearOpMode
 {
-	DcMotor motorFL;
-	DcMotor motorFR;
-	DcMotor motorBL;
-	DcMotor motorBR;
+	DcMotor driveLeft;
+	DcMotor driveRight;
 
 	DcMotor armRotate;
 	DcMotor armExtend;
-	//DcMotor winch; //No winch for this tournament
 
 	Servo dropperBase;
 	Servo dropperJoint;
@@ -28,10 +25,9 @@ public class Teleop extends LinearOpMode
 	final float   DEADZONE              = 0.200f;
 	final double  TRIGGER_THRESHOLD     = 0.700 ;
 	final double  ROTATE_SPEED          = 0.850 ;
-	final double  MOTOR_SLOW_MULTIPLIER = 0.500 ;
+	final double  DRIVE_SLOW_MULTIPLIER = 0.500 ;
 	final double  ARM_SLOW_MULTIPLIER   = 0.500 ;
 	final double  EXTEND_SPEED          = 0.990 ;
-	//final double  WINCH_SPEED           = 0.850 ;
 	final double  FORWARD_SPEED         = 0.900 ;
 	final double  BASE_SPEED            = 0.005 ;
 	final double  JOINT_SPEED           = 0.010 ;
@@ -39,7 +35,7 @@ public class Teleop extends LinearOpMode
 	final int     LEFT                  = 0     ;
 	final int     RIGHT                 = 1     ; //poor man's enumeration
 
-	double motorSlowMultiplier = 1;
+	double driveSlowMultiplier = 1;
 	double armSlowMultiplier = 1;
 
 	boolean isBumperPrimed      = true ;
@@ -53,10 +49,8 @@ public class Teleop extends LinearOpMode
 	@Override
 	public void runOpMode() throws InterruptedException
 	{
-		motorFL = hardwareMap.dcMotor.get("fl");
-		motorFR = hardwareMap.dcMotor.get("fr");
-		motorBL = hardwareMap.dcMotor.get("bl");
-		motorBR = hardwareMap.dcMotor.get("br");
+		driveLeft  = hardwareMap.dcMotor.get("left");
+		driveRight = hardwareMap.dcMotor.get("right");
 
 		armRotate = hardwareMap.dcMotor.get("rotate");
 		armExtend = hardwareMap.dcMotor.get("extend");
@@ -67,43 +61,38 @@ public class Teleop extends LinearOpMode
 		rescueLeft   = hardwareMap.servo.get("rql"  );
 		rescueRight  = hardwareMap.servo.get("rqr"  );
 
-		motorFR.setDirection(DcMotor.Direction.REVERSE);
-		motorBR.setDirection(DcMotor.Direction.REVERSE);
-		//	winch  .setDirection(DcMotor.Direction.REVERSE);
+		driveRight.setDirection(DcMotor.Direction.REVERSE);
 		rescueRight.setDirection(Servo.Direction.REVERSE);
 
 		gamepad1.setJoystickDeadzone(DEADZONE);
 		gamepad2.setJoystickDeadzone(DEADZONE);
 
-		motorFL.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-		motorFR.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-		motorBL.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-		motorBR.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+		driveLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+		driveRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 
-        EncoderSpeed ES = new EncoderSpeed(motorFL, motorFR, motorBL, motorBR); // Look in EncoderSpeed.java for what is going on and how to use it
+        //EncoderSpeed ES = new EncoderSpeed(motorFL, motorFR, motorBL, motorBR); // Look in EncoderSpeed.java for what is going on and how to use it
+		//redo for two ports
 
         waitForStart();
 
-        ES.start();
+        //ES.start();
 
 		dropperBase.setPosition(0.25);
 		dropperJoint.setPosition(1);
 
 		while(opModeIsActive())
 		{
-			motorSlowMultiplier = gamepad1.left_bumper ? MOTOR_SLOW_MULTIPLIER : 1; //gamepad1.left_bumper triggers slow mode for motors
+			driveSlowMultiplier = gamepad1.left_bumper ? DRIVE_SLOW_MULTIPLIER : 1; //gamepad1.left_bumper triggers slow mode for motors
 			armSlowMultiplier   = gamepad2.a           ? ARM_SLOW_MULTIPLIER   : 1; //gamepad2.a does the same for the arm
 
-			motorFL.setPower(smooth(gamepad1.left_stick_y * motorSlowMultiplier, lastXLeft)); //basic tank drive control
-			motorBL.setPower(smooth(gamepad1.left_stick_y * motorSlowMultiplier, lastXLeft));
-			motorFR.setPower(smooth(gamepad1.right_stick_y * motorSlowMultiplier, lastXRight));
-			motorBR.setPower(smooth(gamepad1.right_stick_y * motorSlowMultiplier, lastXRight));
+			driveLeft.setPower(smooth(gamepad1.left_stick_y * driveSlowMultiplier, lastXLeft)); //basic tank drive control
+			driveRight.setPower(smooth(gamepad1.right_stick_y * driveSlowMultiplier, lastXRight));
 
 			if     (gamepad2.dpad_up  ) { armRotate.setPower( ROTATE_SPEED * armSlowMultiplier); } //gamepad2.dpad_up/down angles the arm up/down
 			else if(gamepad2.dpad_down) { armRotate.setPower(-ROTATE_SPEED * armSlowMultiplier); }
 			else                        { armRotate.setPower( 0                               ); }
 
-			if(gamepad2.y ^ gamepad2.b) //xor functions are used so nothing funky happens when both buttons are pressed at the same time
+			if(gamepad2.y ^ gamepad2.b) //xor is used so nothing funky happens when both buttons are pressed at the same time
 			{
 				armExtend.setPower(EXTEND_SPEED * (gamepad2.y ? 1 : -1)); //gamepad2.y extends the arm, gamepad2.b retracts it
 				//winch    .setPower(WINCH_SPEED  * (gamepad2.y ? 1 : -1));
@@ -111,7 +100,7 @@ public class Teleop extends LinearOpMode
 			else { armExtend.setPower(0); } //todo: add an encoder limit for this conditional
 
 			if(gamepad1.y ^ gamepad1.b) //gamepad1.y moves the robot straight and forwards, gamepad1.b moves it straight and backwards
-				{ runAllMotors(FORWARD_SPEED * motorSlowMultiplier * (gamepad1.y ? 1 : -1)); }
+				{ runAllMotors(FORWARD_SPEED * driveSlowMultiplier * (gamepad1.y ? 1 : -1)); }
 
 			if(gamepad2.left_bumper ^ isTriggered(2, LEFT)) //gamepad2.left_bumper extends the base servo, gamepad2.left_trigger retracts it
 				{ dropperBase.setPosition(Range.clip(dropperBase.getPosition() + BASE_SPEED * (gamepad2.left_bumper ? 1 : -1), 0.125, 1)); }
@@ -153,20 +142,18 @@ public class Teleop extends LinearOpMode
 				//todo: add actual motor values to telemetry
 			}
 
-            ES.getRealSpeed(EncoderSpeed.motorList.motorBL);
+            //ES.getRealSpeed(EncoderSpeed.motorList.motorBL);
 
             waitOneFullHardwareCycle();
 		}
 
-        ES.terminate();
+        //ES.terminate();
 	}
 
 	private void runAllMotors(double speed) //simply runs all drivetrain motors at the given speed
 	{
-		motorFL.setPower(speed);
-		motorBL.setPower(speed);
-		motorFR.setPower(speed);
-		motorBR.setPower(speed);
+		driveLeft.setPower(speed);
+		driveRight.setPower(speed);
 	}
 
 
