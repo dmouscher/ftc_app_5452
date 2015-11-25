@@ -28,6 +28,7 @@ public class Teleop extends LinearOpMode
 	Servo rescueLeft;
 	Servo rescueRight;
 
+	final int     SMOOTH_LENGTH         = 10    ;
 	final float   DEADZONE              = 0.200f;
 	final double  TRIGGER_THRESHOLD     = 0.700 ;
 	final double  ROTATE_SPEED          = 0.850 ;
@@ -48,8 +49,8 @@ public class Teleop extends LinearOpMode
 	boolean isTriggerPrimed     = true ;
 	boolean isRescueRightActive = false;
 
-	double lastXLeft[]  = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; //length 10
-	double lastXRight[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; //length 10 //lastXLeft.length() should always equal lastXRight.length()
+	double lastXLeft [] = new double[SMOOTH_LENGTH];
+	double lastXRight[] = new double[SMOOTH_LENGTH];
 
 	@Override
 	public void runOpMode() throws InterruptedException
@@ -101,11 +102,11 @@ public class Teleop extends LinearOpMode
 			if(gamepad2.y ^ gamepad2.b) { armExtend.setPower(EXTEND_SPEED * (gamepad2.y ? 1 : -1)); } //todo: readd comments for printout
 			else { armExtend.setPower(0); } //todo: add an encoder limit for this conditional
 
-			if(gamepad2.x ^ gamepad2.a) { plow.setPower(PLOW_SPEED * (gamepad2.x ? 1 : -1)); } //todo: add comments for printout
+			if(gamepad2.x ^ gamepad2.a) { plow.setPower(PLOW_SPEED * (gamepad2.a ? 1 : -1)); } //todo: add comments for printout
 			else { plow.setPower(0); } //todo: add an encoder limit for this conditional
 
 			if(gamepad1.y ^ gamepad1.b) //gamepad1.y moves the robot straight and forwards, gamepad1.b moves it straight and backwards
-				runAllMotors(FORWARD_SPEED * driveSlowMultiplier * (gamepad1.y ? 1 : -1));
+				runAllMotors(FORWARD_SPEED * driveSlowMultiplier * (gamepad1.b ? 1 : -1));
 
 			if(gamepad2.left_bumper ^ isTriggered(2, Direction.LEFT)) //gamepad2.left_bumper extends the base servo, gamepad2.left_trigger retracts it
 				dropperBase.setPosition(Range.clip(dropperBase.getPosition() + BASE_SPEED * (gamepad2.left_bumper ? 1 : -1), 0.125, 1));
