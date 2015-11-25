@@ -75,7 +75,6 @@ public class MRGyroTest extends LinearOpMode
 		{
 			Thread.sleep(50);
 		}
-
 		while (opModeIsActive())
 		{
 			// if the A and B buttons are pressed, reset Z heading.

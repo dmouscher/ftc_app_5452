@@ -5,18 +5,16 @@ import java.lang.Math;
 
 public class EncoderSpeed extends Thread {
 
-    public DcMotor motorFL, motorFR, motorBL, motorBR;
-    public double speedFL, speedFR, speedBL, speedBR = 0;
-    public double lastSpeedFL, lastSpeedFR, lastSpeedBL, lastSpeedBR = 0;
-    public enum motorList {motorFL, motorFR, motorBL, motorBR};
+    public DcMotor driveLeft, driveRight;
+    public double speedLeft, speedRight = 0;
+    public double lastSpeedLeft, lastSpeedRight = 0;
+    public enum motorList {DRIVELEFT, DRIVERIGHT};
     public boolean dontStop = true;
 
-    public EncoderSpeed(DcMotor motorFL, DcMotor motorFR, DcMotor motorBL, DcMotor motorBR) // parametrized constructor
+    public EncoderSpeed(DcMotor driveLeft, DcMotor driveRight) // parametrized constructor
     {
-        this.motorFL = motorFL;
-        this.motorFR = motorFR;
-        this.motorBL = motorBL;
-        this.motorBR = motorBR;
+        this.driveLeft = driveLeft;
+        this.driveRight = driveRight;
     }
 
     public void terminate() // stops the thread
@@ -27,14 +25,10 @@ public class EncoderSpeed extends Thread {
     public double getRealSpeed(motorList motor)
     {
         switch (motor){
-            case motorFL:
-                return speedFL;
-            case motorFR:
-                return speedFR;
-            case motorBL:
-                return speedBL;
-            case motorBR:
-                return speedBR;
+            case DRIVELEFT:
+                return speedLeft;
+            case DRIVERIGHT:
+                return speedRight;
         }
 
         return 1.1;
@@ -47,22 +41,18 @@ public class EncoderSpeed extends Thread {
 
     public void run() // The actuall function were motor speed is calculated
     {
-        long lastNum = System.currentTimeMillis()/1000;
+        long lastNum = System.currentTimeMillis();
 
         while(dontStop)
         {
-            while(System.currentTimeMillis()/1000 == lastNum){} // wait one second
-            lastNum = System.currentTimeMillis()/1000;
+            while(System.currentTimeMillis() == lastNum){} // wait one second
+            lastNum = System.currentTimeMillis();
 
-            speedFL = (motorFL.getDirection() == DcMotor.Direction.FORWARD)?(1):(-1)*(Math.abs(motorFL.getCurrentPosition()) - Math.abs(lastSpeedFL)); // now speed is distance/time, but this is just one second so dividing my 1 is a waste of time
-            speedFR = (motorFR.getDirection() == DcMotor.Direction.FORWARD)?(1):(-1)*(Math.abs(motorFR.getCurrentPosition()) - Math.abs(lastSpeedFR));
-            speedBL = (motorBL.getDirection() == DcMotor.Direction.FORWARD)?(1):(-1)*(Math.abs(motorBL.getCurrentPosition()) - Math.abs(lastSpeedBL));
-            speedBR = (motorBR.getDirection() == DcMotor.Direction.FORWARD)?(1):(-1)*(Math.abs(motorBR.getCurrentPosition()) - Math.abs(lastSpeedBR));
+            speedLeft = (driveLeft.getDirection() == DcMotor.Direction.FORWARD)?(1):(-1)*(Math.abs(driveLeft.getCurrentPosition()) - Math.abs(lastSpeedLeft))/1000; // now speed is distance/time, but this is just one second so dividing my 1 is a waste of time
+            speedRight = (driveRight.getDirection() == DcMotor.Direction.FORWARD)?(1):(-1)*(Math.abs(driveRight.getCurrentPosition()) - Math.abs(lastSpeedRight))/1000;
 
-            lastSpeedFL = speedFL;
-            lastSpeedFR = speedFR;
-            lastSpeedBL = speedBL;
-            lastSpeedBR = speedBR;
+            lastSpeedLeft = speedLeft;
+            lastSpeedRight = speedRight;
         }
     }
 }
