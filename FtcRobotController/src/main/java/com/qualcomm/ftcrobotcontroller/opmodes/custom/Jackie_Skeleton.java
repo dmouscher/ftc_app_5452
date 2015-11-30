@@ -1,20 +1,24 @@
 
 package com.qualcomm.ftcrobotcontroller.opmodes.custom;
 
-		import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-		import com.qualcomm.robotcore.hardware.DcMotor;
-		import com.qualcomm.robotcore.hardware.DcMotorController;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorController;
 
 public class Jackie_Skeleton extends LinearOpMode
 {
 	DcMotor motor;
-    boolean firstloop = true;
+	boolean firstloop = true;
 
 	@Override
 	public void runOpMode() throws InterruptedException
 	{
 		motor = hardwareMap.dcMotor.get("motor");
+<<<<<<< HEAD
         motor.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+=======
+		motor.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+>>>>>>> origin/master
 
 
 		waitForStart();
