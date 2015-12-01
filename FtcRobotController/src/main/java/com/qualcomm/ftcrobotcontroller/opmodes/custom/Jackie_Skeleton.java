@@ -14,11 +14,11 @@ public class Jackie_Skeleton extends LinearOpMode
 	public void runOpMode() throws InterruptedException
 	{
 		motor = hardwareMap.dcMotor.get("motor");
-<<<<<<< HEAD
+
         motor.setMode(DcMotorController.RunMode.RESET_ENCODERS);
-=======
+
 		motor.setMode(DcMotorController.RunMode.RESET_ENCODERS);
->>>>>>> origin/master
+
 
 
 		waitForStart();
