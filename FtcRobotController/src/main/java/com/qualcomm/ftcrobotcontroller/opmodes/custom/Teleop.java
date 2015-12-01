@@ -77,12 +77,6 @@ public class Teleop extends LinearOpMode
 		driveLeft .setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 		driveRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 
-<<<<<<< HEAD
-		//todo: redo encoderspeed for two ports
-=======
-		EncoderSpeed ES = new EncoderSpeed(driveLeft, driveRight);
->>>>>>> origin/master
-
 		EncoderSpeed ES = new EncoderSpeed(driveLeft, driveRight);
 
         waitForStart();
@@ -144,27 +138,17 @@ public class Teleop extends LinearOpMode
 						                       (gamepad1.left_bumper  ? "[1LB] " : "") + (gamepad1.right_bumper ? "[1RB] " : "") +
 						                       (isTriggered(1, Direction.RIGHT) ? "[1RT] " : "")); //Update when button usage changes
 
-				telemetry.addData("Buttons 2", (gamepad2.a ? "[2A] " : "") + (gamepad2.b ? "[2B] " : "") +
-						(gamepad2.y ? "[2Y] " : "") + (gamepad2.left_bumper ? "[2LB] " : "") +
-						(gamepad2.right_bumper ? "[2RB] " : "") + (gamepad1.dpad_up ? "[1DU] " : "") +
-						(gamepad1.dpad_down ? "[1DD] " : "") +
-						(isTriggered(2, Direction.LEFT) ? "[2LT] " : "") +
-						(isTriggered(2, Direction.RIGHT) ? "[2RT] " : "")); //Update when button usage changes
+				telemetry.addData("Buttons 2", (gamepad2.a            ? "[2A] "  : "") + (gamepad2.b           ? "[2B] "  : "") +
+						                       (gamepad2.y            ? "[2Y] "  : "") + (gamepad2.left_bumper ? "[2LB] " : "") +
+						                       (gamepad2.right_bumper ? "[2RB] " : "") + (gamepad1.dpad_up     ? "[1DU] " : "") +
+						                       (gamepad1.dpad_down    ? "[1DD] " : "") +
+						                       (isTriggered(2, Direction.LEFT ) ? "[2LT] " : "") +
+						                       (isTriggered(2, Direction.RIGHT) ? "[2RT] " : "")); //Update when button usage changes
 
-<<<<<<< HEAD
                 telemetry.addData("Real Speed (clicks per second)", " R:" + ES.getRealSpeed(EncoderSpeed.motorList.DRIVERIGHT) +
-                                                                    " L:" + ES.getRealSpeed(EncoderSpeed.motorList.DRIVELEFT ));
-
-				//todo: add actual motor values to telemetry
-			}
-
-
-=======
-				telemetry.addData("Real Speed (clicks per second)", " R:" + ES.getRealSpeed(EncoderSpeed.motorList.DRIVERIGHT) +
 						                                            " L:" + ES.getRealSpeed(EncoderSpeed.motorList.DRIVELEFT ));
 			}
 
->>>>>>> origin/master
             waitOneFullHardwareCycle();
 		}
 
