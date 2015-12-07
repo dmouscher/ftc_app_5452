@@ -27,8 +27,8 @@ public class Autonomous extends LinearOpMode
 
 	//final int     SMOOTH_LENGTH         = 10    ;
 	final boolean TELEMETRY             = true  ; //enables/disables telemetry
-	final int ONE_ROTATION              = 1440  ; // For encoder use //todo: replace with inches
-	final double TICKS_PER_DEGREE = 1; //placeholder
+	final double TICKS_PER_DEGREE       = 2900/90.0 ;
+	final double TICKS_PER_INCH         = 1000/6.375;
 
 	//double lastXLeft [] = new double[SMOOTH_LENGTH];
 	//double lastXRight[] = new double[SMOOTH_LENGTH];
@@ -56,20 +56,23 @@ public class Autonomous extends LinearOpMode
 
 		driveLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 		driveRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+		plow.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+
+		driveLeft .setMode(DcMotorController.RunMode.RESET_ENCODERS);
+		driveRight.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+		plow      .setMode(DcMotorController.RunMode.RESET_ENCODERS);
+
+		waitForStart();
 
 		dropperBase.setPosition(0.25);
 		dropperJoint.setPosition(1.00);
 
-		driveLeft .setMode(DcMotorController.RunMode.RESET_ENCODERS);
-		driveRight.setMode(DcMotorController.RunMode.RESET_ENCODERS);
-
-		waitForStart();
-
-		moveAll(0.85, ONE_ROTATION);  // Just a note, these values are experimental, is 85 the best speed? is one full rotation of the motors far enough to move away from the wall to turn? or is it too much?
-		turn(0.85, 10*ONE_ROTATION);              // On the paper it looks like we are starting our back bumper with the wall, we need to turn the robot to face our goal
-		moveAll(0.85, 5*ONE_ROTATION);// Move to the Red Alliance Rescue Beacon Repair Zone
-		turn(0.85, -10*ONE_ROTATION);
-		moveAll(0.85, ONE_ROTATION);
+		displayTelemetry(); // haven't tested with telemetry
+		//movePlow(true);
+		moveAll(0.85, 101.82);
+		turn(0.85, 45);
+		moveAll(0.85, 24);
+		dump();
 	}
 
 	/*public double smooth(double input, double lastX[]) //todo: implement PI/PID
@@ -85,7 +88,7 @@ public class Autonomous extends LinearOpMode
 	return sum/lastX.length;
 	}*/
 
-	public void moveAll(double speed, int distance)
+	public void moveAll(double speed, double in)
 	{
 		driveLeft .setMode(DcMotorController.RunMode.RESET_ENCODERS);
 		driveRight.setMode(DcMotorController.RunMode.RESET_ENCODERS);
@@ -93,13 +96,14 @@ public class Autonomous extends LinearOpMode
 		driveLeft .setMode(DcMotorController.RunMode.RUN_TO_POSITION);
 		driveRight.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
 
-		driveLeft .setTargetPosition(distance);
-		driveRight.setTargetPosition(distance);
+		driveLeft .setTargetPosition((int)(in*TICKS_PER_DEGREE));
+		driveRight.setTargetPosition((int)(in*TICKS_PER_DEGREE));
 
 		driveLeft .setPower(speed);
 		driveRight.setPower(speed);
 
 		while(driveLeft.isBusy() || driveRight.isBusy()){}
+		displayTelemetry();
 	}
 
 	public void turn(double speed, double deg) // Negative values are left, positive are right.
@@ -110,17 +114,36 @@ public class Autonomous extends LinearOpMode
 		driveLeft .setMode(DcMotorController.RunMode.RUN_TO_POSITION);
 		driveRight.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
 
-		driveLeft .setTargetPosition((int)( deg*TICKS_PER_DEGREE));
-		driveRight.setTargetPosition((int)(-deg*TICKS_PER_DEGREE));
+		driveLeft .setTargetPosition((int)( deg*TICKS_PER_INCH));
+		driveRight.setTargetPosition((int)(-deg*TICKS_PER_INCH));
 
 		driveLeft .setPower(speed);
 		driveRight.setPower(speed);
 
 		while(driveLeft.isBusy() || driveRight.isBusy()){}
+		displayTelemetry();
+	}
+
+	public void movePlow(boolean extend)
+	{
+		plow.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+		plow.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
+		plow.setTargetPosition(10000 * (extend ? -1 : 1));
+		plow.setPower(0.85 * (extend ? -1 : 1));
+		while(plow.isBusy()){}
+		displayTelemetry();
 	}
 
 	public void dump() // Make sure to add pulling back of the dumping "arm" to the end of this method
 	{
+		dropperBase.setPosition(0.7);
+		for(int i=0;i<10000;i++){}
+		dropperBase.setPosition(0.25);
+		displayTelemetry();
+	}
 
+	public void displayTelemetry()
+	{
+		telemetry.addData("Encoder Pos", driveLeft.getCurrentPosition()+ ", " + driveRight.getCurrentPosition());
 	}
 }

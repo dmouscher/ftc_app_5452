@@ -146,7 +146,8 @@ public class Teleop extends LinearOpMode
 						                       (isTriggered(2, Direction.RIGHT) ? "[2RT] " : "")); //Update when button usage changes
 
                 telemetry.addData("Real Speed (clicks per second)", " R:" + ES.getRealSpeed(EncoderSpeed.motorList.DRIVERIGHT) +
-						                                            " L:" + ES.getRealSpeed(EncoderSpeed.motorList.DRIVELEFT ));
+						                                            " L:" + ES.getRealSpeed(EncoderSpeed.motorList.DRIVELEFT ) +
+								                                    " A:" + ES.isAlive());
 			}
 
             waitOneFullHardwareCycle();
