@@ -2,11 +2,11 @@
 
 package com.qualcomm.ftcrobotcontroller.opmodes.custom;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 
-public class EncoderTesting extends OpMode {
+public class EncoderTesting extends LinearOpMode {
      DcMotor testmotor1, testmotor2;
      DcMotorController DMC;
      double finalEncoderValue;
@@ -21,16 +21,7 @@ public class EncoderTesting extends OpMode {
     }
 
     @Override
-     public void init()
-     {
-         hardwareMap.logDevices();
-         testmotor1 = hardwareMap.dcMotor.get("motor1");
-         testmotor2 = hardwareMap.dcMotor.get("motor2");
-         testmotor1.setMode(DcMotorController.RunMode.RESET_ENCODERS);
-     }
-
-    @Override
-    public void loop()
+    public void runOpMode() throws InterruptedException
     {
         /**
          * While channel modes are usually meant to be set in the init() function, setting this there didn't seem to to work for some reason.
@@ -38,6 +29,13 @@ public class EncoderTesting extends OpMode {
          *
          * I would like to credit Brendan from team 3785 for finding this fix. May we someday hope the FTC Software Wizards patch it.
          */
+        hardwareMap.logDevices();
+        testmotor1 = hardwareMap.dcMotor.get("motor1");
+        testmotor2 = hardwareMap.dcMotor.get("motor2");
+        testmotor1.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+
+        waitForStart();
+
         if(firstloop)
         {
             testmotor1.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
@@ -70,11 +68,5 @@ public class EncoderTesting extends OpMode {
         }
 
         //telemetry.addData(String.toString(DMC.getMotorControllerDeviceMode()));
-    }
-
-    @Override
-    public void stop()
-    {
-
     }
 }
