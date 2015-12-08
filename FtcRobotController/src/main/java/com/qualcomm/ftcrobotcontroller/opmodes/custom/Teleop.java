@@ -33,7 +33,6 @@ public class Teleop extends LinearOpMode
 	final double  TRIGGER_THRESHOLD     = 0.700 ;
 	final double  ROTATE_SPEED          = 0.850 ;
 	final double  DRIVE_SLOW_MULTIPLIER = 0.500 ;
-	final double  ARM_SLOW_MULTIPLIER   = 0.500 ;
 	final double  EXTEND_SPEED          = 0.990 ;
 	final double  FORWARD_SPEED         = 0.900 ;
 	final double  BASE_SPEED            = 0.005 ;
@@ -42,7 +41,6 @@ public class Teleop extends LinearOpMode
 	final boolean TELEMETRY             = true  ; //enables/disables telemetry
 
 	double driveSlowMultiplier = 1;
-	double armSlowMultiplier   = 1;
 
 	boolean isBumperPrimed      = true ;
 	boolean isRescueLeftActive  = false;
@@ -89,13 +87,12 @@ public class Teleop extends LinearOpMode
 		while(opModeIsActive())
 		{
 			driveSlowMultiplier = gamepad1.left_bumper ? DRIVE_SLOW_MULTIPLIER : 1; //gamepad1.left_bumper triggers slow mode for motors
-			armSlowMultiplier   = gamepad2.a           ? ARM_SLOW_MULTIPLIER   : 1; //gamepad2.a does the same for the arm
 
 			driveLeft .setPower(smooth(gamepad1.left_stick_y  * driveSlowMultiplier, lastXLeft )); //basic tank drive control
 			driveRight.setPower(smooth(gamepad1.right_stick_y * driveSlowMultiplier, lastXRight));
 
-			if     (gamepad2.dpad_up  ) { armRotate.setPower( ROTATE_SPEED * armSlowMultiplier); } //gamepad2.dpad_up/down angles the arm up/down
-			else if(gamepad2.dpad_down) { armRotate.setPower(-ROTATE_SPEED * armSlowMultiplier); }
+			if     (gamepad2.dpad_up  ) { armRotate.setPower( ROTATE_SPEED); } //gamepad2.dpad_up/down angles the arm up/down
+			else if(gamepad2.dpad_down) { armRotate.setPower(-ROTATE_SPEED); }
 			else                        { armRotate.setPower( 0                               ); }
 
 			if(gamepad2.y ^ gamepad2.b) { armExtend.setPower(EXTEND_SPEED * (gamepad2.y ? 1 : -1)); } //todo: readd comments for printout
