@@ -30,6 +30,8 @@ public class Autonomous extends LinearOpMode
 	final double TICKS_PER_DEGREE       = 2900/90.0 ;
 	final double TICKS_PER_INCH         = 1000/6.375;
 
+	int step = 0;
+
 	//double lastXLeft [] = new double[SMOOTH_LENGTH];
 	//double lastXRight[] = new double[SMOOTH_LENGTH];
 
@@ -67,12 +69,12 @@ public class Autonomous extends LinearOpMode
 		dropperBase.setPosition(0.25);
 		dropperJoint.setPosition(1.00);
 
-		displayTelemetry(); // haven't tested with telemetry
+		displayTelemetry(); // Step (the third value) should be 1
 		//movePlow(true);
-		moveAll(0.85, 101.82);
-		turn(0.85, 45);
-		moveAll(0.85, 24);
-		dump();
+		moveAll(0.85, 101.82); // Step 2
+		turn(0.85, 45); // Step 3
+		moveAll(0.85, 24); // Step 4
+		dump(); // Step 5
 	}
 
 	/*public double smooth(double input, double lastX[]) //todo: implement PI/PID
@@ -93,13 +95,13 @@ public class Autonomous extends LinearOpMode
 		driveLeft .setMode(DcMotorController.RunMode.RUN_TO_POSITION);
 		driveRight.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
 
-		driveLeft .setTargetPosition((int)(in*TICKS_PER_INCH)+(driveLeft.getCurrentPosition()));
-		driveRight.setTargetPosition((int)(in*TICKS_PER_INCH)+(driveRight.getCurrentPosition()));
+		driveLeft .setTargetPosition((int) (in * TICKS_PER_INCH) + (driveLeft.getCurrentPosition()));
+		driveRight.setTargetPosition((int) (in * TICKS_PER_INCH) + (driveRight.getCurrentPosition()));
 
 		driveLeft .setPower(speed);
 		driveRight.setPower(speed);
 
-		while(driveLeft.isBusy() || driveRight.isBusy()){}
+		while((driveLeft.getTargetPosition() > driveLeft.getCurrentPosition()) || (driveRight.getTargetPosition() > driveRight.getCurrentPosition())){}
 		displayTelemetry();
 	}
 
@@ -114,7 +116,7 @@ public class Autonomous extends LinearOpMode
 		driveLeft .setPower(speed);
 		driveRight.setPower(speed);
 
-		while(driveLeft.isBusy() || driveRight.isBusy()){}
+		while((driveLeft.getTargetPosition() > driveLeft.getCurrentPosition()) || (driveRight.getTargetPosition() > driveRight.getCurrentPosition())){}
 		displayTelemetry();
 	}
 
@@ -123,7 +125,7 @@ public class Autonomous extends LinearOpMode
 		plow.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
 		plow.setTargetPosition((10000 * (extend ? -1 : 1))+(plow.getCurrentPosition()));
 		plow.setPower(0.85 * (extend ? -1 : 1));
-		while(plow.isBusy()){}
+		while(plow.getTargetPosition() > plow.getCurrentPosition()){}
 		displayTelemetry();
 	}
 
@@ -137,6 +139,7 @@ public class Autonomous extends LinearOpMode
 
 	public void displayTelemetry()
 	{
-		telemetry.addData("Encoder Pos", driveLeft.getCurrentPosition()+ ", " + driveRight.getCurrentPosition());
+		step =+ 1;
+		telemetry.addData("Encoder Pos", driveLeft.getCurrentPosition()+ ", " + driveRight.getCurrentPosition()+", "+step);
 	}
 }
