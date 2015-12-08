@@ -9,8 +9,6 @@ import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
-
-
 public class Teleop extends LinearOpMode
 {
 	enum Direction { LEFT, RIGHT; }
@@ -50,6 +48,8 @@ public class Teleop extends LinearOpMode
 	double lastXLeft [] = new double[SMOOTH_LENGTH];
 	double lastXRight[] = new double[SMOOTH_LENGTH];
 
+	boolean driveForwards = true;
+
 	@Override
 	public void runOpMode() throws InterruptedException
 	{
@@ -87,9 +87,18 @@ public class Teleop extends LinearOpMode
 		while(opModeIsActive())
 		{
 			driveSlowMultiplier = gamepad1.left_bumper ? DRIVE_SLOW_MULTIPLIER : 1; //gamepad1.left_bumper triggers slow mode for motors
+			driveForwards = !isTriggered(1, Direction.LEFT);                        //gamepad1.left_trigger reverses drivetrain direction
 
-			driveLeft .setPower(smooth(gamepad1.left_stick_y  * driveSlowMultiplier, lastXLeft )); //basic tank drive control
-			driveRight.setPower(smooth(gamepad1.right_stick_y * driveSlowMultiplier, lastXRight));
+			if(driveForwards) //basic tank drive control
+			{
+				driveLeft.setPower(smooth(gamepad1.left_stick_y * driveSlowMultiplier, lastXLeft));
+				driveRight.setPower(smooth(gamepad1.right_stick_y * driveSlowMultiplier, lastXRight));
+			}
+			else
+			{
+				driveRight.setPower(smooth(gamepad1.left_stick_y * driveSlowMultiplier, lastXLeft));
+				driveLeft.setPower(smooth(gamepad1.right_stick_y * driveSlowMultiplier, lastXRight));
+			}
 
 			if     (gamepad2.dpad_up  ) { armRotate.setPower( ROTATE_SPEED); } //gamepad2.dpad_up/down angles the arm up/down
 			else if(gamepad2.dpad_down) { armRotate.setPower(-ROTATE_SPEED); }
