@@ -42,9 +42,9 @@ public class Teleop extends LinearOpMode
 
 	double driveSlowMultiplier = 1;
 
-	boolean isBumperPrimed      = true ;
+	boolean isDpadLeftPrimed    = true ;
 	boolean isRescueLeftActive  = false;
-	boolean isTriggerPrimed     = true ;
+	boolean isDpadRightPrimed   = true ;
 	boolean isRescueRightActive = false;
 
 	double lastXLeft [] = new double[SMOOTH_LENGTH];
@@ -93,7 +93,7 @@ public class Teleop extends LinearOpMode
 
 			if     (gamepad2.dpad_up  ) { armRotate.setPower( ROTATE_SPEED); } //gamepad2.dpad_up/down angles the arm up/down
 			else if(gamepad2.dpad_down) { armRotate.setPower(-ROTATE_SPEED); }
-			else                        { armRotate.setPower( 0                               ); }
+			else                        { armRotate.setPower( 0           ); }
 
 			if(gamepad2.y ^ gamepad2.b) { armExtend.setPower(EXTEND_SPEED * (gamepad2.y ? 1 : -1)); } //todo: readd comments for printout
 			else { armExtend.setPower(0); } //todo: add an encoder limit for this conditional
@@ -110,19 +110,19 @@ public class Teleop extends LinearOpMode
 			if(gamepad2.right_bumper ^ isTriggered(2, Direction.RIGHT)) //gamepad2.right_bumper extends the joint servo, gamepad2.right_trigger retracts it
 				dropperJoint.setPosition(Range.clip(dropperJoint.getPosition() + JOINT_SPEED * (gamepad2.right_bumper ? 1 : -1), 0, 1));
 
-			if(gamepad1.right_bumper && isBumperPrimed)
+			if(gamepad2.dpad_left && isDpadLeftPrimed)
 			{
-				isBumperPrimed = false;
+				isDpadLeftPrimed = false;
 				isRescueLeftActive ^= true;
 			}
-			else if(!gamepad1.right_bumper) { isBumperPrimed = true; }
+			else if(!gamepad2.dpad_left) { isDpadLeftPrimed = true; }
 
-			if(isTriggered(1, Direction.RIGHT) && isTriggerPrimed)
+			if(gamepad2.dpad_right && isDpadRightPrimed)
 			{
-				isTriggerPrimed = false;
+				isDpadRightPrimed = false;
 				isRescueRightActive ^= true;
 			}
-			else if(!isTriggered(1, Direction.RIGHT)) { isTriggerPrimed = true; }
+			else if(!gamepad2.dpad_right) { isDpadRightPrimed = true; }
 
 			rescueLeft .setPosition(isRescueLeftActive  ? 0.5 : 0.0);
 			rescueRight.setPosition(isRescueRightActive ? 1.0 : 0.5);
@@ -144,7 +144,7 @@ public class Teleop extends LinearOpMode
 
                 telemetry.addData("Real Speed (clicks per second)", " R:" + ES.getRealSpeed(EncoderSpeed.motorList.DRIVERIGHT) +
 						                                            " L:" + ES.getRealSpeed(EncoderSpeed.motorList.DRIVELEFT ) +
-								                                    " A:" + ES.isAlive());
+						                                            " A:" + ES.isAlive());
 			}
 
             waitOneFullHardwareCycle();
