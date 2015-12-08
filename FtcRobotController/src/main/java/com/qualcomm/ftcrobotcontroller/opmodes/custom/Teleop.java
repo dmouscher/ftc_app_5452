@@ -26,7 +26,6 @@ public class Teleop extends LinearOpMode
 	Servo rescueLeft;
 	Servo rescueRight;
 
-	final int     SMOOTH_LENGTH         = 10    ;
 	final float   DEADZONE              = 0.200f;
 	final double  TRIGGER_THRESHOLD     = 0.700 ;
 	final double  ROTATE_SPEED          = 0.850 ;
@@ -44,9 +43,6 @@ public class Teleop extends LinearOpMode
 	boolean isRescueLeftActive  = false;
 	boolean isDpadRightPrimed   = true ;
 	boolean isRescueRightActive = false;
-
-	double lastXLeft [] = new double[SMOOTH_LENGTH];
-	double lastXRight[] = new double[SMOOTH_LENGTH];
 
 	boolean driveForwards = true;
 
@@ -89,16 +85,8 @@ public class Teleop extends LinearOpMode
 			driveSlowMultiplier = gamepad1.left_bumper ? DRIVE_SLOW_MULTIPLIER : 1; //gamepad1.left_bumper triggers slow mode for motors
 			driveForwards = !isTriggered(1, Direction.LEFT);                        //gamepad1.left_trigger reverses drivetrain direction
 
-			if(driveForwards) //basic tank drive control
-			{
-				driveLeft.setPower(smooth(gamepad1.left_stick_y * driveSlowMultiplier, lastXLeft));
-				driveRight.setPower(smooth(gamepad1.right_stick_y * driveSlowMultiplier, lastXRight));
-			}
-			else
-			{
-				driveRight.setPower(smooth(gamepad1.left_stick_y * driveSlowMultiplier, lastXLeft));
-				driveLeft.setPower(smooth(gamepad1.right_stick_y * driveSlowMultiplier, lastXRight));
-			}
+			driveLeft .setPower((driveForwards ? gamepad1.left_stick_y  : -gamepad1.right_stick_y) * driveSlowMultiplier); //basic tank drive control
+			driveRight.setPower((driveForwards ? gamepad1.right_stick_y : -gamepad1.left_stick_y ) * driveSlowMultiplier);
 
 			if     (gamepad2.dpad_up  ) { armRotate.setPower( ROTATE_SPEED); } //gamepad2.dpad_up/down angles the arm up/down
 			else if(gamepad2.dpad_down) { armRotate.setPower(-ROTATE_SPEED); }
@@ -166,19 +154,6 @@ public class Teleop extends LinearOpMode
 	{
 		driveLeft.setPower(speed);
 		driveRight.setPower(speed);
-	}
-
-	public double smooth(double input, double lastX[]) //todo: implement PI/PID
-	{                                                  //currently takes the average of the last ten input
-		double sum = 0;                                // in the future will scale output so that the driver can drive the robot more precisely at slow speeds
-
-		for(int i = lastX.length-1; i >= 0; i--) { lastX[i] = (i != 0) ? lastX[i - 1] : input; }
-		// Put the latest value into slot 0 and move all the values up a slot
-
-		for(int i = 0; i <= lastX.length-1; i++) { sum += lastX[i]; }
-		// Add all the values from the last ten array into one variable
-
-		return sum/lastX.length;
 	}
 
 	public boolean isTriggered(int gamepad, Direction dir) //returns true if the given trigger has been pressed past the threshold constant
