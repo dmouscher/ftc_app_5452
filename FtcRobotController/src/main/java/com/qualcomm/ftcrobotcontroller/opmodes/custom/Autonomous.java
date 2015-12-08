@@ -90,14 +90,11 @@ public class Autonomous extends LinearOpMode
 
 	public void moveAll(double speed, double in)
 	{
-		driveLeft .setMode(DcMotorController.RunMode.RESET_ENCODERS);
-		driveRight.setMode(DcMotorController.RunMode.RESET_ENCODERS);
-
 		driveLeft .setMode(DcMotorController.RunMode.RUN_TO_POSITION);
 		driveRight.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
 
-		driveLeft .setTargetPosition((int)(in*TICKS_PER_DEGREE));
-		driveRight.setTargetPosition((int)(in*TICKS_PER_DEGREE));
+		driveLeft .setTargetPosition((int)(in*TICKS_PER_INCH)+(driveLeft.getCurrentPosition()));
+		driveRight.setTargetPosition((int)(in*TICKS_PER_INCH)+(driveRight.getCurrentPosition()));
 
 		driveLeft .setPower(speed);
 		driveRight.setPower(speed);
@@ -108,14 +105,11 @@ public class Autonomous extends LinearOpMode
 
 	public void turn(double speed, double deg) // Negative values are left, positive are right.
 	{
-		driveLeft .setMode(DcMotorController.RunMode.RESET_ENCODERS);
-		driveRight.setMode(DcMotorController.RunMode.RESET_ENCODERS);
-
 		driveLeft .setMode(DcMotorController.RunMode.RUN_TO_POSITION);
 		driveRight.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
 
-		driveLeft .setTargetPosition((int)( deg*TICKS_PER_INCH));
-		driveRight.setTargetPosition((int)(-deg*TICKS_PER_INCH));
+		driveLeft .setTargetPosition((int)( deg*TICKS_PER_DEGREE)+(driveLeft.getCurrentPosition()));
+		driveRight.setTargetPosition((int)(-deg*TICKS_PER_DEGREE)+(driveRight.getCurrentPosition()));
 
 		driveLeft .setPower(speed);
 		driveRight.setPower(speed);
@@ -126,9 +120,8 @@ public class Autonomous extends LinearOpMode
 
 	public void movePlow(boolean extend)
 	{
-		plow.setMode(DcMotorController.RunMode.RESET_ENCODERS);
 		plow.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
-		plow.setTargetPosition(10000 * (extend ? -1 : 1));
+		plow.setTargetPosition((10000 * (extend ? -1 : 1))+(plow.getCurrentPosition()));
 		plow.setPower(0.85 * (extend ? -1 : 1));
 		while(plow.isBusy()){}
 		displayTelemetry();
