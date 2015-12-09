@@ -64,6 +64,8 @@ public class FtcOpModeRegister implements OpModeRegister
 
 		manager.register("Teleop", Teleop.class);
 		manager.register("Autonomous Test", Autonomous.class);
+		manager.register("Autonomous Experimental", AutonomousTest.class);
+		manager.register("Reset Encoders", ResetEncoders.class);
 		//manager.register("Encoder Speedtest", EncoderSpeedtest.class);
 		//manager.register("Jackie Skeleton", Jackie_Skeleton.class);
 		//manager.register("Servo Test", ServoTest.class);

@@ -1,13 +1,15 @@
+//Experimental autonomous where RUN_TO_POSITION mode was not used
+//More often than not it just caused robot controller to crash
+
 package com.qualcomm.ftcrobotcontroller.opmodes.custom;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-public class Autonomous extends LinearOpMode
+public class AutonomousTest extends LinearOpMode
 {
 	ElapsedTime clock = new ElapsedTime();
 
@@ -33,7 +35,8 @@ public class Autonomous extends LinearOpMode
 	final double TICKS_PER_DEGREE       = 2900/90.0 ;
 	final double TICKS_PER_INCH         = 1000/6.375;
 
-	int step = 0;
+	int initLeft  = 0;
+	int initRight = 0;
 
 	//double lastXLeft [] = new double[SMOOTH_LENGTH];
 	//double lastXRight[] = new double[SMOOTH_LENGTH];
@@ -75,13 +78,13 @@ public class Autonomous extends LinearOpMode
 		telemetry.addData("Flag: ", "1");
 		//displayTelemetry(); // Step (the third value) should be 1
 		//movePlow(true);
-		moveAll(0.85, 101.82); // Step 2 //Seemed to be skipped
+		moveAll(0.85, 101.82); // Step 2
 		telemetry.addData("Flag: ", "2");
 		double time1 = clock.time();
 
-		while(clock.time() < time1 + 1){} //Replacing wait call, not sure if worked
+		while(clock.time() < time1 + 5){}
 		telemetry.addData("Flag: ", "3");
-		turnRight(0.85, 45); // Step 3
+		//turnRight(0.85, 45); // Step 3
 		telemetry.addData("Flag: ", "4");
 		moveAll(0.85, 24); // Step 4
 		telemetry.addData("Flag: ", "5");
@@ -106,20 +109,25 @@ public class Autonomous extends LinearOpMode
 
 	public void moveAll(double speed, double in)
 	{
-		driveLeft .setMode(DcMotorController.RunMode.RUN_TO_POSITION);
-		driveRight.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
+		initLeft  = driveLeft .getCurrentPosition();
+		initRight = driveRight.getCurrentPosition();
 
-		driveLeft .setTargetPosition((int) (in * TICKS_PER_INCH) + (driveLeft.getCurrentPosition()));
-		driveRight.setTargetPosition((int) (in * TICKS_PER_INCH) + (driveRight.getCurrentPosition()));
+		telemetry.addData("Flag: ", "2.1");
 
-		driveLeft .setPower(speed);
-		driveRight.setPower(speed);
+		while(initLeft + (int)(in * TICKS_PER_INCH) > driveLeft.getCurrentPosition() || initRight + (int)(in * TICKS_PER_INCH) > driveRight.getCurrentPosition())
+		{
+			driveLeft .setPower(speed);
+			driveRight.setPower(speed);
 
-		while((driveLeft.getTargetPosition() > driveLeft.getCurrentPosition()) || (driveRight.getTargetPosition() > driveRight.getCurrentPosition())){}
-		//displayTelemetry();
+			telemetry.addData("Flag: ", "2.2"); //The robot was stock in this loop in this op mode did run
+		}
 
-		driveLeft .setPower(0);
+		telemetry.addData("Flag: ", "2.3");
+
+		driveLeft.setPower(0);
 		driveRight.setPower(0);
+
+		telemetry.addData("Flag: ", "2.4");
 	}
 
 	public void turnLeft(double speed, double deg) // Negative values are left, positive are right.
@@ -139,30 +147,22 @@ public class Autonomous extends LinearOpMode
 
 	public void turnRight(double speed, double deg) // Negative values are left, positive are right.
 	{
-		driveRight.setDirection(DcMotor.Direction.REVERSE);
+		initLeft  = driveLeft .getCurrentPosition() + ((int) (deg * TICKS_PER_DEGREE) + (driveLeft .getCurrentPosition()));
 
-		driveLeft .setMode(DcMotorController.RunMode.RUN_TO_POSITION);
-		//driveRight.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
-
-		driveLeft.setTargetPosition((int)(deg*TICKS_PER_DEGREE)+(driveLeft.getCurrentPosition()));
-		//driveRight.setTargetPosition((int)(deg*TICKS_PER_DEGREE)+(driveRight.getCurrentPosition()));
-
-		driveLeft .setPower(speed);
-		driveRight.setPower(speed);
-
-		while(driveLeft.getTargetPosition() > driveLeft.getCurrentPosition()){}
-		//displayTelemetry();
+		while(initLeft > driveLeft.getCurrentPosition())
+		{
+			driveLeft .setPower( speed);
+			driveRight.setPower(-speed);
+		}
 
 		driveLeft .setPower(0);
 		driveRight.setPower(0);
-
-		driveRight.setDirection(DcMotor.Direction.FORWARD);
 	}
 
 	public void movePlow(boolean extend)
 	{
 		plow.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
-		plow.setTargetPosition((10000 * (extend ? -1 : 1))+(plow.getCurrentPosition()));
+		plow.setTargetPosition((10000 * (extend ? -1 : 1)) + (plow.getCurrentPosition()));
 		plow.setPower(0.85 * (extend ? -1 : 1));
 		while(plow.getTargetPosition() > plow.getCurrentPosition()){}
 		displayTelemetry();
@@ -178,7 +178,6 @@ public class Autonomous extends LinearOpMode
 
 	public void displayTelemetry()
 	{
-		step =+ 1;
-		telemetry.addData("Encoder Pos", driveLeft.getCurrentPosition()+ ", " + driveRight.getCurrentPosition()+", "+step);
+		telemetry.addData("Encoder Pos", driveLeft.getCurrentPosition() + ", " + driveRight.getCurrentPosition()+", ");
 	}
 }
