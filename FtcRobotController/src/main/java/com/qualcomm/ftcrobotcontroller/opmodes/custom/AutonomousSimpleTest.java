@@ -4,10 +4,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-public class Autonomous extends LinearOpMode
+public class AutonomousSimpleTest extends LinearOpMode
 {
 	ElapsedTime clock = new ElapsedTime();
 
@@ -57,8 +56,6 @@ public class Autonomous extends LinearOpMode
 		rescueLeft   = hardwareMap.servo.get("rql"  );
 		rescueRight  = hardwareMap.servo.get("rqr"  );
 
-		//gyro = hardwareMap.gyroSensor.get("gyro");
-
 		driveRight.setDirection(DcMotor.Direction.REVERSE);
 		rescueRight.setDirection(Servo.Direction.REVERSE);
 
@@ -73,39 +70,36 @@ public class Autonomous extends LinearOpMode
 		telemetry.addData("Flag: ", "0");
 		waitForStart();
 
+		telemetry.addData("loop: ", 0);
 		dropperBase.setPosition(0.25);
 		dropperJoint.setPosition(1.00);
 		telemetry.addData("Flag: ", "1");
 		telemetry.addData("tl: ", timeslooped);
 		//displayTelemetry();
 		//movePlow(true);
-		moveAll(0.85, 101.82);
-		telemetry.addData("tl: ", timeslooped);
-		waitOneFullHardwareCycle();
-		telemetry.addData("tl: ", timeslooped);
-		telemetry.addData("Flag: ", "2");
-		waitOneFullHardwareCycle();
-		telemetry.addData("Flag: ", "3");
-		waitOneFullHardwareCycle();
-		turnRight(0.85, 45); // Step 3
-		telemetry.addData("tl: ", timeslooped);
-		waitOneFullHardwareCycle();
-		telemetry.addData("Flag: ", "3.5");
-		waitOneFullHardwareCycle();
-		telemetry.addData("Flag: ", "4");
-		waitOneFullHardwareCycle();
-		moveAll(0.85, 24); // Step 4
-		waitOneFullHardwareCycle();
-		telemetry.addData("Flag: ", "5");
-		telemetry.addData("tl: ", timeslooped);
-		waitOneFullHardwareCycle();
-		moveAll(-0.85, -24); // Step 4
-		telemetry.addData("tl: ", timeslooped);
-		waitOneFullHardwareCycle();
-		while(opModeIsActive()) { waitOneFullHardwareCycle(); }
-		//wait(1000);
-		//moveAll(-0.85, 24);
-		//dump(); // Step 5
+		while(driveLeft.getTargetPosition() != 50000 && driveRight.getTargetPosition() != 50000 && driveLeft.getCurrentPosition() != 0 && driveRight.getCurrentPosition() != 0)
+		{
+			driveLeft.setTargetPosition(50000);
+			driveRight.setTargetPosition(50000);
+			driveLeft.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+			driveRight.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+			telemetry.addData("loop: ", 1);
+		}
+int testnum = 2;
+		do
+		{
+			driveLeft.setPower(0.85);
+			driveRight.setPower(0.85);
+			telemetry.addData("loop: ", testnum);
+			waitOneFullHardwareCycle();
+			testnum = 3;
+			telemetry.addData("loop: ", testnum);
+		}
+		while(driveLeft.getCurrentPosition() < 15972 && driveRight.getCurrentPosition() < 15972);
+
+		driveLeft.setPower(0);
+		driveRight.setPower(0);
+		telemetry.addData("loop: ", 4);
 	}
 
 	/*public double smooth(double input, double lastX[]) //todo: implement PI/PID
