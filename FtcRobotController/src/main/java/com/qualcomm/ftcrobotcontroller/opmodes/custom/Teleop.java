@@ -29,7 +29,7 @@ public class Teleop extends LinearOpMode
 	final float   DEADZONE              = 0.200f;
 	final double  TRIGGER_THRESHOLD     = 0.700 ;
 	final double  ROTATE_SPEED          = 0.850 ;
-	final double  DRIVE_SLOW_MULTIPLIER = 0.500 ;
+	final double  DRIVE_SLOW_MULTIPLIER = 0.200 ;
 	final double  EXTEND_SPEED          = 0.990 ;
 	final double  FORWARD_SPEED         = 0.900 ;
 	final double  BASE_SPEED            = 0.005 ;
