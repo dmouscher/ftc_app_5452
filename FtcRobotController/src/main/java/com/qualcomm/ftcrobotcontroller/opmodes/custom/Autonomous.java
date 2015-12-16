@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
+import java.lang.Math;
 
 
 /**
@@ -27,10 +28,12 @@ public class Autonomous extends LinearOpMode {
 	Servo rescueLeft;
 	Servo rescueRight;
 
+	final double TICKS_PER_DEGREE       = 2900/90.0 ;
+	final double TICKS_PER_INCH         = 1000/6.375;
+
 	@Override
 	public void runOpMode() throws InterruptedException
 	{
-		System.exit(0);
 		driveLeft  = hardwareMap.dcMotor.get("left" );
 		driveRight = hardwareMap.dcMotor.get("right");
 
@@ -49,6 +52,9 @@ public class Autonomous extends LinearOpMode {
 
 		driveLeft .setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 		driveRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+
+        driveLeft.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
+        driveRight.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
 
 		waitForStart();
 
