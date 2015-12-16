@@ -30,6 +30,7 @@ public class Autonomous_v2 extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException
     {
+        System.exit(0);
         driveLeft  = hardwareMap.dcMotor.get("left" );
         driveRight = hardwareMap.dcMotor.get("right");
 
@@ -54,8 +55,12 @@ public class Autonomous_v2 extends LinearOpMode {
         dropperBase .setPosition(0.25);
         dropperJoint.setPosition(1.00);
 
+        driveRight.setTargetPosition(1440);
+        driveLeft.setTargetPosition(1440);
+
         driveLeft.setPower(0.8);
         driveRight.setPower(0.8);
+
 
     }
 }
