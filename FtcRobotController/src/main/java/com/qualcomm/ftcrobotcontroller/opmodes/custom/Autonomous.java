@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.robocol.Telemetry;
 import com.qualcomm.robotcore.util.Range;
 import java.lang.Math;
 
@@ -47,26 +48,53 @@ public class Autonomous extends LinearOpMode {
 		rescueLeft   = hardwareMap.servo.get("rql"  );
 		rescueRight  = hardwareMap.servo.get("rqr"  );
 
-		driveRight.setDirection(DcMotor.Direction.REVERSE);
+		driveRight .setDirection(DcMotor.Direction.REVERSE);
 		rescueRight.setDirection(Servo.Direction.REVERSE);
 
 		driveLeft .setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 		driveRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 
-        driveLeft.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
+        driveLeft .setMode(DcMotorController.RunMode.RUN_TO_POSITION);
         driveRight.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
-
-		waitForStart();
 
 		dropperBase .setPosition(0.25);
 		dropperJoint.setPosition(1.00);
 
-		driveRight.setTargetPosition(1440);
-		driveLeft.setTargetPosition(1440);
+		waitForStart();
 
-		driveLeft.setPower(0.8);
-		driveRight.setPower(0.8);
+		telemetry.addData("Phase 1", "");
+		moveForward(1440, 0.8);
 
+		telemetry.addData("Phase 2", "");
+		turn(90, 0.8);
 
+		telemetry.addData("Phase 3", "");
+		moveForward(1440, 0.8);
+
+		telemetry.addData("Phase 4", "");
+		telemetry.addData("Encoder Pos: ", "L: " + driveLeft.getCurrentPosition() + ", R: " + driveRight.getCurrentPosition());
+
+	}
+
+	public void moveForward(int dist, double speed) throws InterruptedException
+	{
+		driveRight.setTargetPosition(driveRight.getCurrentPosition() + dist/**TICKS_PER_INCH*/);
+		driveLeft.setTargetPosition(driveLeft.getCurrentPosition() + dist/**TICKS_PER_INCH*/);
+
+		driveLeft .setPower(speed);
+		driveRight.setPower(speed);
+
+		Thread.sleep(1000);
+	}
+
+	public void turn(int deg, double speed) throws InterruptedException
+	{
+		driveLeft .setTargetPosition(driveLeft.getCurrentPosition() + (int)(-1*deg*TICKS_PER_DEGREE));
+		driveRight.setTargetPosition(driveRight.getCurrentPosition() + (int) (deg * TICKS_PER_DEGREE));
+
+		driveLeft .setPower(-1 * speed);
+		driveRight.setPower(speed);
+
+		Thread.sleep(1000);
 	}
 }
