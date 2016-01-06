@@ -27,7 +27,7 @@ public class GyroTestBot extends LinearOpMode {
 
     GyroSensor gyro;
 
-    final double TICKS_PER_DEGREE       = 2900/90.0 ;
+    final double TICKS_PER_DEGREE       = 2900/90.0 ; // Make sure we test these along with testing this program idk if we'll get to do it today
     final double TICKS_PER_INCH         = 1000/6.375;
 
     @Override
