@@ -121,8 +121,8 @@ public class Teleop extends LinearOpMode
 			}
 			else if(!gamepad2.dpad_right) { isDpadRightPrimed = true; }
 
-			rescueLeft .setPosition(isRescueLeftActive  ? 0.5 : 0.0);
-			rescueRight.setPosition(isRescueRightActive ? 1.0 : 0.5);
+			rescueLeft .setPosition(isRescueLeftActive  ? 0.7 : 0.0);
+			rescueRight.setPosition(isRescueRightActive ? 0.7 : 0.0);
 
 			if(TELEMETRY) //Shows which buttons are being used currently and which are not being used
 			{
