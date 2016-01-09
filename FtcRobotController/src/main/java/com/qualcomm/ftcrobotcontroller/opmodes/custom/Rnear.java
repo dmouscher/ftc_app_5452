@@ -35,5 +35,8 @@ public void runOpMode() throws InterruptedException
         telemetry.addData("Phase 1", "");
         moveForward(1440, 0.8, 1000);
 
+        telemetry.addData("Phase 2", ""); /* How do I turn 45 degrees left? */
+        turn(90 /* Change 90 to 45? */, 0.8, 1000);
+
         }
         }
