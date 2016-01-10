@@ -1,16 +1,16 @@
 package com.qualcomm.ftcrobotcontroller.opmodes.custom;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorController;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.robocol.Telemetry;
+import com.qualcomm.robotcore.util.Range;
+import java.lang.Math;
 /**
  * Created by jackiehirsch on 1/6/16.
  */
-public class Rnear {
-
-}
-
-{
-@Override
-public void runOpMode() throws InterruptedException
-        {
+public class Rnear extends LinearOpMode{
         DcMotor driveLeft;
         DcMotor driveRight;
 
@@ -24,19 +24,50 @@ public void runOpMode() throws InterruptedException
         Servo rescueLeft;
         Servo rescueRight;
 
-        motor = hardwareMap.dcMotor.get("motor");
+        final double TICKS_PER_DEGREE       = 2900/90.0 ;
+        final double TICKS_PER_INCH         = 1000/6.375;
 
-        motor.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+        @Override
+        public void runOpMode() throws InterruptedException {
+                driveLeft = hardwareMap.dcMotor.get("left");
+                driveRight = hardwareMap.dcMotor.get("right");
 
-        motor.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+                armRotate = hardwareMap.dcMotor.get("rotate");
+                armExtend = hardwareMap.dcMotor.get("extend");
 
-        waitForStart();
+                plow = hardwareMap.dcMotor.get("plow");
 
-        telemetry.addData("Phase 1", "");
-        moveForward(1440, 0.8, 1000);
+                dropperBase = hardwareMap.servo.get("base");
+                dropperJoint = hardwareMap.servo.get("joint");
+                rescueLeft = hardwareMap.servo.get("rql");
+                rescueRight = hardwareMap.servo.get("rqr");
 
-        telemetry.addData("Phase 2", ""); /* How do I turn 45 degrees left? */
-        turn(90 /* Change 90 to 45? */, 0.8, 1000);
+                driveRight.setDirection(DcMotor.Direction.REVERSE);
+                rescueRight.setDirection(Servo.Direction.REVERSE);
 
+                driveLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+                driveRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+
+                driveLeft.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
+                driveRight.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
+
+                dropperBase.setPosition(0.25);
+                dropperJoint.setPosition(1.00);
+
+                waitForStart();
+
+                moveForward((int)(TICKS_PER_INCH*12*0.45 /* 12 ft times the distance you want. */), 0.8, 1000);
         }
+
+        public void moveForward(int dist, double speed, int waitTime) throws InterruptedException // TODO: Make a system that calculates the amount of time the program should wait based on the input speed and the input distance. Why haven't done this yet? Well I want to get some refrence as to what we are using before trying and guessing
+        {
+                driveRight.setTargetPosition(driveRight.getCurrentPosition() + dist/**TICKS_PER_INCH*/);
+                driveLeft.setTargetPosition(driveLeft.getCurrentPosition() + dist/**TICKS_PER_INCH*/);
+
+                driveLeft .setPower(speed);
+                driveRight.setPower(speed);
+
+                Thread.sleep(waitTime);
         }
+}
+
