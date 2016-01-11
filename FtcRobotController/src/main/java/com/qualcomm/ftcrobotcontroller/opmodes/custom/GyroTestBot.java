@@ -67,25 +67,50 @@ public class GyroTestBot extends LinearOpMode {
         turn(90, 0.8);
     }
 
-    public void turn(int targetDeg, double speed) // + vals, right
-    {
-        int deg = 0; // the amount of degress turned
+    public void turn(int deg, double speed) throws InterruptedException // + vals, right
+    {                                                                   // NO VALUES BIGGER THAN 360
+        resetGyro();
 
-        driveRight.setPower(speed*(targetDeg == Math.abs(targetDeg)?-1:1)); // Make sure to test that this turns the right way
-        driveLeft.setPower(speed*(targetDeg == Math.abs(targetDeg)?1:-1));
 
-        while(Math.abs(targetDeg) >= Math.abs(deg))
+        if(deg == Math.abs(deg)) // If deg is positive
         {
-            deg += gyro.rawZ(); // So I have to idea what to put here, so I just quessed. Check telemetry when we run this for the variable the responds to turning the robot.
-                                // I'm also assuming that like the Lego gyro, this gyro returns values in degrees per second.
-
-            telemetry.addData("1. x", String.format("%03d", gyro.rawX())); // also try gyro.getRotation()to make sure that we are using the right variable to measure turning.
-            telemetry.addData("2. y", String.format("%03d", gyro.rawY())); // but I only think there are four lines for telemetry so I didn't bother adding another line
-            telemetry.addData("3. z", String.format("%03d", gyro.rawZ()));
-            telemetry.addData("4. h", String.format("%03d", gyro.getHeading()));
+            driveLeft.setPower(speed);
+            driveRight.setPower(speed*-1);
+            while(gyro.getHeading() > deg){waitOneFullHardwareCycle();}
         }
 
-        driveLeft.setPower(0);
-        driveRight.setPower(0);
+        else
+        {
+            driveLeft.setPower(speed*-1);
+            driveRight.setPower(speed);
+            while(gyro.getHeading() > 360-deg){waitOneFullHardwareCycle();}
+        }
+
+        /* Shorter but more untested
+
+        driveLeft .setPower(speed * (deg == Math.abs(deg) ? 1 : -1));
+        driveRight.setPower(speed*(deg == Math.abs(deg)?-1:1));
+        while(gyro.getHeading() > -1*((deg == Math.abs(deg)?-2*deg:-360)+deg)){waitOneFullHardwareCycle();}
+
+        */
+
+        halt();
+    }
+
+    public void halt() // break and stop were taken
+    {
+        do {
+            driveLeft.setPower(0);
+            driveRight.setPower(0);
+        }while(driveLeft.getPower() != 0 || driveRight.getPower() != 0);
+    }
+
+    public void resetGyro() throws InterruptedException
+    {
+        if(gyro.getHeading() != 0) //  can turn the if to a while in the case that this is not seeming to work
+        {
+            gyro.calibrate();
+            while(gyro.isCalibrating()) {Thread.sleep(50);}
+        }
     }
 }
