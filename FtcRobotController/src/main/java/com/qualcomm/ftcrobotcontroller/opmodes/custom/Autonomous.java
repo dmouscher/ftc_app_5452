@@ -29,8 +29,9 @@ public class Autonomous extends LinearOpMode {
 	Servo rescueLeft;
 	Servo rescueRight;
 
-	final double TICKS_PER_DEGREE       = 2900/90.0 ;
-	final double TICKS_PER_INCH         = 1000/6.375;
+	final double DEG       = 2900/90.0;
+	final double IN         = 144.796;
+	final double FT         = 12*IN;
 
 	@Override
 	public void runOpMode() throws InterruptedException
@@ -48,8 +49,9 @@ public class Autonomous extends LinearOpMode {
 		rescueLeft   = hardwareMap.servo.get("rql"  );
 		rescueRight  = hardwareMap.servo.get("rqr"  );
 
-		driveRight .setDirection(DcMotor.Direction.REVERSE);
+		driveRight.setDirection(DcMotor.Direction.REVERSE);
 		rescueRight.setDirection(Servo.Direction.REVERSE);
+		plow.setDirection(DcMotor.Direction.REVERSE);
 
 		driveLeft .setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 		driveRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
@@ -57,29 +59,39 @@ public class Autonomous extends LinearOpMode {
         driveLeft .setMode(DcMotorController.RunMode.RUN_TO_POSITION);
         driveRight.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
 
-		dropperBase .setPosition(0.25);
+		dropperBase .setPosition(0.10);
 		dropperJoint.setPosition(1.00);
+
+		rescueLeft .setPosition(0);
+		rescueRight.setPosition(0);
 
 		waitForStart();
 
-		telemetry.addData("Phase 1", "");
-		moveForward(1440, 0.8, 1000);
-
-		telemetry.addData("Phase 2", "");
-		turn(90, 0.8, 1000);
-
-		telemetry.addData("Phase 3", "");
-		moveForward(1440, 0.8, 1000);
-
-		telemetry.addData("Phase 4", "");
-		telemetry.addData("Encoder Pos: ", "L: " + driveLeft.getCurrentPosition() + ", R: " + driveRight.getCurrentPosition());
-
+		dropperBase.setPosition(0.25);
+		movePlow(0.75, 9500);
+		moveForward(2*FT, 0.7, 3000);
+		moveForward(-FT, -0.7, 1000);
+		turn(-45, -0.8, 3000);
+		moveForward(5 * Math.sqrt(2) * FT, 0.8, 7000);
+		turn(-65, -0.8, 3000);
+		moveForward(-5*IN, -0.7, 1000);
+		while(dropperBase.getPosition() < 0.7 && dropperJoint.getPosition() > 0)
+		{
+			if(dropperBase .getPosition() < 0.7) { dropperBase .setPosition(dropperBase.getPosition() + 0.01); }
+			if(dropperJoint.getPosition() > 0  ) { dropperJoint.setPosition(dropperJoint.getPosition() - 0.01); }
+			Thread.sleep(25);
+		}
+		Thread.sleep(600);
+		moveForward(-FT, -0.7, 1000);
+		//dropperBase.setPosition(0.1);
+		Thread.sleep(1000);
 	}
 
-	public void moveForward(int dist, double speed, int waitTime) throws InterruptedException // TODO: Make a system that calculates the amount of time the program should wait based on the input speed and the input distance. Why haven't done this yet? Well I want to get some refrence as to what we are using before trying and guessing
+	public void moveForward(double dist, double speed, int waitTime) throws InterruptedException // TODO: Make a system that calculates the amount of time the program should wait based on the input speed and the input distance. Why haven't done this yet? Well I want to get some refrence as to what we are using before trying and guessing
 	{
-		driveRight.setTargetPosition(driveRight.getCurrentPosition() + dist/**TICKS_PER_INCH*/);
-		driveLeft.setTargetPosition(driveLeft.getCurrentPosition() + dist/**TICKS_PER_INCH*/);
+		int idist = (int)dist;
+		driveRight.setTargetPosition(driveRight.getCurrentPosition() + idist/**TICKS_PER_INCH*/);
+		driveLeft.setTargetPosition(driveLeft.getCurrentPosition() + idist/**TICKS_PER_INCH*/);
 
 		driveLeft .setPower(speed);
 		driveRight.setPower(speed);
@@ -89,12 +101,19 @@ public class Autonomous extends LinearOpMode {
 
 	public void turn(int deg, double speed, int waitTime) throws InterruptedException
 	{
-		driveLeft .setTargetPosition(driveLeft.getCurrentPosition() + (int)(-1*deg*TICKS_PER_DEGREE));
-		driveRight.setTargetPosition(driveRight.getCurrentPosition() + (int) (deg * TICKS_PER_DEGREE));
+		driveLeft .setTargetPosition(driveLeft.getCurrentPosition() + (int)(-1*deg*DEG));
+		driveRight.setTargetPosition(driveRight.getCurrentPosition() + (int)(deg*DEG));
 
 		driveLeft .setPower(-1 * speed);
 		driveRight.setPower(speed);
 
 		Thread.sleep(waitTime);
+	}
+
+	public void movePlow(double speed, int waitTime) throws InterruptedException
+	{
+		plow.setPower(speed);
+		Thread.sleep(waitTime);
+		plow.setPower(0);
 	}
 }
