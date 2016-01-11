@@ -66,6 +66,8 @@ public class FtcOpModeRegister implements OpModeRegister
 		manager.register("Reset Encoders", ResetEncoders.class);
 		manager.register("Test the Encoders", EncoderRobotTest.class);
 		manager.register("Autonomous", Autonomous.class);
+		manager.register("Gryo Testing", GyroTestBot.class);
+		manager.register("Retract Plow",RetractPlow.class);
 		//manager.register("Encoder Speedtest", EncoderSpeedtest.class);
 		//manager.register("Jackie Skeleton", Jackie_Skeleton.class);
 		//manager.register("Servo Test", ServoTest.class);
