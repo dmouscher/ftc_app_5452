@@ -81,6 +81,7 @@ public class Rnear extends LinearOpMode {
                 driveRight.setPower(speed);
 
                 Thread.sleep(waitTime);
+
         }
 }
 
