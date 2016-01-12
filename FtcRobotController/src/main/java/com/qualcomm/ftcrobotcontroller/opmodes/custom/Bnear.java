@@ -85,6 +85,3 @@ public class Bnear extends LinearOpMode {
         Thread.sleep(waitTime);
     }
 }
-
-
-}
