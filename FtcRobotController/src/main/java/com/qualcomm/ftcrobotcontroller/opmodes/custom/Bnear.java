@@ -26,6 +26,7 @@ public class Bnear extends LinearOpMode {
     Servo rescueLeft;
     Servo rescueRight;
 
+    final double DEG       = 2900/90.0;
     final double TICKS_PER_DEGREE = 2900 / 90.0;
     final double TICKS_PER_INCH = 1000 / 6.375;
 
@@ -58,33 +59,42 @@ public class Bnear extends LinearOpMode {
 
         waitForStart();
 
+
+
         moveForward((int) (TICKS_PER_INCH*12*0.45 /* 12 ft times the distance you want. Also used 12 to turn inches into feet. */), 0.8, 1000);
         turn((int) (-45 * TICKS_PER_DEGREE), 0.8, 1000); // make sure this turns left
         moveForward((int)(TICKS_PER_INCH*12*6*Math.sqrt(2)), 0.8, 1000);
         turn((int) (-45 * TICKS_PER_DEGREE), 0.8,1000);
     }
 
-    public void moveForward(int dist, double speed, int waitTime) throws InterruptedException // TODO: Make a system that calculates the amount of time the program should wait based on the input speed and the input distance. Why haven't done this yet? Well I want to get some refrence as to what we are using before trying and guessing
+    public void moveForward(double dist, double speed, int waitTime) throws InterruptedException // TODO: Make a system that calculates the amount of time the program should wait based on the input speed and the input distance. Why haven't done this yet? Well I want to get some refrence as to what we are using before trying and guessing
     {
-        driveRight.setTargetPosition(driveRight.getCurrentPosition() + dist/**TICKS_PER_INCH*/);
-        driveLeft.setTargetPosition(driveLeft.getCurrentPosition() + dist/**TICKS_PER_INCH*/);
+        int idist = (int)dist;
+        driveRight.setTargetPosition(driveRight.getCurrentPosition() + idist/**TICKS_PER_INCH*/);
+        driveLeft.setTargetPosition(driveLeft.getCurrentPosition() + idist/**TICKS_PER_INCH*/);
 
-        driveLeft.setPower(speed);
+        driveLeft .setPower(speed);
         driveRight.setPower(speed);
 
         Thread.sleep(waitTime);
     }
 
-    public void turn(int deg, double speed, int waitTime) throws InterruptedException {
-        driveLeft.setTargetPosition(driveLeft.getCurrentPosition() + (int) -1 * deg );
-        driveRight.setTargetPosition(driveRight.getCurrentPosition() + (int) (deg));
+    public void turn(int deg, double speed, int waitTime) throws InterruptedException
+    {
+        driveLeft .setTargetPosition(driveLeft.getCurrentPosition() + (int) (-1 * deg * DEG));
+        driveRight.setTargetPosition(driveRight.getCurrentPosition() + (int)(deg*DEG));
 
-        driveLeft.setPower(-1 * speed);
+        driveLeft .setPower(-1 * speed);
         driveRight.setPower(speed);
 
         Thread.sleep(waitTime);
     }
-}
 
+    public void movePlow(double speed, int waitTime) throws InterruptedException
+    {
+        plow.setPower(speed);
+        Thread.sleep(waitTime);
+        plow.setPower(0);
+    }
 
 }
