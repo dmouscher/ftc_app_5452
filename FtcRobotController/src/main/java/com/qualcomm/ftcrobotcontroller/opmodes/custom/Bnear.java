@@ -89,15 +89,11 @@ public class Bnear extends LinearOpMode {
 
         Thread.sleep(waitTime);
     }
-<<<<<<< HEAD
-
+    
     public void movePlow(double speed, int waitTime) throws InterruptedException
     {
         plow.setPower(speed);
         Thread.sleep(waitTime);
         plow.setPower(0);
     }
-
-=======
->>>>>>> origin/master
 }
