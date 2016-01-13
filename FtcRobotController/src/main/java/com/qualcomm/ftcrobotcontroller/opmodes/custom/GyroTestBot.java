@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.GyroSensor;
+import com.qualcomm.robotcore.robocol.Telemetry;
+
 import java.lang.Math;
 
 
@@ -64,26 +66,39 @@ public class GyroTestBot extends LinearOpMode {
 
         waitForStart();
 
+		telemetry.addData("Phase 0","");
         turn(90, 0.8);
+		telemetry.addData("Phase 4", "");
     }
 
     public void turn(int deg, double speed) throws InterruptedException // + vals, right
-    {                                                                   // NO VALUES BIGGER THAN 360
+    {                                                                  // NO VALUES BIGGER THAN 360
+		telemetry.addData("Phase 1", "");
         resetGyro();
 
 
         if(deg == Math.abs(deg)) // If deg is positive
         {
+			telemetry.addData("Phase 2+", "");
             driveLeft.setPower(speed);
             driveRight.setPower(speed*-1);
-            while(gyro.getHeading() > deg){waitOneFullHardwareCycle();}
+            while(gyro.getHeading() > deg)
+            {
+				telemetry.addData("H: ", gyro.getHeading());
+                waitOneFullHardwareCycle();
+			}
         }
 
         else
         {
+			telemetry.addData("Phase 2-","");
             driveLeft.setPower(speed*-1);
             driveRight.setPower(speed);
-            while(gyro.getHeading() > 360-deg){waitOneFullHardwareCycle();}
+            while(gyro.getHeading() > 360-deg)
+			{
+				telemetry.addData("H: ", gyro.getHeading());
+				waitOneFullHardwareCycle();
+			}
         }
 
         /* Shorter but more untested
@@ -93,7 +108,7 @@ public class GyroTestBot extends LinearOpMode {
         while(gyro.getHeading() > -1*((deg == Math.abs(deg)?-2*deg:-360)+deg)){waitOneFullHardwareCycle();}
 
         */
-
+		telemetry.addData("Phase 3", "");
         halt();
     }
 
