@@ -27,9 +27,8 @@ public class Bnear extends LinearOpMode {
     Servo rescueRight;
 
     final double DEG       = 2900/90.0;
-    final double TICKS_PER_DEGREE = 2900 / 90.0;
-    final double TICKS_PER_INCH = 1000 / 6.375;
-
+    final double IN         = 144.796;
+    final double FT         = 12*IN;
     @Override
     public void runOpMode() throws InterruptedException {
         driveLeft = hardwareMap.dcMotor.get("left");
@@ -61,10 +60,11 @@ public class Bnear extends LinearOpMode {
 
 
 
-        moveForward((int) (TICKS_PER_INCH*12*0.45 /* 12 ft times the distance you want. Also used 12 to turn inches into feet. */), 0.8, 1000);
-        turn((int) (-45 * TICKS_PER_DEGREE), 0.8, 1000); // make sure this turns left
-        moveForward((int)(TICKS_PER_INCH*12*6*Math.sqrt(2)), 0.8, 1000);
-        turn((int) (-45 * TICKS_PER_DEGREE), 0.8,1000);
+        moveForward((int) (IN*12*0.45 /* 12 ft times the distance you want. Also used 12 to turn inches into feet. */), 0.8, 1000);
+        turn((int) (-45 * DEG), 0.8, 1000); // make sure this turns left
+        moveForward((int)(IN*12*6*Math.sqrt(2)), 0.8, 1000);
+        moveForward(-FT, -0.7, 1000);
+        turn((int) (-45 * DEG), 0.8,1000);
     }
 
     public void moveForward(double dist, double speed, int waitTime) throws InterruptedException // TODO: Make a system that calculates the amount of time the program should wait based on the input speed and the input distance. Why haven't done this yet? Well I want to get some refrence as to what we are using before trying and guessing
@@ -89,7 +89,6 @@ public class Bnear extends LinearOpMode {
 
         Thread.sleep(waitTime);
     }
-<<<<<<< HEAD
 
     public void movePlow(double speed, int waitTime) throws InterruptedException
     {
@@ -98,6 +97,4 @@ public class Bnear extends LinearOpMode {
         plow.setPower(0);
     }
 
-=======
->>>>>>> origin/master
 }
