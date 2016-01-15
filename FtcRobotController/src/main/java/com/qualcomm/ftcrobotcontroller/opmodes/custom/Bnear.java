@@ -60,11 +60,11 @@ public class Bnear extends LinearOpMode {
 
 
 
-        moveForward((int) (IN*12*0.45 /* 12 ft times the distance you want. Also used 12 to turn inches into feet. */), 0.8, 1000);
-        turn((int) (-45 * DEG), 0.8, 1000); // make sure this turns left
-        moveForward((int)(IN*12*6*Math.sqrt(2)), 0.8, 1000);
+        moveForward((int) (FT*0.45 /* 12 ft times the distance you want. Also used 12 to turn inches into feet. */), 0.8, 1000);
+        turn(-45, 0.8, 1000); // make sure this turns left
+        moveForward((int)(FT*6*Math.sqrt(2)), 0.8, 1000);
         moveForward(-FT, -0.7, 1000);
-        turn((int) (-45 * DEG), 0.8,1000);
+        turn(-45, 0.8, 1000);
     }
 
     public void moveForward(double dist, double speed, int waitTime) throws InterruptedException // TODO: Make a system that calculates the amount of time the program should wait based on the input speed and the input distance. Why haven't done this yet? Well I want to get some refrence as to what we are using before trying and guessing
@@ -75,7 +75,6 @@ public class Bnear extends LinearOpMode {
 
         driveLeft .setPower(speed);
         driveRight.setPower(speed);
-
         Thread.sleep(waitTime);
     }
 
