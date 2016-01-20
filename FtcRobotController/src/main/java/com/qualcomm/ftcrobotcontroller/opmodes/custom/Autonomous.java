@@ -69,21 +69,10 @@ public class Autonomous extends LinearOpMode {
 
 		dropperBase.setPosition(0.25);
 		movePlow(0.75, 9500);
-		moveForward(2*FT, 0.7, 3000);
-		moveForward(-FT, -0.7, 1000);
-		turn(-45, -0.8, 3000);
-		moveForward(5*Math.sqrt(2)*FT - 4*IN, 0.8, 7000);
-		turn(-58, -0.8, 3000);
-		moveForward(-4*IN, -0.7, 1000);
-		while(dropperBase.getPosition() < 0.8 && dropperJoint.getPosition() > 0)
-		{
-			if(dropperBase .getPosition() < 0.8) { dropperBase .setPosition(dropperBase.getPosition() + 0.01); }
-			if(dropperJoint.getPosition() > 0  ) { dropperJoint.setPosition(dropperJoint.getPosition() - 0.01); }
-			Thread.sleep(25);
-		}
-		Thread.sleep(600);
-		moveForward(-FT, -0.7, 1000);
-		moveForward(FT, 0.7, 1000);
+		moveForward(5.7 * FT, 0.7, 5000);
+		turn(-60, 0.7, 2000);
+		moveForward(FT, 0.7, 10000);
+		//moveForward(FT, 0.7, 1000);
 		//dropperBase.setPosition(0.1);
 		Thread.sleep(1000);
 	}

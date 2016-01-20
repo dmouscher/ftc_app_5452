@@ -56,8 +56,8 @@ public class GyroTestBot extends LinearOpMode {
         driveLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         driveRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 
-        driveLeft.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
-        driveRight.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
+        //driveLeft.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
+        //driveRight.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
 
         while(gyro.isCalibrating()){Thread.sleep(50);} // I put this here so that we know that the gyro is done calibrating if the servos set to their starting positions
 
@@ -66,50 +66,41 @@ public class GyroTestBot extends LinearOpMode {
 
         waitForStart();
 
-		telemetry.addData("Phase 0","");
+        telemetry.addData("Phase 0","");
         turn(90, 0.8);
-		telemetry.addData("Phase 4", "");
+        telemetry.addData("Phase 4", "");
     }
 
     public void turn(int deg, double speed) throws InterruptedException // + vals, right
     {                                                                  // NO VALUES BIGGER THAN 360
-		telemetry.addData("Phase 1", "");
+        //telemetry.addData("Phase 1", "");
         resetGyro();
+        //gyro.resetZAxisIntegrator(); // Not sure if this will work
+		deg *= 0.9; // Idk im just trying stuff here
 
-
-        if(deg == Math.abs(deg)) // If deg is positive
+        if(deg > 0) // If deg is positive
         {
-			telemetry.addData("Phase 2+", "");
-            driveLeft.setPower(speed);
-            driveRight.setPower(speed*-1);
-            while(gyro.getHeading() > deg)
-            {
-				telemetry.addData("H: ", gyro.getHeading());
-                waitOneFullHardwareCycle();
-			}
+            //telemetry.addData("Phase 2+", "");
+			driveLeft.setPower(speed*-1);
+			driveRight.setPower(speed);
+            do{
+                telemetry.addData("H: ", gyro.getHeading());
+                //waitOneFullHardwareCycle();
+            }while(gyro.getHeading() < deg || gyro.getHeading() > 350); // 350 is  a place holder value because I havent found an efficient way to make the gyro reset in a time efficient manner
         }
 
         else
         {
-			telemetry.addData("Phase 2-","");
-            driveLeft.setPower(speed*-1);
-            driveRight.setPower(speed);
-            while(gyro.getHeading() > 360-deg)
-			{
-				telemetry.addData("H: ", gyro.getHeading());
-				waitOneFullHardwareCycle();
-			}
+            //telemetry.addData("Phase 2-","");
+            driveLeft.setPower(speed);
+            driveRight.setPower(speed*-1);
+            do
+            {
+                telemetry.addData("H: ", gyro.getHeading());
+            }while(gyro.getHeading() > 360-deg || gyro.getHeading() == 0);
         }
-
-        /* Shorter but more untested
-
-        driveLeft .setPower(speed * (deg == Math.abs(deg) ? 1 : -1));
-        driveRight.setPower(speed*(deg == Math.abs(deg)?-1:1));
-        while(gyro.getHeading() > -1*((deg == Math.abs(deg)?-2*deg:-360)+deg)){waitOneFullHardwareCycle();}
-
-        */
-		telemetry.addData("Phase 3", "");
-        halt();
+        //telemetry.addData("Phase 3", "");
+        //halt();
     }
 
     public void halt() // break and stop were taken
