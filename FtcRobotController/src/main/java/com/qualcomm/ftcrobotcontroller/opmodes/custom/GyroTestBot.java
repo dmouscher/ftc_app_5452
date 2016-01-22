@@ -1,3 +1,6 @@
+// Op mode used for testing the gyro sensor
+// Warning: As this is a testing op mode, the code is very messy
+
 package com.qualcomm.ftcrobotcontroller.opmodes.custom;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -13,7 +16,8 @@ import java.lang.Math;
 /**
  * Created by mlowery2 on 12/16/2015.
  */
-public class GyroTestBot extends LinearOpMode {
+public class GyroTestBot extends LinearOpMode
+{
     DcMotor driveLeft;
     DcMotor driveRight;
 
@@ -59,8 +63,8 @@ public class GyroTestBot extends LinearOpMode {
         //driveLeft.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
         //driveRight.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
 
-        while(gyro.isCalibrating()){Thread.sleep(50);} // I put this here so that we know that the gyro is done calibrating if the servos set to their starting positions
-
+        while(gyro.isCalibrating()){Thread.sleep(50);} // I put this here so that we know that the gyro is done calibrating
+                                                       // if the servos set to their starting position
         dropperBase.setPosition(0.25);
         dropperJoint.setPosition(1.00);
 
@@ -72,7 +76,7 @@ public class GyroTestBot extends LinearOpMode {
     }
 
     public void turn(int deg, double speed) throws InterruptedException // + vals, right
-    {                                                                  // NO VALUES BIGGER THAN 360
+    {                                                                   // NO VALUES BIGGER THAN 360
         //telemetry.addData("Phase 1", "");
         resetGyro();
         //gyro.resetZAxisIntegrator(); // Not sure if this will work
@@ -83,11 +87,12 @@ public class GyroTestBot extends LinearOpMode {
             //telemetry.addData("Phase 2+", "");
 			driveLeft.setPower(speed*-1);
 			driveRight.setPower(speed);
-            do{
+            do
+            {
                 telemetry.addData("H: ", gyro.getHeading());
                 //waitOneFullHardwareCycle();
-            }while(gyro.getHeading() < deg || gyro.getHeading() > 350); // 350 is  a place holder value because I havent found an efficient way to make the gyro reset in a time efficient manner
-        }
+            }while(gyro.getHeading() < deg || gyro.getHeading() > 350); // 350 is a placeholder value because I haven't found
+        }                                                               // an efficient way to make the gyro reset in a time efficient manner
 
         else
         {

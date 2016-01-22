@@ -1,3 +1,5 @@
+// DFNR = Dump from Floor, Near, Red
+
 package com.qualcomm.ftcrobotcontroller.opmodes.custom;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -29,9 +31,9 @@ public class DFNR extends LinearOpMode {
 	Servo rescueLeft;
 	Servo rescueRight;
 
-	final double DEG       = 2900/90.0;
-	final double IN         = 144.796;
-	final double FT         = 12*IN;
+	final double DEG       = 2900/90.0; // short for "degree"
+	final double IN         = 144.796;  // short for "inch"
+	final double FT         = 12*IN;    // short for "foot"
 
 	@Override
 	public void runOpMode() throws InterruptedException
@@ -67,43 +69,46 @@ public class DFNR extends LinearOpMode {
 
 		waitForStart();
 
-		dropperBase.setPosition(0.25);
-		movePlow(0.75, 9500);
-		moveForward(5.7 * FT, 0.7, 5000);
-		turn(-20, 0.7, 2000);
-		moveForward(FT, 0.7, 10000);
+		dropperBase.setPosition(0.25);    // Raise up the climber-dropper
+		movePlow(0.75, 9500);             // Extend the plow
+		moveForward(5.7 * FT, 0.7, 5000); // Move forward 5.7 feet
+		turn(-20, 0.7, 2000);             // Turn left 20 degrees
+		moveForward(FT, 0.7, 10000);      // Move forward one foot
 		//moveForward(FT, 0.7, 1000);
-		//dropperBase.setPosition(0.1);
+		//dropperBase.setPosition(0.1);   // Dump
 		Thread.sleep(1000);
 	}
 
-	public void moveForward(double dist, double speed, int waitTime) throws InterruptedException // TODO: Make a system that calculates the amount of time the program should wait based on the input speed and the input distance. Why haven't done this yet? Well I want to get some refrence as to what we are using before trying and guessing
-	{
-		int idist = (int)dist;
-		driveRight.setTargetPosition(driveRight.getCurrentPosition() + idist/**TICKS_PER_INCH*/);
-		driveLeft.setTargetPosition(driveLeft.getCurrentPosition() + idist/**TICKS_PER_INCH*/);
+	// TODO: Shunt the custom autonomous methods into their own file so they don't have to be implemented like eight times
 
-		driveLeft .setPower(speed);
+	public void moveForward(double dist, double speed, int waitTime) throws InterruptedException // TODO: Make a system that calculates
+	{                                                                                            // TODO: the amount of time the program
+		int idist = (int)dist;                                                                   // TODO: should wait based dist and speed.
+		driveRight.setTargetPosition(driveRight.getCurrentPosition() + idist/**TICKS_PER_INCH*/); // Increase the target position
+		driveLeft.setTargetPosition(driveLeft.getCurrentPosition() + idist/**TICKS_PER_INCH*/);   // These should reset the encoders but
+		// we add the current position value as a precaution
+		driveLeft .setPower(speed); // Runs the motors
 		driveRight.setPower(speed);
 
-		Thread.sleep(waitTime);
-	}
+		Thread.sleep(waitTime); // Waits for the motors to finish the set amount of time
+	}                           // Setting waitTime to too short will halt the movement early, but setting it for too long will cause
+								// the robot to stay in place, wasting time
 
-	public void turn(int deg, double speed, int waitTime) throws InterruptedException
+	public void turn(int deg, double speed, int waitTime) throws InterruptedException // Positive deg = right turn, negative deg = left turn
 	{
-		driveLeft .setTargetPosition(driveLeft.getCurrentPosition() + (int)(-1*deg*DEG));
+		driveLeft .setTargetPosition(driveLeft.getCurrentPosition() + (int)(-1*deg*DEG)); // Reverse left motors' target position
 		driveRight.setTargetPosition(driveRight.getCurrentPosition() + (int)(deg*DEG));
 
-		driveLeft .setPower(-1 * speed);
+		driveLeft .setPower(-1 * speed); // Reverse left motors' speed
 		driveRight.setPower(speed);
 
 		Thread.sleep(waitTime);
 	}
 
-	public void movePlow(double speed, int waitTime) throws InterruptedException
+	public void movePlow(double speed, int waitTime) throws InterruptedException //Encoders aren't working on the plow, so this is purely time-based
 	{
-		plow.setPower(speed);
-		Thread.sleep(waitTime);
-		plow.setPower(0);
+		plow.setPower(speed);   //Starts plow
+		Thread.sleep(waitTime); //Waits a bit
+		plow.setPower(0);       //Stops plow
 	}
 }

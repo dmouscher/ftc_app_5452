@@ -1,3 +1,6 @@
+// We were having some trouble resetting our encoders through methods in other op modes, so we created this one.
+// Reset Encoders resets the drivetrain's encoders. That's it.
+
 package com.qualcomm.ftcrobotcontroller.opmodes.custom;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -42,9 +45,7 @@ public class ResetEncoders extends OpMode
 	}
 
 	@Override
-	public void start()
-	{
-	}
+	public void start() {}
 
 	@Override
 	public void loop()
@@ -54,7 +55,5 @@ public class ResetEncoders extends OpMode
 	}
 
 	@Override
-	public void stop()
-	{
-	}
+	public void stop() {}
 }

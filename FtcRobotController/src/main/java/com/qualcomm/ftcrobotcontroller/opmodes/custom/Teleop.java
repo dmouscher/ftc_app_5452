@@ -91,7 +91,7 @@ public class Teleop extends LinearOpMode
 			if     (gamepad2.dpad_up  ) { armRotate.setPower( ROTATE_SPEED); } //gamepad2.dpad_up/down angles the arm up/down
 			else if(gamepad2.dpad_down) { armRotate.setPower(-ROTATE_SPEED); }
 			else                        { armRotate.setPower( 0           ); }
-
+			//       ^ = XOR operator
 			if(gamepad2.y ^ gamepad2.b) { armExtend.setPower(EXTEND_SPEED * (gamepad2.y ? 1 : -1)); } //todo: readd comments for printout
 			else { armExtend.setPower(0); } //todo: add an encoder limit for this conditional
 
@@ -101,23 +101,23 @@ public class Teleop extends LinearOpMode
 			if(gamepad1.y ^ gamepad1.b) //gamepad1.y moves the robot straight and forwards, gamepad1.b moves it straight and backwards
 				runAllMotors(FORWARD_SPEED * driveSlowMultiplier * (gamepad1.b ? 1 : -1));
 
-			if(gamepad2.left_bumper ^ isTriggered(2, Direction.LEFT)) //gamepad2.left_bumper extends the base servo, gamepad2.left_trigger retracts it
+			if(gamepad2.left_bumper ^ isTriggered(2, Direction.LEFT)) //gamepad2.left_bumper extends the base servo, left_trigger retracts it
 				dropperBase.setPosition(Range.clip(dropperBase.getPosition() + BASE_SPEED * (gamepad2.left_bumper ? 1 : -1), 0.125, 1));
 
-			if(gamepad2.right_bumper ^ isTriggered(2, Direction.RIGHT)) //gamepad2.right_bumper extends the joint servo, gamepad2.right_trigger retracts it
+			if(gamepad2.right_bumper ^ isTriggered(2, Direction.RIGHT)) //gamepad2.right_bumper extends the joint servo, right_trigger retracts it
 				dropperJoint.setPosition(Range.clip(dropperJoint.getPosition() + JOINT_SPEED * (gamepad2.right_bumper ? 1 : -1), 0, 1));
 
-			if(gamepad2.dpad_left && isDpadLeftPrimed)
+			if(gamepad2.dpad_left && isDpadLeftPrimed) //Makes it so that trigger happens only on button press, not continuously
 			{
 				isDpadLeftPrimed = false;
-				isRescueLeftActive ^= true;
+				isRescueLeftActive ^= true; //toggles isRescueLeftActive
 			}
 			else if(!gamepad2.dpad_left) { isDpadLeftPrimed = true; }
 
 			if(gamepad2.dpad_right && isDpadRightPrimed)
 			{
 				isDpadRightPrimed = false;
-				isRescueRightActive ^= true;
+				isRescueRightActive ^= true; //toggles isRescueLeftActive
 			}
 			else if(!gamepad2.dpad_right) { isDpadRightPrimed = true; }
 

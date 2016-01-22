@@ -1,3 +1,6 @@
+// Retracts the plow until it is manually stopped
+// TODO: Refactor the code; most of it is unnecessary
+
 package com.qualcomm.ftcrobotcontroller.opmodes.custom;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -63,29 +66,7 @@ public class RetractPlow extends LinearOpMode {
 
 		plow.setDirection(DcMotor.Direction.REVERSE);
 		waitForStart();
-
-		//rn
-		/*
-		moveForward(2*FT, 0.7, 3000);
-		moveForward(-FT, -0.7, 1000);
-		turn(-45, -0.8, 3000);
-		moveForward(5 * Math.sqrt(2)*FT, 0.8, 10000);
-		turn(-60, -0.8, 3000);
-		*/
 		movePlow(-5000, -0.7, 10000);
-
-	}
-
-	public void moveForward(double dist, double speed, int waitTime) throws InterruptedException // TODO: Make a system that calculates the amount of time the program should wait based on the input speed and the input distance. Why haven't done this yet? Well I want to get some refrence as to what we are using before trying and guessing
-	{
-		int idist = (int)dist;
-		driveRight.setTargetPosition(driveRight.getCurrentPosition() + idist/**TICKS_PER_INCH*/);
-		driveLeft.setTargetPosition(driveLeft.getCurrentPosition() + idist/**TICKS_PER_INCH*/);
-
-		driveLeft .setPower(speed);
-		driveRight.setPower(speed);
-
-		Thread.sleep(waitTime);
 	}
 
 	public void turn(int deg, double speed, int waitTime) throws InterruptedException
