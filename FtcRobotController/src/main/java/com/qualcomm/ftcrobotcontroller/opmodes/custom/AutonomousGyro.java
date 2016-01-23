@@ -105,42 +105,18 @@ public class AutonomousGyro extends LinearOpMode {
 		Thread.sleep(waitTime);
 	}
 
-	public void turn(int deg, double speed) throws InterruptedException // deg > 0 for right, deg < 0 for left
+	public void turn(int heading, double speed) throws InterruptedException // deg > 0 for right, deg < 0 for left
 	{                                                                   // NO VALUES LARGER THAN 360
 		driveLeft .setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 		driveRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-
 		resetGyro();
-		//gyro.resetZAxisIntegrator(); // Not sure if this will work
-		deg *= 0.9; // Idk im just trying stuff here
-
-		if(deg > 0) // If deg is positive
-		{
-			//telemetry.addData("Phase 2+", "");
-			driveLeft.setPower(speed*-1);
-			driveRight.setPower(speed);
-			do{
-				telemetry.addData("H: ", gyro.getHeading());
-				//waitOneFullHardwareCycle();
-			}while(gyro.getHeading() < deg || gyro.getHeading() > 350); // 350 is  a place holder value because I havent found an efficient way to make the gyro reset in a time efficient manner
+	
+		while(error > 2){
+			current_heading = gyro.getHeading()
+			error = current_heading - heading
+			driverLeft.setPower(-1*error)
+			driverRight.setPower(error)
 		}
-
-		else
-		{
-			//telemetry.addData("Phase 2-","");
-			driveLeft.setPower(speed);
-			driveRight.setPower(speed*-1);
-			do
-			{
-				telemetry.addData("H: ", gyro.getHeading());
-			}while(gyro.getHeading() > 360-deg || gyro.getHeading() == 0);
-		}
-
-		driveLeft .setMode(DcMotorController.RunMode.RUN_TO_POSITION);
-		driveRight.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
-
-		//telemetry.addData("Phase 3", "");
-		//halt();
 	}
 
 	public void halt() // break and stop were taken
