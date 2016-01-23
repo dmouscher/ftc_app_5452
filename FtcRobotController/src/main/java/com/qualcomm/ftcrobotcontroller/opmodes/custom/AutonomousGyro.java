@@ -11,7 +11,7 @@ import java.lang.Math;
 
 
 /**
-* Created by ur mum on 12/14/15.
+* Created by u mad bro 12/14/15.
 		*/
 public class AutonomousGyro extends LinearOpMode {
 
