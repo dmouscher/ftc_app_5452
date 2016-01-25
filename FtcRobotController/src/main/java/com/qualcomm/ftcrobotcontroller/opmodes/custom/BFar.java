@@ -30,7 +30,7 @@ public class BFar extends LinearOpMode {
     DcMotor plow;
 
     Servo dropperBase;
-    Servo dropperJoint;
+
     Servo rescueLeft;
     Servo rescueRight;
 

@@ -22,7 +22,7 @@ public class TeleopNoA extends LinearOpMode
 	DcMotor plow;
 
 	Servo dropperBase;
-	Servo dropperJoint;
+
 	Servo rescueLeft;
 	Servo rescueRight;
 
@@ -58,7 +58,7 @@ public class TeleopNoA extends LinearOpMode
 		plow = hardwareMap.dcMotor.get("plow");
 
 		dropperBase  = hardwareMap.servo.get("base" );
-		dropperJoint = hardwareMap.servo.get("joint");
+
 		rescueLeft   = hardwareMap.servo.get("rql"  );
 		rescueRight  = hardwareMap.servo.get("rqr"  );
 
@@ -80,7 +80,6 @@ public class TeleopNoA extends LinearOpMode
         ES.start();
 
 		dropperBase .setPosition(0.518);
-		dropperJoint.setPosition(1.00);
 
 		while(opModeIsActive())
 		{
@@ -105,9 +104,6 @@ public class TeleopNoA extends LinearOpMode
 
 			if(gamepad2.left_bumper ^ isTriggered(2, Direction.LEFT)) //gamepad2.left_bumper extends the base servo, left_trigger retracts it
 				dropperBase.setPosition(Range.clip(dropperBase.getPosition() + BASE_SPEED * (gamepad2.left_bumper ? 1 : -1), 0.2, 1));
-
-			if(gamepad2.right_bumper ^ isTriggered(2, Direction.RIGHT)) //gamepad2.right_bumper extends the joint servo, right_trigger retracts it
-				dropperJoint.setPosition(Range.clip(dropperJoint.getPosition() + JOINT_SPEED * (gamepad2.right_bumper ? 1 : -1), 0, 1));
 
 			if(gamepad2.dpad_left && isDpadLeftPrimed) //Makes it so that trigger happens only on button press, not continuously
 			{

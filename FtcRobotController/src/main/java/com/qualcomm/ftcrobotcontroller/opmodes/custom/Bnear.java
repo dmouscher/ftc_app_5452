@@ -22,7 +22,7 @@ public class Bnear extends LinearOpMode {
     DcMotor plow;
 
     Servo dropperBase;
-    Servo dropperJoint;
+
     Servo rescueLeft;
     Servo rescueRight;
 
@@ -40,7 +40,7 @@ public class Bnear extends LinearOpMode {
         plow = hardwareMap.dcMotor.get("plow");
 
         dropperBase = hardwareMap.servo.get("base");
-        dropperJoint = hardwareMap.servo.get("joint");
+
         rescueLeft = hardwareMap.servo.get("rql");
         rescueRight = hardwareMap.servo.get("rqr");
 
@@ -54,7 +54,6 @@ public class Bnear extends LinearOpMode {
         driveRight.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
 
         dropperBase.setPosition(0.25);
-        dropperJoint.setPosition(1.00);
 
         waitForStart();
 

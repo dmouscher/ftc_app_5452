@@ -28,7 +28,7 @@ public class AutonomousGyro extends LinearOpMode {
 	GyroSensor gyro;
 
 	Servo dropperBase;
-	Servo dropperJoint;
+
 	Servo rescueLeft;
 	Servo rescueRight;
 
@@ -48,7 +48,6 @@ public class AutonomousGyro extends LinearOpMode {
 		plow = hardwareMap.dcMotor.get("plow");
 
 		dropperBase  = hardwareMap.servo.get("base" );
-		dropperJoint = hardwareMap.servo.get("joint");
 		rescueLeft   = hardwareMap.servo.get("rql"  );
 		rescueRight  = hardwareMap.servo.get("rqr"  );
 
@@ -65,7 +64,6 @@ public class AutonomousGyro extends LinearOpMode {
 		driveRight.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
 
 		dropperBase .setPosition(0.10);
-		dropperJoint.setPosition(1.00);
 
 		rescueLeft .setPosition(0);
 		rescueRight.setPosition(0);
@@ -80,10 +78,9 @@ public class AutonomousGyro extends LinearOpMode {
 		moveForward(5*Math.sqrt(2)*FT - 4*IN, 0.8, 7000);
 		turn(58, 0.8);
 		moveForward(-4*IN, -0.7, 1000);
-		while(dropperBase.getPosition() < 0.8 && dropperJoint.getPosition() > 0)
+		while(dropperBase.getPosition() < 0.8)
 		{
 			if(dropperBase .getPosition() < 0.8) { dropperBase .setPosition(dropperBase.getPosition() + 0.01); }
-			if(dropperJoint.getPosition() > 0  ) { dropperJoint.setPosition(dropperJoint.getPosition() - 0.01); }
 			Thread.sleep(25);
 		}
 		Thread.sleep(600);

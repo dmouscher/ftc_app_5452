@@ -27,7 +27,7 @@ public class GyroTestBot extends LinearOpMode
     DcMotor plow;
 
     Servo dropperBase;
-    Servo dropperJoint;
+
     Servo rescueLeft;
     Servo rescueRight;
 
@@ -47,7 +47,7 @@ public class GyroTestBot extends LinearOpMode
         plow = hardwareMap.dcMotor.get("plow");
 
         dropperBase = hardwareMap.servo.get("base");
-        dropperJoint = hardwareMap.servo.get("joint");
+
         rescueLeft = hardwareMap.servo.get("rql");
         rescueRight = hardwareMap.servo.get("rqr");
 
@@ -66,7 +66,6 @@ public class GyroTestBot extends LinearOpMode
         while(gyro.isCalibrating()){Thread.sleep(50);} // I put this here so that we know that the gyro is done calibrating
                                                        // if the servos set to their starting position
         dropperBase.setPosition(0.25);
-        dropperJoint.setPosition(1.00);
 
         waitForStart();
 

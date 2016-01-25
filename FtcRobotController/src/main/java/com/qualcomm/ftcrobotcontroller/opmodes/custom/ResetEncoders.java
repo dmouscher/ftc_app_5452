@@ -20,7 +20,7 @@ public class ResetEncoders extends OpMode
 	DcMotor plow;
 
 	Servo dropperBase;
-	Servo dropperJoint;
+
 	Servo rescueLeft;
 	Servo rescueRight;
 
@@ -36,7 +36,7 @@ public class ResetEncoders extends OpMode
 		plow = hardwareMap.dcMotor.get("plow");
 
 		dropperBase  = hardwareMap.servo.get("base" );
-		dropperJoint = hardwareMap.servo.get("joint");
+
 		rescueLeft   = hardwareMap.servo.get("rql"  );
 		rescueRight  = hardwareMap.servo.get("rqr"  );
 
