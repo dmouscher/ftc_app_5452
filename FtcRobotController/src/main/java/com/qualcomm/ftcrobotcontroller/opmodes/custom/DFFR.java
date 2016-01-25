@@ -59,7 +59,7 @@ public class DFFR extends LinearOpMode {
 		driveLeft .setMode(DcMotorController.RunMode.RUN_TO_POSITION);
 		driveRight.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
 
-		dropperBase .setPosition(0.10);
+		dropperBase .setPosition(0.267);
 		dropperJoint.setPosition(1);
 
 		rescueLeft .setPosition(0);
@@ -67,7 +67,7 @@ public class DFFR extends LinearOpMode {
 
 		waitForStart();
 
-		dropperBase.setPosition(0.25);  // Raise up the climber-dropper
+		dropperBase.setPosition(0.518);   // Raise up the climber-dropper
 		movePlow(0.75, 9500);           // Extend the plow
 		moveForward(8 * FT, 0.7, 5000); // Move forwards 8 feet
 		turn(-20, 0.7, 3000);           // Turn 20 degrees left

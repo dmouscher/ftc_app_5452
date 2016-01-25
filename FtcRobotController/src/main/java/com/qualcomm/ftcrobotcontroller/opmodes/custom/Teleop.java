@@ -73,11 +73,13 @@ public class Teleop extends LinearOpMode
 
 		EncoderSpeed ES = new EncoderSpeed(driveLeft, driveRight);
 
+		dropperBase .setPosition(0.518);
+
         waitForStart();
 
         ES.start();
 
-		dropperBase .setPosition(0.25);
+
 		dropperJoint.setPosition(1.00);
 
 		while(opModeIsActive())
@@ -102,7 +104,7 @@ public class Teleop extends LinearOpMode
 				runAllMotors(FORWARD_SPEED * driveSlowMultiplier * (gamepad1.b ? 1 : -1));
 
 			if(gamepad2.left_bumper ^ isTriggered(2, Direction.LEFT)) //gamepad2.left_bumper extends the base servo, left_trigger retracts it
-				dropperBase.setPosition(Range.clip(dropperBase.getPosition() + BASE_SPEED * (gamepad2.left_bumper ? 1 : -1), 0.125, 1));
+				dropperBase.setPosition(Range.clip(dropperBase.getPosition() + BASE_SPEED * (gamepad2.left_bumper ? 1 : -1), 0.2, 1));
 
 			if(gamepad2.right_bumper ^ isTriggered(2, Direction.RIGHT)) //gamepad2.right_bumper extends the joint servo, right_trigger retracts it
 				dropperJoint.setPosition(Range.clip(dropperJoint.getPosition() + JOINT_SPEED * (gamepad2.right_bumper ? 1 : -1), 0, 1));
@@ -121,11 +123,12 @@ public class Teleop extends LinearOpMode
 			}
 			else if(!gamepad2.dpad_right) { isDpadRightPrimed = true; }
 
-			rescueLeft .setPosition(isRescueLeftActive  ? 0.7 : 0.0);
-			rescueRight.setPosition(isRescueRightActive ? 0.7 : 0.0);
+			rescueLeft .setPosition(isRescueLeftActive  ? 0.850 : 0.0);
+			rescueRight.setPosition(isRescueRightActive ? 0.775 : 0.0);
 
 			if(TELEMETRY) //Shows which buttons are being used currently and which are not being used
 			{
+				telemetry.addData("Base servo", dropperBase.getPosition());
 				telemetry.addData("Joysticks", gamepad1.left_stick_y + ", " + gamepad1.right_stick_y);
 
 				telemetry.addData("Buttons 1", (gamepad1.y           ? "[1Y] "  : "") + (gamepad1.b            ? "[1B] "  : "") +
