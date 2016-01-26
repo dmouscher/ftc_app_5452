@@ -1,11 +1,11 @@
 package com.qualcomm.ftcrobotcontroller.opmodes.custom;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
-public class LinearSkeleton extends LinearOpMode
+public class LinearSkeleton extends LinearBase
 {
 	@Override
 	public void runOpMode() throws InterruptedException
 	{
+		initalize();
+        waitForStart();
 	}
 }

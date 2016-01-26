@@ -42,6 +42,8 @@ public class LinearBase extends LinearOpMode
 		rescueLeft  = hardwareMap.servo.get("rql" );
 		rescueRight = hardwareMap.servo.get("rqr" );
 
+		//gyro = hardwareMap.gyroSensor.get("gyro"); // uncomment if you are using the gyro
+
 		driveRight .setDirection(DcMotor.Direction.REVERSE);
 		rescueRight.setDirection(Servo  .Direction.REVERSE);
 		plow       .setDirection(DcMotor.Direction.REVERSE);
@@ -53,7 +55,21 @@ public class LinearBase extends LinearOpMode
 		driveRight.setMode(mode);
 	}
 
-	public void moveForward(double dist, double speed, int waitTime) throws InterruptedException // TODO: Make a system that calculates the amount of time the program should wait based on the input speed and the input distance. Why haven't done this yet? Well I want to get some refrence as to what we are using before trying and guessing
+    public void resetServos()
+    {
+        dropperBase .setPosition(0.267);
+        rescueLeft .setPosition(0);
+        rescueRight.setPosition(0);
+    }
+
+    public void initalize()
+    {
+        mapHardware();
+        drivetrainSetMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        resetServos();
+    }
+
+	public void moveTarget(double dist, double speed, int waitTime) throws InterruptedException // TODO: Make a system that calculates the amount of time the program should wait based on the input speed and the input distance. Why haven't done this yet? Well I want to get some refrence as to what we are using before trying and guessing
 	{
 		int idist = (int)dist;
 
@@ -65,11 +81,25 @@ public class LinearBase extends LinearOpMode
 
 		Thread.sleep(waitTime);
 	}
+    public void moveEn(int dist, double speed) throws InterruptedException // Test this
+    {
+        int startingLeft = driveLeft.getCurrentPosition();
+        int startingRight = driveRight.getCurrentPosition();
+
+        driveLeft.setPower(speed);
+        driveRight.setPower(speed);
+
+        while(driveLeft.getCurrentPosition() - startingLeft < dist || driveRight.getCurrentPosition() - startingRight < dist)
+        {
+            telemetry.addData("M: ", driveLeft.getCurrentPosition() + ", " + driveRight.getCurrentPosition());
+            waitOneFullHardwareCycle();
+        }
+    }
 
 	public void turn(int deg, double speed, int waitTime) throws InterruptedException
 	{
-		driveLeft .setTargetPosition(driveLeft .getCurrentPosition() + (int)(-deg*DEG));
-		driveRight.setTargetPosition(driveRight.getCurrentPosition() + (int)( deg*DEG));
+		driveLeft .setTargetPosition(driveLeft.getCurrentPosition() + (int) (-deg * DEG));
+		driveRight.setTargetPosition(driveRight.getCurrentPosition() + (int) (deg * DEG));
 
 		driveLeft .setPower(-speed);
 		driveRight.setPower( speed);
@@ -84,7 +114,27 @@ public class LinearBase extends LinearOpMode
 		plow.setPower(0);
 	}
 
-	@Override
+    public void halt() throws InterruptedException
+    {
+        driveLeft.setPower(0);
+        driveRight.setPower(0);
+        waitOneFullHardwareCycle();
+    }
+
+    public double map(double x, double in_min, double in_max, double out_min, double out_max) // I don't know if this is already a java function, but whatevs
+    { return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min; }              // Thanks to arduino.cc for providing the formula
+
+    public void resetEncoders()
+    {
+        while(driveLeft.getCurrentPosition() != 0 || driveRight.getCurrentPosition() != 0)
+        {
+            driveLeft.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+            driveRight.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+        }
+    }
+
+
+    @Override
 	public void runOpMode() throws InterruptedException
 	{
 	}
