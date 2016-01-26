@@ -3,29 +3,11 @@ Controls are stated in the comments below*/
 
 package com.qualcomm.ftcrobotcontroller.opmodes.custom;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
-public class TeleopNoA extends LinearOpMode
+public class TeleopNoA extends LinearBase
 {
-	enum Direction { LEFT, RIGHT; }
-
-	DcMotor driveLeft;
-	DcMotor driveRight;
-
-	DcMotor armRotate;
-	DcMotor armExtend;
-
-	DcMotor plow;
-
-	Servo dropperBase;
-
-	Servo rescueLeft;
-	Servo rescueRight;
-
 	final float   DEADZONE              = 0.200f;
 	final double  TRIGGER_THRESHOLD     = 0.700 ;
 	final double  ROTATE_SPEED          = 0.850 ;
@@ -49,27 +31,12 @@ public class TeleopNoA extends LinearOpMode
 	@Override
 	public void runOpMode() throws InterruptedException
 	{
-		driveLeft  = hardwareMap.dcMotor.get("left" );
-		driveRight = hardwareMap.dcMotor.get("right");
+		mapHardware();
 
-		armRotate = hardwareMap.dcMotor.get("rotate");
-		armExtend = hardwareMap.dcMotor.get("extend");
-
-		plow = hardwareMap.dcMotor.get("plow");
-
-		dropperBase  = hardwareMap.servo.get("base" );
-
-		rescueLeft   = hardwareMap.servo.get("rql"  );
-		rescueRight  = hardwareMap.servo.get("rqr"  );
-
-		driveRight.setDirection(DcMotor.Direction.REVERSE);
-		rescueRight.setDirection(Servo.Direction.REVERSE);
-        plow.setDirection(DcMotor.Direction.REVERSE);
 		gamepad1.setJoystickDeadzone(DEADZONE);
 		gamepad2.setJoystickDeadzone(DEADZONE);
 
-		driveLeft .setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-		driveRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+		drivetrainSetMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 
 		EncoderSpeed ES = new EncoderSpeed(driveLeft, driveRight);
 

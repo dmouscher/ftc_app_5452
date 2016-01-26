@@ -8,10 +8,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.GyroSensor;
-import com.qualcomm.robotcore.robocol.Telemetry;
-
-import java.lang.Math;
-
 
 /**
  * Created by mlowery2 on 12/16/2015.
