@@ -37,13 +37,13 @@ public class Teleop extends LinearBase
 
 		drivetrainSetMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 
-		EncoderSpeed ES = new EncoderSpeed(driveLeft, driveRight);
+		//EncoderSpeed ES = new EncoderSpeed(driveLeft, driveRight);
 
 		dropperBase .setPosition(0.518);
 
         waitForStart();
 
-        ES.start();
+        //ES.start();
 
 		while(opModeIsActive())
 		{
@@ -102,15 +102,15 @@ public class Teleop extends LinearBase
 						                       (isTriggered(2, Direction.LEFT ) ? "[2LT] " : "") +
 						                       (isTriggered(2, Direction.RIGHT) ? "[2RT] " : "")); //Update when button usage changes
 
-                telemetry.addData("Real Speed (clicks per second)", " R:" + ES.getRealSpeed(EncoderSpeed.motorList.DRIVERIGHT) +
-						                                            " L:" + ES.getRealSpeed(EncoderSpeed.motorList.DRIVELEFT ) +
-						                                            " A:" + ES.isAlive());
+                //telemetry.addData("Real Speed (clicks per second)", " R:" + ES.getRealSpeed(EncoderSpeed.motorList.DRIVERIGHT) +
+				//		                                            " L:" + ES.getRealSpeed(EncoderSpeed.motorList.DRIVELEFT ) +
+				//		                                            " A:" + ES.isAlive());
 			}
 
             waitOneFullHardwareCycle();
 		}
 
-        ES.terminate();
+        //ES.terminate();
 	}
 
 	private void runAllMotors(double speed) //simply runs all drivetrain motors at the given speed
