@@ -12,16 +12,7 @@ public class DFFB extends LinearBase
 	@Override
 	public void runOpMode() throws InterruptedException
 	{
-		mapHardware();
-
-		drivetrainSetMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-		drivetrainSetMode(DcMotorController.RunMode.RUN_TO_POSITION   );
-
-		dropperBase .setPosition(0.267);
-
-		rescueLeft .setPosition(0);
-		rescueRight.setPosition(0);
-
+		initalize();
 		waitForStart();
 
 		dropperBase.setPosition(0.518);   // Raise up the climber-dropper

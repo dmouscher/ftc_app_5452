@@ -2,7 +2,6 @@
 
 package com.qualcomm.ftcrobotcontroller.opmodes.custom;
 
-import com.qualcomm.robotcore.hardware.DcMotorController;
 
 /**
  * Created by jackiehirsch on 12/14/15.
@@ -12,16 +11,7 @@ public class DFNB extends LinearBase
 	@Override
 	public void runOpMode() throws InterruptedException
 	{
-		mapHardware();
-
-		drivetrainSetMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-		drivetrainSetMode(DcMotorController.RunMode.RUN_TO_POSITION   );
-
-		dropperBase .setPosition(0.267);
-
-		rescueLeft .setPosition(0);
-		rescueRight.setPosition(0);
-
+		initalize();
 		waitForStart();
 
 		dropperBase.setPosition(0.518);   // Raise up the climber-dropper
