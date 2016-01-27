@@ -15,7 +15,6 @@ public class Teleop extends LinearBase
 	final double  EXTEND_SPEED          = 0.990 ;
 	final double  FORWARD_SPEED         = 0.900 ;
 	final double  BASE_SPEED            = 0.005 ;
-	final double  JOINT_SPEED           = 0.010 ;
 	final double  PLOW_SPEED            = 0.500 ;
 	final boolean TELEMETRY             = true  ; //toggles telemetry
 
