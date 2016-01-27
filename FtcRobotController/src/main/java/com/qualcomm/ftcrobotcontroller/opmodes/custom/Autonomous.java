@@ -24,9 +24,9 @@ public class Autonomous extends LinearBase
 
 		dropperBase.setPosition(0.25);
 		movePlow(0.75, 9500);
-		moveForward(5.7 * FT, 0.7, 5000);
+		moveTarget(5.7 * FT, 0.7, 5000);
 		turn(-60, 0.7, 2000);
-		moveForward(FT, 0.7, 10000);
+		moveTarget(FT, 0.7, 10000);
 		Thread.sleep(1000);
 	}
 }

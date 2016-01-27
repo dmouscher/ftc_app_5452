@@ -19,10 +19,10 @@ public class Rnear extends LinearBase
 
                 waitForStart();
 
-                moveForward((int) (IN * 12 * 0.45 /* 12 ft times the distance you want. Also used 12 to turn inches into feet. */), 0.8, 1000);
+                moveTarget((int) (IN * 12 * 0.45 /* 12 ft times the distance you want. Also used 12 to turn inches into feet. */), 0.8, 1000);
                 turn((int) (-45 * DEG), 0.8, 1000); // make sure this turns left
-                moveForward((int) (IN * 12 * 6 * Math.sqrt(2)), 0.8, 1000);
-                moveForward(-FT, -0.7, 1000);
+                moveTarget((int) (IN * 12 * 6 * Math.sqrt(2)), 0.8, 1000);
+                moveTarget(-FT, -0.7, 1000);
                 turn((int) (-45 * DEG), 0.8,1000);
         }
 }
