@@ -33,7 +33,7 @@ public class LinearBase extends LinearOpMode
 
 	public void mapHardware()
 	{
-		driveLeft = hardwareMap.dcMotor.get("left");
+		driveLeft  = hardwareMap.dcMotor.get("left");
 		driveRight = hardwareMap.dcMotor.get("right");
 
 		armRotate = hardwareMap.dcMotor.get("rotate");
@@ -41,7 +41,7 @@ public class LinearBase extends LinearOpMode
 
 		plow = hardwareMap.dcMotor.get("plow");
 
-		rescueLeft = hardwareMap.servo.get("rql");
+		rescueLeft  = hardwareMap.servo.get("rql");
 		rescueRight = hardwareMap.servo.get("rqr");
 
 		dropperBase = hardwareMap.servo.get("base");
@@ -88,10 +88,10 @@ public class LinearBase extends LinearOpMode
 
 	public void moveEn(int dist, double speed) throws InterruptedException // Test this
 	{
-		int startingLeft = driveLeft.getCurrentPosition();
+		int startingLeft  = driveLeft.getCurrentPosition();
 		int startingRight = driveRight.getCurrentPosition();
 
-		driveLeft.setPower(speed);
+		driveLeft .setPower(speed);
 		driveRight.setPower(speed);
 
 		while (driveLeft.getCurrentPosition() - startingLeft < dist || driveRight.getCurrentPosition() - startingRight < dist)
@@ -103,10 +103,10 @@ public class LinearBase extends LinearOpMode
 
 	public void turn(int deg, double speed, int waitTime) throws InterruptedException
 	{
-		driveLeft.setTargetPosition(driveLeft.getCurrentPosition() + (int) (-deg * DEG));
-		driveRight.setTargetPosition(driveRight.getCurrentPosition() + (int) (deg * DEG));
+		driveLeft .setTargetPosition(driveLeft.getCurrentPosition() + (int) (-deg * DEG));
+		driveRight.setTargetPosition(driveRight.getCurrentPosition() + (int)( deg * DEG));
 
-		driveLeft.setPower(-speed);
+		driveLeft .setPower(-speed);
 		driveRight.setPower(speed);
 
 		Thread.sleep(waitTime);
@@ -127,8 +127,8 @@ public class LinearBase extends LinearOpMode
 		waitOneFullHardwareCycle();
 	}
 
-	public double map(double x, double in_min, double in_max, double out_min, double out_max) // I don't know if this is already a java function, but whatevs
-	{ return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min; }              // Thanks to arduino.cc for providing the formula
+	public double map(double x, double in_min, double in_max, double out_min, double out_max) // Thanks to arduino.cc for providing the formula
+		{ return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min; }
 
 	public void resetEncoders()
 	{
