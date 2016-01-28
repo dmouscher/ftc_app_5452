@@ -46,7 +46,7 @@ public class Teleop extends LinearBase
 		dropperBase.setPosition(BASE_VERTICAL);
 		Global.ranAutonomous = false;
 
-		while (opModeIsActive())
+		while(opModeIsActive())
 		{
 			driveSlowMultiplier = gamepad1.left_bumper ? DRIVE_SLOW_MULTIPLIER : 1; //gamepad1.left_bumper triggers slow mode for motors
 			driveForwards = !isTriggered(1, Direction.LEFT);                        //gamepad1.left_trigger reverses drivetrain direction
