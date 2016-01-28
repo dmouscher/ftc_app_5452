@@ -38,11 +38,14 @@ public class Teleop extends LinearBase
 		drivetrainSetMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 
 		//EncoderSpeed ES = new EncoderSpeed(driveLeft, driveRight);
-		dropperBase.setPosition(0.518);
+		dropperBase.setPosition(Global.ranAutonomous ? BASE_VERTICAL : BASE_RESTING);
 
 		waitForStart();
 
 		//ES.start();
+		dropperBase.setPosition(BASE_VERTICAL);
+		Global.ranAutonomous = false;
+
 		while (opModeIsActive())
 		{
 			driveSlowMultiplier = gamepad1.left_bumper ? DRIVE_SLOW_MULTIPLIER : 1; //gamepad1.left_bumper triggers slow mode for motors

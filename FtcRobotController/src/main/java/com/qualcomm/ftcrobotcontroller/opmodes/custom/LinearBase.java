@@ -31,6 +31,9 @@ public class LinearBase extends LinearOpMode
 	final double IN  = 144.796;
 	final double FT  = 12*IN;
 
+	final double BASE_RESTING  = 0.267; // fits inside the sizing cube
+	final double BASE_VERTICAL = 0.538;
+
 	public void mapHardware()
 	{
 		driveLeft  = hardwareMap.dcMotor.get("left");

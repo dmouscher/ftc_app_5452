@@ -10,11 +10,12 @@ public class DFFB extends LinearBase
 		initalize();
 		waitForStart();
 
-		dropperBase.setPosition(0.518); // Raise up the climber-dropper
-		movePlow(0.75, 9500);           // Extend the plow
-		moveEn((int) (8.5*FT), 0.7);    // Move 8.5 feet forwards
+		Global.ranAutonomous = true;
+		dropperBase.setPosition(BASE_VERTICAL); // Raise up the climber-dropper
+		movePlow(0.75, 9500);                   // Extend the plow
+		moveEn((int) (8.5*FT), 0.7);            // Move 8.5 feet forwards
 		//moveForward(FT, 0.7, 1000);
-		//dropperBase.setPosition(0.1); // Dump
+		//dropperBase.setPosition(0.1);         // Dump
 		Thread.sleep(1000);
 	}
 }

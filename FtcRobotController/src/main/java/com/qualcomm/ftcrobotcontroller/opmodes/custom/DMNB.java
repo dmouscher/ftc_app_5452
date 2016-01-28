@@ -17,6 +17,7 @@ public class DMNB extends LinearBase
 
 		waitForStart();
 
+		Global.ranAutonomous = true;
 		moveTarget((int)(0.45*FT /* 12 ft times the distance you want. Also used 12 to turn inches into feet. */), 0.8, 1000);
 		turn(90, 0.8, 1000); /* Make sure this turns right */
 		moveTarget((int)(0.45*FT /* 12 ft times the distance you want. Also used 12 to turn inches into feet. */), 0.8, 1000);

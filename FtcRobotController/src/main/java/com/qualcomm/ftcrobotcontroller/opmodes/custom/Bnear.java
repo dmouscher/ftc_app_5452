@@ -12,7 +12,6 @@ public class Bnear extends LinearOpMode
 
 	DcMotor armRotate;
 	DcMotor armExtend;
-
 	DcMotor plow;
 
 	Servo dropperBase;

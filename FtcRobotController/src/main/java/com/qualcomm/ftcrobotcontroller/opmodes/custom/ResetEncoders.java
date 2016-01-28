@@ -11,6 +11,7 @@ public class ResetEncoders extends LinearBase
 	public void runOpMode() throws InterruptedException
 	{
 		waitForStart();
+		Global.ranAutonomous = false;
 		while(opModeIsActive()) { drivetrainSetMode(DcMotorController.RunMode.RESET_ENCODERS); }
 	}
 }
