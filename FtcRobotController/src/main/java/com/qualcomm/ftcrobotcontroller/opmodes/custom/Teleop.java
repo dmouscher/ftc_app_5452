@@ -37,15 +37,13 @@ public class Teleop extends LinearBase
 
 		drivetrainSetMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 
-		EncoderSpeed ES = new EncoderSpeed(driveLeft, driveRight);
+		//EncoderSpeed ES = new EncoderSpeed(driveLeft, driveRight);
+		dropperBase.setPosition(0.518);
 
-		dropperBase .setPosition(0.518);
+		waitForStart();
 
-        waitForStart();
-
-        ES.start();
-
-		while(opModeIsActive())
+		//ES.start();
+		while (opModeIsActive())
 		{
 			driveSlowMultiplier = gamepad1.left_bumper ? DRIVE_SLOW_MULTIPLIER : 1; //gamepad1.left_bumper triggers slow mode for motors
 			driveForwards = !isTriggered(1, Direction.LEFT);                        //gamepad1.left_trigger reverses drivetrain direction
@@ -53,17 +51,15 @@ public class Teleop extends LinearBase
 			driveLeft .setPower((driveForwards ? gamepad1.left_stick_y  : -gamepad1.right_stick_y) * driveSlowMultiplier); //basic tank drive control
 			driveRight.setPower((driveForwards ? gamepad1.right_stick_y : -gamepad1.left_stick_y ) * driveSlowMultiplier);
 
-			if     (gamepad2.dpad_up  ) { armRotate.setPower( ROTATE_SPEED); } //gamepad2.dpad_up/down angles the arm up/down
-			else if(gamepad2.dpad_down) { armRotate.setPower(-ROTATE_SPEED); }
-			else                        { armRotate.setPower( 0           ); }
-			//       ^ = XOR operator
-			if(gamepad2.y ^ gamepad2.b) { armExtend.setPower(EXTEND_SPEED * (gamepad2.y ? 1 : -1)); } //todo: readd comments for printout
-			else { armExtend.setPower(0); } //todo: add an encoder limit for this conditional
+			armRotate.setPower(gamepad2.dpad_up ? ROTATE_SPEED : gamepad2.dpad_down ? -ROTATE_SPEED : 0); //gamepad2.dpad_up/down angles the arm up/down
 
-			if(gamepad2.x ^ gamepad2.a) { plow.setPower(PLOW_SPEED * (gamepad2.x ? 1 : -1)); } //todo: add comments for printout
-			else { plow.setPower(0); } //todo: add an encoder limit for this conditional
+			if(gamepad2.y ^ gamepad2.b) { armExtend.setPower(EXTEND_SPEED * (gamepad2.y ? 1 : -1)); } // ^ = XOR operator
+			else                        { armExtend.setPower(0                                   ); } //todo: add an encoder limit for this conditional
 
-			if(gamepad1.y ^ gamepad1.b) //gamepad1.y moves the robot straight and forwards, gamepad1.b moves it straight and backwards
+			if(gamepad2.x ^ gamepad2.a) { plow.setPower(PLOW_SPEED * (gamepad2.x ? 1 : -1)); }
+			else                        { plow.setPower(0                                 ); } //todo: add an encoder limit for this conditional
+
+			if (gamepad1.y ^ gamepad1.b) //gamepad1.y moves the robot straight and forwards, gamepad1.b moves it straight and backwards
 				runAllMotors(FORWARD_SPEED * driveSlowMultiplier * (gamepad1.b ? 1 : -1));
 
 			if(gamepad2.left_bumper ^ isTriggered(2, Direction.LEFT)) //gamepad2.left_bumper extends the base servo, left_trigger retracts it
@@ -91,26 +87,24 @@ public class Teleop extends LinearBase
 				telemetry.addData("Base servo", dropperBase.getPosition());
 				telemetry.addData("Joysticks", gamepad1.left_stick_y + ", " + gamepad1.right_stick_y);
 
-				telemetry.addData("Buttons 1", (gamepad1.y           ? "[1Y] "  : "") + (gamepad1.b            ? "[1B] "  : "") +
-						                       (isTriggered(1, Direction.LEFT) ? "[1LT] " : "")); //Update when button usage changes
+				telemetry.addData("Buttons 1", (gamepad1.y                      ? "[1Y] "  : "") + (gamepad1.b            ? "[1B] "  : "") +
+					                           (isTriggered(1, Direction.LEFT ) ? "[1LT] " : "")); //Update when button usage changes
 
-				telemetry.addData("Buttons 2", (gamepad2.a           ? "[2A] "  : "") + (gamepad2.b            ? "[2B] "  : "") +
-						                       (gamepad2.x           ? "[2A] "  : "") + (gamepad2.y            ? "[2Y] "  : "") +
-						                       (gamepad2.left_bumper ? "[2LB] " : "") + (gamepad2.right_bumper ? "[2RB] " : "") +
-						                       (gamepad1.dpad_up     ? "[1DU] " : "") + (gamepad1.dpad_down    ? "[1DD] " : "") +
-						                       (gamepad1.dpad_left   ? "[1DL] " : "") + (gamepad1.dpad_right   ? "[1DR] " : "") +
-						                       (isTriggered(2, Direction.LEFT ) ? "[2LT] " : "") +
-						                       (isTriggered(2, Direction.RIGHT) ? "[2RT] " : "")); //Update when button usage changes
+				telemetry.addData("Buttons 2", (gamepad2.a                      ? "[2A] "  : "") + (gamepad2.b            ? "[2B] "  : "") +
+											   (gamepad2.x                      ? "[2A] "  : "") + (gamepad2.y            ? "[2Y] "  : "") +
+											   (gamepad2.left_bumper            ? "[2LB] " : "") + (gamepad2.right_bumper ? "[2RB] " : "") +
+											   (gamepad1.dpad_up                ? "[1DU] " : "") + (gamepad1.dpad_down    ? "[1DD] " : "") +
+											   (gamepad1.dpad_left              ? "[1DL] " : "") + (gamepad1.dpad_right   ? "[1DR] " : "") +
+											   (isTriggered(2, Direction.LEFT ) ? "[2LT] " : "") +
+											   (isTriggered(2, Direction.RIGHT) ? "[2RT] " : "")); //Update when button usage changes
 
-                telemetry.addData("Real Speed (clicks per second)", " R:" + ES.getRealSpeed(EncoderSpeed.motorList.DRIVERIGHT) +
-						                                            " L:" + ES.getRealSpeed(EncoderSpeed.motorList.DRIVELEFT ) +
-						                                            " A:" + ES.isAlive());
+				/*telemetry.addData("Real Speed (clicks per second)", " R:" + ES.getRealSpeed(EncoderSpeed.motorList.DRIVERIGHT) +
+					" L:" + ES.getRealSpeed(EncoderSpeed.motorList.DRIVELEFT ) +
+					" A:" + ES.isAlive());*/
 			}
-
-            waitOneFullHardwareCycle();
+			waitOneFullHardwareCycle();
 		}
-
-        ES.terminate();
+		//ES.terminate();
 	}
 
 	private void runAllMotors(double speed) //simply runs all drivetrain motors at the given speed
@@ -121,7 +115,7 @@ public class Teleop extends LinearBase
 
 	public boolean isTriggered(int gamepad, Direction dir) //returns true if the given trigger has been pressed past the threshold constant
 	{                                                      //otherwise returns false
-		if(gamepad == 1) { return (dir == Direction.LEFT ? gamepad1.left_trigger : gamepad1.right_trigger) > TRIGGER_THRESHOLD; }
-		else             { return (dir == Direction.LEFT ? gamepad2.left_trigger : gamepad2.right_trigger) > TRIGGER_THRESHOLD; }
+		if (gamepad == 1) { return (dir == Direction.LEFT ? gamepad1.left_trigger : gamepad1.right_trigger) > TRIGGER_THRESHOLD; }
+		else              { return (dir == Direction.LEFT ? gamepad2.left_trigger : gamepad2.right_trigger) > TRIGGER_THRESHOLD; }
 	}
 }

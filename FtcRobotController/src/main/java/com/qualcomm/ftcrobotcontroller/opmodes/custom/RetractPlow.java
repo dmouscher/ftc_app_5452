@@ -7,16 +7,12 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.Servo;
 
-
-/**
- * Created by jackiehirsch on 12/14/15.
- */
 public class RetractPlow extends LinearBase
 {
 	@Override
 	public void runOpMode() throws InterruptedException
 	{
-		driveLeft  = hardwareMap.dcMotor.get("left" );
+		driveLeft  = hardwareMap.dcMotor.get("left");
 		driveRight = hardwareMap.dcMotor.get("right");
 
 		armRotate = hardwareMap.dcMotor.get("rotate");
@@ -24,18 +20,18 @@ public class RetractPlow extends LinearBase
 
 		plow = hardwareMap.dcMotor.get("plow");
 
-		dropperBase  = hardwareMap.servo.get("base" );
+		dropperBase = hardwareMap.servo.get("base");
 
-		rescueLeft   = hardwareMap.servo.get("rql"  );
-		rescueRight  = hardwareMap.servo.get("rqr"  );
+		rescueLeft  = hardwareMap.servo.get("rql");
+		rescueRight = hardwareMap.servo.get("rqr");
 
 		driveRight .setDirection(DcMotor.Direction.REVERSE);
 		rescueRight.setDirection(Servo  .Direction.REVERSE);
 
 		drivetrainSetMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-		drivetrainSetMode(DcMotorController.RunMode.RUN_TO_POSITION   );
+		drivetrainSetMode(DcMotorController.RunMode.RUN_TO_POSITION);
 
-		dropperBase .setPosition(0.25);
+		dropperBase.setPosition(0.25);
 
 		rescueLeft .setPosition(0);
 		rescueRight.setPosition(0);

@@ -35,12 +35,12 @@ public class ResetEncoders extends OpMode
 
 		plow = hardwareMap.dcMotor.get("plow");
 
-		dropperBase  = hardwareMap.servo.get("base" );
+		dropperBase = hardwareMap.servo.get("base");
 
-		rescueLeft   = hardwareMap.servo.get("rql"  );
-		rescueRight  = hardwareMap.servo.get("rqr"  );
+		rescueLeft  = hardwareMap.servo.get("rql");
+		rescueRight = hardwareMap.servo.get("rqr");
 
-		driveLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+		driveLeft .setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 		driveRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 	}
 

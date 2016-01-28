@@ -1,3 +1,5 @@
+// DFFB = Drive to Mountain, Near, Blue
+
 package com.qualcomm.ftcrobotcontroller.opmodes.custom;
 
 import com.qualcomm.robotcore.hardware.DcMotorController;
@@ -10,11 +12,8 @@ public class DMNB extends LinearBase
 
 		mapHardware();
 
-		driveLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-		driveRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-
-		driveLeft.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
-		driveRight.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
+		drivetrainSetMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+		drivetrainSetMode(DcMotorController.RunMode.RUN_TO_POSITION   );
 
 		waitForStart();
 

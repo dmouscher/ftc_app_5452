@@ -1,28 +1,21 @@
+// To start a new non-linear op mode, copy this
+// Note: Linear op modes are recommended due to the presence of LinearBase
+
 package com.qualcomm.ftcrobotcontroller.opmodes.custom;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-
 
 public class Skeleton extends OpMode
 {
 	@Override
-	public void init()
-	{
-	}
+	public void init() {}
 
 	@Override
-	public void start()
-	{
-	}
+	public void start() {}
 
 	@Override
-	public void loop()
-	{
-	}
+	public void loop() {}
 
 	@Override
-	public void stop()
-	{
-	}
+	public void stop() {}
 }
