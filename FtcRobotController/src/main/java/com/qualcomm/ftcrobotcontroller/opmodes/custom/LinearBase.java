@@ -115,6 +115,7 @@ public class LinearBase extends LinearOpMode
 	public void movePlow(double speed, int waitTime) throws InterruptedException
 	{
 		plow.setPower(speed);
+		while(opModeIsActive() && waitTime == 0) { waitOneFullHardwareCycle(); } // Pauses indefinitely if 0 is entered for waitTime
 		Thread.sleep(waitTime);
 		plow.setPower(0);
 	}
