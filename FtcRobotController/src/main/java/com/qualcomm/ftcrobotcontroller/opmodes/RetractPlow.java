@@ -9,8 +9,8 @@ public class RetractPlow extends com.qualcomm.ftcrobotcontroller.opmodes.LinearB
 	@Override
 	public void runOpMode() throws InterruptedException
 	{
+		mapHardware();
 		drivetrainSetMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-
 		waitForStart();
 		movePlow(-0.5, 0);
 	}

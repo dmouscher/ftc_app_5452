@@ -7,6 +7,7 @@ public class RanAutoFalse extends com.qualcomm.ftcrobotcontroller.opmodes.Linear
 	@Override
 	public void runOpMode() throws InterruptedException
 	{
+		mapHardware();
 		waitForStart();
 		com.qualcomm.ftcrobotcontroller.opmodes.Global.ranAutonomous = false;
 	}

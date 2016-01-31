@@ -7,6 +7,7 @@ public class DFNB extends LinearBase
 	@Override
 	public void runOpMode() throws InterruptedException
 	{
+		mapHardware();
 		initalize();
 		waitForStart();
 

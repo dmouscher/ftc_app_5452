@@ -7,6 +7,7 @@ public class DFFR extends com.qualcomm.ftcrobotcontroller.opmodes.LinearBase
 	@Override
 	public void runOpMode() throws InterruptedException
 	{
+		mapHardware();
 		initalize();
 		waitForStart();
 

@@ -7,6 +7,7 @@ public class LinearSkeleton extends LinearBase
 	@Override
 	public void runOpMode() throws InterruptedException
 	{
+		mapHardware();
 		initalize();
 		waitForStart();
 	}
