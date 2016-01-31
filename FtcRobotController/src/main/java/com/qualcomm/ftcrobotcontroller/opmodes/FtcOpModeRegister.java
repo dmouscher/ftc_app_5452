@@ -70,5 +70,6 @@ public class FtcOpModeRegister implements OpModeRegister
 		manager.register("Ran Autonomous False", RanAutoFalse.class);
 		manager.register("Ran Autonomous True", RanAutoFalse.class);
 		//manager.register("Encoder Tester", EncoderRobotTest.class);
+		manager.register("Test the gyro", GyroTest.class);
 	}
 }

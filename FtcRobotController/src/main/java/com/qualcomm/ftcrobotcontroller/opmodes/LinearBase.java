@@ -34,6 +34,8 @@ public class LinearBase extends LinearOpMode
 	final double BASE_RESTING  = 0.267; // fits inside the sizing cube
 	final double BASE_VERTICAL = 0.538;
 
+	boolean logging = false;
+
 	public void mapHardware()
 	{
 		driveLeft  = hardwareMap.dcMotor.get("left");
@@ -49,7 +51,7 @@ public class LinearBase extends LinearOpMode
 
 		dropperBase = hardwareMap.servo.get("base");
 
-		//gyro = hardwareMap.gyroSensor.get("gyro"); // uncomment if you are using the gyro
+		gyro = hardwareMap.gyroSensor.get("gyro"); // uncomment if you are using the gyro
 
 		driveRight .setDirection(DcMotor.Direction.REVERSE);
 		plow       .setDirection(DcMotor.Direction.REVERSE);
@@ -71,9 +73,14 @@ public class LinearBase extends LinearOpMode
 
 	public void initalize()
 	{
+		telemetry.addData("", logging ? "Initalizing" : "");
 		mapHardware();
 		drivetrainSetMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 		resetServos();
+		resetEncoders();
+		gyro.calibrate();
+		while(gyro.isCalibrating()){}
+		telemetry.addData("", logging ? "Done initalizing" : "");
 	}
 
 	public void moveTarget(double dist, double speed, int waitTime) throws InterruptedException // TODO: Make a system that calculates the amount of time the program should wait based on the input speed and the input distance. Why haven't done this yet? Well I want to get some refrence as to what we are using before trying and guessing
@@ -81,7 +88,7 @@ public class LinearBase extends LinearOpMode
 		int idist = (int)dist;
 
 		driveRight.setTargetPosition(driveRight.getCurrentPosition() + idist);
-		driveLeft .setTargetPosition(driveLeft .getCurrentPosition() + idist);
+		driveLeft .setTargetPosition(driveLeft.getCurrentPosition() + idist);
 
 		driveLeft .setPower(speed);
 		driveRight.setPower(speed);
@@ -115,6 +122,17 @@ public class LinearBase extends LinearOpMode
 		Thread.sleep(waitTime);
 	}
 
+	public void turnG(int deg, double speed) throws InterruptedException // Pos Values, turn right
+	{
+		resetGyro();
+
+		driveLeft .setPower(speed * (deg < 0 ?  1 : -1)); // Make sure these turn the right way
+		driveRight.setPower(speed * (deg < 0 ? -1 :  1));
+
+		while(deg>0 && (gyro.getHeading() < deg)){telemetry.addData("", logging?gyro.getHeading():"");} // turn right
+		//while(deg<0 && ()){} // turn left
+	}
+
 	public void movePlow(double speed, int waitTime) throws InterruptedException
 	{
 		plow.setPower(speed);
@@ -135,11 +153,26 @@ public class LinearBase extends LinearOpMode
 
 	public void resetEncoders()
 	{
+		int runNum = 0;
+
 		while (driveLeft.getCurrentPosition() != 0 || driveRight.getCurrentPosition() != 0)
 		{
 			driveLeft .setMode(DcMotorController.RunMode.RESET_ENCODERS);
 			driveRight.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+
+			runNum++;
+			telemetry.addData("", logging?"Reseting Encoders, run number:"+runNum:"");
 		}
+	}
+
+	public void resetGyro() throws InterruptedException
+	{
+		telemetry.addData("", logging?"Reseting the gyro....":"");
+
+		gyro.calibrate();
+		while(gyro.isCalibrating()) {Thread.sleep(50);}
+
+		telemetry.addData("", logging?"Gyro is reset":"");
 	}
 
 	@Override
