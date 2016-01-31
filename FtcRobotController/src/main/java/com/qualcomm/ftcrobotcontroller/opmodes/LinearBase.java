@@ -55,7 +55,7 @@ public class LinearBase extends LinearOpMode
 
 		driveRight .setDirection(DcMotor.Direction.REVERSE);
 		plow       .setDirection(DcMotor.Direction.REVERSE);
-		rescueRight.setDirection(Servo.Direction.REVERSE);
+		rescueRight.setDirection(Servo  .Direction.REVERSE);
 	}
 
 	public void drivetrainSetMode(DcMotorController.RunMode mode)
@@ -66,7 +66,7 @@ public class LinearBase extends LinearOpMode
 
 	public void resetServos()
 	{
-		dropperBase.setPosition(0.267);
+		dropperBase.setPosition(BASE_RESTING);
 		rescueLeft .setPosition(0);
 		rescueRight.setPosition(0);
 	}
@@ -157,9 +157,7 @@ public class LinearBase extends LinearOpMode
 
 		while (driveLeft.getCurrentPosition() != 0 || driveRight.getCurrentPosition() != 0)
 		{
-			driveLeft .setMode(DcMotorController.RunMode.RESET_ENCODERS);
-			driveRight.setMode(DcMotorController.RunMode.RESET_ENCODERS);
-
+			drivetrainSetMode(DcMotorController.RunMode.RESET_ENCODERS);
 			runNum++;
 			if(verbose) telemetry.addData("", "Resetting encoders, tried " + runNum + " time" + (runNum==1?"":"s"));
 		}
