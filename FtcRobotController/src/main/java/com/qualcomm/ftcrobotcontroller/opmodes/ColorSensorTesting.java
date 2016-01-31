@@ -1,6 +1,6 @@
 //This op mode has been and is used to test the Modern Robotics color sensor
 
-package com.qualcomm.ftcrobotcontroller.opmodes.custom;
+package com.qualcomm.ftcrobotcontroller.opmodes;
 
 import android.app.Activity;
 import android.graphics.Color;

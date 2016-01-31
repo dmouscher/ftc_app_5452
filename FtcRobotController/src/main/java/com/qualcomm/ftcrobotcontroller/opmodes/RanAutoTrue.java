@@ -1,6 +1,6 @@
 // Sets Global.ranAutonomous to true in case a manual change is needed
 
-package com.qualcomm.ftcrobotcontroller.opmodes.custom;
+package com.qualcomm.ftcrobotcontroller.opmodes;
 
 public class RanAutoTrue extends LinearBase
 {
@@ -8,6 +8,6 @@ public class RanAutoTrue extends LinearBase
 	public void runOpMode() throws InterruptedException
 	{
 		waitForStart();
-		Global.ranAutonomous = true;
+		com.qualcomm.ftcrobotcontroller.opmodes.Global.ranAutonomous = true;
 	}
 }

@@ -2,7 +2,7 @@
 // This isn't ideal Java, but it's the easiest implementation of a pseudo-global variable
 // Currently the only information stored in Global is whether or not an autonomous program has ran
 
-package com.qualcomm.ftcrobotcontroller.opmodes.custom;
+package com.qualcomm.ftcrobotcontroller.opmodes;
 
 public class Global
 {

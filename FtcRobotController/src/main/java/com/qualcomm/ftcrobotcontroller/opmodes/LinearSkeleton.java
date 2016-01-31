@@ -1,6 +1,6 @@
 // To start a new op mode off of LinearBase, copy this
 
-package com.qualcomm.ftcrobotcontroller.opmodes.custom;
+package com.qualcomm.ftcrobotcontroller.opmodes;
 
 public class LinearSkeleton extends LinearBase
 {

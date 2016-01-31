@@ -1,9 +1,9 @@
-package com.qualcomm.ftcrobotcontroller.opmodes.custom;
+package com.qualcomm.ftcrobotcontroller.opmodes;
 
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-public class EncoderRobotTest extends LinearBase
+public class EncoderRobotTest extends com.qualcomm.ftcrobotcontroller.opmodes.LinearBase
 {
 	ElapsedTime clock = new ElapsedTime();
 

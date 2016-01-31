@@ -1,7 +1,7 @@
 /*The Teleop op mode is our only teleop op mode
 Controls are stated in the comments below*/
 
-package com.qualcomm.ftcrobotcontroller.opmodes.custom;
+package com.qualcomm.ftcrobotcontroller.opmodes;
 
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.util.Range;
@@ -38,7 +38,7 @@ public class Teleop extends LinearBase
 		drivetrainSetMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 
 		//EncoderSpeed ES = new EncoderSpeed(driveLeft, driveRight);
-		dropperBase.setPosition(Global.ranAutonomous ? BASE_VERTICAL : BASE_RESTING);
+		dropperBase.setPosition(com.qualcomm.ftcrobotcontroller.opmodes.Global.ranAutonomous ? BASE_VERTICAL : BASE_RESTING);
 
 		waitForStart();
 
