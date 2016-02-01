@@ -1,4 +1,4 @@
-// DFFB = Drive to Floor, Far, Red
+// DFFB: Drive to Floor, Far, Red
 
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
@@ -11,7 +11,6 @@ public class DFFR extends com.qualcomm.ftcrobotcontroller.opmodes.LinearBase
 		initalize();
 		waitForStart();
 
-		com.qualcomm.ftcrobotcontroller.opmodes.Global.ranAutonomous = true;
 		dropperBase.setPosition(BASE_VERTICAL); // Raise up the climber-dropper
 		movePlow(0.75, 9500);                   // Extend the plow
 		moveEn((int)(8*FT), 0.7);               // Move forwards 8 feet

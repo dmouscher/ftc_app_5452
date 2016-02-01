@@ -1,4 +1,4 @@
-// DFFB = Drive to Mountain, Near, Blue
+// DMNB: Drive to Mountain, Near, Blue
 
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
@@ -17,7 +17,6 @@ public class DMNB extends com.qualcomm.ftcrobotcontroller.opmodes.LinearBase
 
 		waitForStart();
 
-		com.qualcomm.ftcrobotcontroller.opmodes.Global.ranAutonomous = true;
 		moveTarget((int)(0.45*FT /* 12 ft times the distance you want. Also used 12 to turn inches into feet. */), 0.8, 1000);
 		turn(90, 0.8, 1000); /* Make sure this turns right */
 		moveTarget((int)(0.45*FT /* 12 ft times the distance you want. Also used 12 to turn inches into feet. */), 0.8, 1000);

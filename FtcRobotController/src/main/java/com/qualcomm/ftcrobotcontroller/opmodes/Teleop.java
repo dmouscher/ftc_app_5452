@@ -38,13 +38,12 @@ public class Teleop extends LinearBase
 		drivetrainSetMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 
 		//EncoderSpeed ES = new EncoderSpeed(driveLeft, driveRight);
-		dropperBase.setPosition(com.qualcomm.ftcrobotcontroller.opmodes.Global.ranAutonomous ? BASE_VERTICAL : BASE_RESTING);
+		dropperBase.setPosition(BASE_VERTICAL);
 
 		waitForStart();
 
 		//ES.start();
 		dropperBase.setPosition(BASE_VERTICAL);
-		Global.ranAutonomous = false;
 
 		while(opModeIsActive())
 		{

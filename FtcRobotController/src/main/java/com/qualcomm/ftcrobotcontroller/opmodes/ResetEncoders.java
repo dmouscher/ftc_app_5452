@@ -13,7 +13,6 @@ public class ResetEncoders extends LinearBase
 		mapHardware();
 		drivetrainSetMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 		waitForStart();
-		Global.ranAutonomous = false;
 		resetEncoders();
 	}
 }
