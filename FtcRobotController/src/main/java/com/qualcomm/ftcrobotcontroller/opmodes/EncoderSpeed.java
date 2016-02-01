@@ -45,8 +45,8 @@ public class EncoderSpeed extends Thread
 		{
 			while (System.currentTimeMillis() == lastNum){} // wait one second
 			lastNum = System.currentTimeMillis();
-			speedLeft  = (driveLeft .getDirection() == DcMotor.Direction.FORWARD) ? (1) : (-1) * (Math.abs(driveLeft .getCurrentPosition()) - Math.abs(lastSpeedLeft )) / 1000; // now speed is distance/time, but this is just one second so dividing my 1 is a waste of time
-			speedRight = (driveRight.getDirection() == DcMotor.Direction.FORWARD) ? (1) : (-1) * (Math.abs(driveRight.getCurrentPosition()) - Math.abs(lastSpeedRight)) / 1000;
+			speedLeft  = driveLeft .getDirection() == DcMotor.Direction.FORWARD ? 1 : -(Math.abs(driveLeft .getCurrentPosition()) - Math.abs(lastSpeedLeft )) / 1000; // now speed is distance/time, but this is just one second so dividing my 1 is a waste of time
+			speedRight = driveRight.getDirection() == DcMotor.Direction.FORWARD ? 1 : -(Math.abs(driveRight.getCurrentPosition()) - Math.abs(lastSpeedRight)) / 1000;
 
 			lastSpeedLeft  = speedLeft;
 			lastSpeedRight = speedRight;
