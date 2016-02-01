@@ -10,5 +10,10 @@ public class GyroTest extends LinearBase
 
 		turnG(90, 0.5);
 		halt();
+
+        Thread.sleep(1000);
+
+        turnG(-90, 0.5);
+        halt();
 	}
 }

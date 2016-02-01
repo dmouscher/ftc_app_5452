@@ -129,8 +129,8 @@ public class LinearBase extends LinearOpMode
 		driveLeft .setPower(speed * (deg < 0 ?  1 : -1)); // Make sure these turn the right way
 		driveRight.setPower(speed * (deg < 0 ? -1 :  1));
 
-		while(deg>0 && (gyro.getHeading() < deg)) { if(verbose) telemetry.addData("", gyro.getHeading()); } // turn right
-		//while(deg<0 && ()){} // turn left
+		while(deg>0 && gyro.getHeading() < deg) { if(verbose) telemetry.addData("", gyro.getHeading()); } // turn right
+		while(deg<0 && (map(gyro.getHeading(), 359, 0, 0, 359) < deg || map(gyro.getHeading(), 359, 0, 0, 359) > 350)){ if(verbose) telemetry.addData("", gyro.getHeading()); } // turn left
 	}
 
 	public void movePlow(double speed, int waitTime) throws InterruptedException
