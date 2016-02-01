@@ -61,6 +61,7 @@ public class FtcOpModeRegister implements OpModeRegister
 
 		manager.register("Teleop", Teleop.class);
 		manager.register("SSSS", SSSS.class);
+		manager.register("SSPP", SSPP.class);
 		manager.register("DFNR", DFNR.class);
 		manager.register("DFFR", DFFR.class);
 		manager.register("DFNB", DFNB.class);
