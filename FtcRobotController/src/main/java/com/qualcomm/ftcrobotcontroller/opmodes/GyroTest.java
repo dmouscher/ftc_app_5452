@@ -10,7 +10,8 @@ public class GyroTest extends LinearBase
 		initalize();
 		waitForStart();
 
-		drivetrainSetMode(DcMotorController.RunMode.RUN_TO_POSITION);
+		moveEn(1440*2, 0.8); // just to make sure this works
+        
 		turnG(90, 0.5);
 		halt();
 
