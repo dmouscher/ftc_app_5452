@@ -37,7 +37,7 @@ public class EncoderSpeed extends Thread
 		 */
 	}
 
-	public void run() // The actual function were motor speed is calculated
+	public void run() // The actual function where motor speed is calculated
 	{
 		long lastNum = System.currentTimeMillis();
 
@@ -48,7 +48,7 @@ public class EncoderSpeed extends Thread
 			speedLeft  = driveLeft .getDirection() == DcMotor.Direction.FORWARD ? 1 : -(Math.abs(driveLeft .getCurrentPosition()) - Math.abs(lastSpeedLeft )) / 1000; // now speed is distance/time, but this is just one second so dividing my 1 is a waste of time
 			speedRight = driveRight.getDirection() == DcMotor.Direction.FORWARD ? 1 : -(Math.abs(driveRight.getCurrentPosition()) - Math.abs(lastSpeedRight)) / 1000;
 
-			lastSpeedLeft  = speedLeft;
+			lastSpeedLeft  = speedLeft ;
 			lastSpeedRight = speedRight;
 		}
 	}

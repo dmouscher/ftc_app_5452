@@ -12,8 +12,6 @@ public class EncoderRobotTest extends com.qualcomm.ftcrobotcontroller.opmodes.Li
 	final double TICKS_PER_DEGREE       = 2900/90.0 ;
 	final double TICKS_PER_INCH         = 1000/6.375;
 
-	int step = 0;
-
 	//double lastXLeft [] = new double[SMOOTH_LENGTH];
 	//double lastXRight[] = new double[SMOOTH_LENGTH];
 
