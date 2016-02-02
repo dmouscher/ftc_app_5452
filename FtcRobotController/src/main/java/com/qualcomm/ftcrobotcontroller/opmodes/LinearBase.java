@@ -106,7 +106,8 @@ public class LinearBase extends LinearOpMode
 
 		while (driveLeft.getCurrentPosition() - startingLeft < dist || driveRight.getCurrentPosition() - startingRight < dist)
 		{
-			telemetry.addData("M: ", driveLeft.getCurrentPosition() + ", " + driveRight.getCurrentPosition());
+			if(verbose) telemetry.addData("M: ", driveLeft.getCurrentPosition() + ", " + driveRight.getCurrentPosition());
+
 			waitOneFullHardwareCycle();
 		}
 	}
