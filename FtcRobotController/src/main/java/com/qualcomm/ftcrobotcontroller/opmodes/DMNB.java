@@ -17,14 +17,8 @@ public class DMNB extends com.qualcomm.ftcrobotcontroller.opmodes.LinearBase
 
 		waitForStart();
 
-<<<<<<< HEAD:FtcRobotController/src/main/java/com/qualcomm/ftcrobotcontroller/opmodes/custom/DMNB.java
-		Global.ranAutonomous = true;
-		moveTarget((int)(0.45*FT /* 12 ft times the distance you want.*/), 0.8, 1000);
-		turn(135, 0.8, 1000); /* Make sure this turns right */
-=======
 		moveTarget((int)(0.45*FT /* 12 ft times the distance you want. Also used 12 to turn inches into feet. */), 0.8, 1000);
 		turn(90, 0.8, 1000); /* Make sure this turns right */
->>>>>>> origin/master:FtcRobotController/src/main/java/com/qualcomm/ftcrobotcontroller/opmodes/DMNB.java
 		moveTarget((int)(0.45*FT /* 12 ft times the distance you want. Also used 12 to turn inches into feet. */), 0.8, 1000);
 	}
 }
