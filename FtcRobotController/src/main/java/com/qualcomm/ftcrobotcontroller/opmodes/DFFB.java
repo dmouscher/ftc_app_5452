@@ -2,6 +2,8 @@
 
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
+import com.qualcomm.robotcore.hardware.DcMotorController;
+
 public class DFFB extends LinearBase
 {
 	@Override
@@ -11,9 +13,10 @@ public class DFFB extends LinearBase
 		initalize();
 		waitForStart();
 
+		drivetrainSetMode(DcMotorController.RunMode.RUN_TO_POSITION);
 		dropperBase.setPosition(BASE_VERTICAL); // Raise up the climber-dropper
 		movePlow(0.75, 9500);                   // Extend the plow
-		moveEn((int)(8.5*FT), 0.7);            // Move 8.5 feet forwards
+		moveEn((int)(8.5*FT), 0.7);             // Move 8.5 feet forwards
 		//moveForward(FT, 0.7, 1000);
 		//dropperBase.setPosition(0.1);         // Dump
 		Thread.sleep(1000);

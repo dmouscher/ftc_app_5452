@@ -1,5 +1,7 @@
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
+import com.qualcomm.robotcore.hardware.DcMotorController;
+
 public class GyroTest extends LinearBase
 {
 	public void runOpMode() throws InterruptedException
@@ -8,6 +10,7 @@ public class GyroTest extends LinearBase
 		initalize();
 		waitForStart();
 
+		drivetrainSetMode(DcMotorController.RunMode.RUN_TO_POSITION);
 		turnG(90, 0.5);
 		halt();
 
