@@ -35,6 +35,7 @@ public class LinearBase extends LinearOpMode
 	final double BASE_VERTICAL = 0.538;
 
 	boolean verbose = false;
+	int truegyro = 0;
 
 	public void mapHardware()
 	{
@@ -55,7 +56,7 @@ public class LinearBase extends LinearOpMode
 
 		driveRight .setDirection(DcMotor.Direction.REVERSE);
 		plow       .setDirection(DcMotor.Direction.REVERSE);
-		rescueRight.setDirection(Servo  .Direction.REVERSE);
+		rescueRight.setDirection(Servo.Direction.REVERSE);
 	}
 
 	public void drivetrainSetMode(DcMotorController.RunMode mode)
@@ -114,7 +115,7 @@ public class LinearBase extends LinearOpMode
 
 	public void turn(int deg, double speed, int waitTime) throws InterruptedException
 	{
-		driveLeft .setTargetPosition(driveLeft .getCurrentPosition() + (int) (-deg * DEG));
+		driveLeft .setTargetPosition(driveLeft.getCurrentPosition() + (int) (-deg * DEG));
 		driveRight.setTargetPosition(driveRight.getCurrentPosition() + (int) ( deg * DEG));
 
 		driveLeft .setPower(-speed);
@@ -127,11 +128,45 @@ public class LinearBase extends LinearOpMode
 	{
 		resetGyro();
 
+		if(verbose) telemetry.addData("", "Starting the motors");
 		driveLeft .setPower(speed * (deg < 0 ?  1 : -1)); // Make sure these turn the right way
 		driveRight.setPower(speed * (deg < 0 ? -1 :  1));
+		if(verbose) telemetry.addData("", "Motors should be started");
 
-		while(deg>0 && gyro.getHeading() < deg) { if(verbose) telemetry.addData("", gyro.getHeading()); } // turn right
-		while(deg<0 && (map(gyro.getHeading(), 359, 0, 0, 359) < deg || map(gyro.getHeading(), 359, 0, 0, 359) > 350)){ if(verbose) telemetry.addData("", gyro.getHeading()); } // turn left
+		if(verbose) telemetry.addData("", "Starting loops");
+		while(deg > 0 && gyro.getHeading() < deg) { if(verbose) telemetry.addData("", gyro.getHeading()); } // turn right
+
+		while(gyro.getHeading()  >= 0 & gyro.getHeading()  <= 5) waitOneFullHardwareCycle();
+		while(deg < 0 && (map(gyro.getHeading(), 359, 0, 0, 359) < deg)){ if(verbose) telemetry.addData("", (map(gyro.getHeading(), 359, 0, 0, 359))); } // turn left
+		if(verbose) telemetry.addData("", "Done looping");
+	}
+
+	public void turnGT(int deg, double speed) throws InterruptedException
+	{
+		resetGyro();
+		truegyro += deg;
+
+		int targetdeg = truegyro % 360 < 0 ? (truegyro % 360) + 360 : truegyro % 360;
+		int gyroinit = gyro.getHeading();
+		boolean leftLocked = gyro.getHeading() < targetdeg;
+
+		if(verbose) telemetry.addData("", "Starting motors, targetdeg: " + targetdeg);
+		driveLeft .setPower(speed * (deg < 0 ?  1 : -1)); // Make sure these turn the right way
+		driveRight.setPower(speed * (deg < 0 ? -1 :  1));
+		if(verbose) telemetry.addData("", "Motors started (?)");
+
+		if(deg > 0){ while(gyro.getHeading() < targetdeg){waitOneFullHardwareCycle();} } //right
+		if(deg < 0)
+		{
+			while(gyro.getHeading() > targetdeg || leftLocked)
+			{
+				waitOneFullHardwareCycle();
+				if(leftLocked) leftLocked = gyro.getHeading() < targetdeg;
+			}
+		} //left
+
+		if(verbose) telemetry.addData("", "Done.");
+
 	}
 
 	public void movePlow(double speed, int waitTime) throws InterruptedException

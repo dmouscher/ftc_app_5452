@@ -8,14 +8,14 @@ public class GyroTest extends LinearBase
 		initalize();
 		waitForStart();
 
-		moveEn(1440*2, 0.8); // just to make sure this works
+		//moveEn(1440*2, 0.8); // just to make sure this works
 
-		turnG(90, 0.5);
-		halt();
+		//turnG(90, 0.5);
+		//halt();
 
-        Thread.sleep(1000);
+        //Thread.sleep(1000);
 
-        turnG(-90, 0.5);
+        turnGT(-90, 0.5);
         halt();
 	}
 }
