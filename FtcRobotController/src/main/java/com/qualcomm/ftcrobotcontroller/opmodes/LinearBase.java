@@ -169,6 +169,30 @@ public class LinearBase extends LinearOpMode
 
 	}
 
+	boolean firstTurn = true;
+	public void turnB(String direction, int degrees, double speed) throws InterruptedException // Big thanks to Brendan Chay for providing this code.
+	{
+		if(direction.equals("Left")) {
+			speed *= -1; //Reverses robot direction
+			if(firstTurn) {
+				firstTurn = false;
+				degrees = 360 - degrees - 1; //Corrects for threshold value if first turn
+			} else {
+				degrees = gyro.getHeading() - degrees - 1;
+			}
+		} else {
+			degrees += gyro.getHeading() + 1;
+			if(degrees > 360) degrees -= 360;
+		}
+
+		while(Math.abs(gyro.getHeading() - degrees) > 0) { //Robot has not completed turn
+			driveRight.setPower(-1 * speed); // // TODO: 2/8/2016  make sure that these go the same way
+			driveLeft.setPower(speed);
+			waitOneFullHardwareCycle();
+		}
+		waitOneFullHardwareCycle();
+	}
+
 	public void movePlow(double speed, int waitTime) throws InterruptedException
 	{
 		plow.setPower(speed);
