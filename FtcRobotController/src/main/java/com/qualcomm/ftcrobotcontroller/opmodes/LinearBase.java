@@ -19,6 +19,7 @@ public class LinearBase extends LinearOpMode
 	DcMotor armExtend;
 
 	DcMotor plow;
+	DcMotor winch;
 
 	Servo rescueLeft;
 	Servo rescueRight;
@@ -46,6 +47,7 @@ public class LinearBase extends LinearOpMode
 		armExtend = hardwareMap.dcMotor.get("extend");
 
 		plow = hardwareMap.dcMotor.get("plow");
+		winch = hardwareMap.dcMotor.get("winch");
 
 		rescueLeft  = hardwareMap.servo.get("rql");
 		rescueRight = hardwareMap.servo.get("rqr");
