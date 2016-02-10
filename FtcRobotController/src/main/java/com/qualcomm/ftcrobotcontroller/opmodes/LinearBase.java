@@ -25,6 +25,7 @@ public class LinearBase extends LinearOpMode
 	Servo rescueRight;
 
 	Servo dropperBase;
+	Servo hook;
 
 	GyroSensor gyro;
 
@@ -53,6 +54,7 @@ public class LinearBase extends LinearOpMode
 		rescueRight = hardwareMap.servo.get("rqr");
 
 		dropperBase = hardwareMap.servo.get("base");
+		hook = hardwareMap.servo.get("hook");
 
 		gyro = hardwareMap.gyroSensor.get("gyro"); // uncomment if you are using the gyro
 
@@ -146,24 +148,39 @@ public class LinearBase extends LinearOpMode
 	public void turnGT(int deg, double speed) throws InterruptedException
 	{
 		resetGyro();
-		truegyro += deg;
+		truegyro = deg;
 
 		int targetdeg = truegyro % 360 < 0 ? (truegyro % 360) + 360 : truegyro % 360;
 		int gyroinit = gyro.getHeading();
 		boolean leftLocked = gyro.getHeading() < targetdeg;
+		boolean rightLocked = gyro.getHeading() > targetdeg;
 
 		if(verbose) telemetry.addData("", "Starting motors, targetdeg: " + targetdeg);
 		driveLeft .setPower(speed * (deg < 0 ?  1 : -1)); // Make sure these turn the right way
 		driveRight.setPower(speed * (deg < 0 ? -1 :  1));
 		if(verbose) telemetry.addData("", "Motors started (?)");
 
-		if(deg > 0){ while(gyro.getHeading() < targetdeg){waitOneFullHardwareCycle();} } //right
+		if(deg > 0)
+		{
+			while(gyro.getHeading() < targetdeg || rightLocked)
+			{
+				waitOneFullHardwareCycle();
+				if(rightLocked) rightLocked = gyro.getHeading() > targetdeg || gyro.getHeading() > 354 || gyro.getHeading() < 5;
+				telemetry.addData("Heading: ", gyro.getHeading());
+				telemetry.addData("Target: ", targetdeg);
+				telemetry.addData("Locked: ", rightLocked);
+			}
+		} //right
+
 		if(deg < 0)
 		{
 			while(gyro.getHeading() > targetdeg || leftLocked)
 			{
 				waitOneFullHardwareCycle();
-				if(leftLocked) leftLocked = gyro.getHeading() < targetdeg;
+				if(leftLocked) leftLocked = gyro.getHeading() < targetdeg || gyro.getHeading() > 354 || gyro.getHeading() < 5;
+				telemetry.addData("Heading: ", gyro.getHeading());
+				telemetry.addData("Target: ", targetdeg);
+				telemetry.addData("Locked: ", leftLocked);
 			}
 		} //left
 
@@ -174,6 +191,8 @@ public class LinearBase extends LinearOpMode
 	boolean firstTurn = true;
 	public void turnB(String direction, int degrees, double speed) throws InterruptedException // Big thanks to Brendan Chay for providing this code.
 	{
+		//resetGyro();
+
 		if(direction.equals("Left")) {
 			speed *= -1; //Reverses robot direction
 			if(firstTurn) {
@@ -190,9 +209,12 @@ public class LinearBase extends LinearOpMode
 		while(Math.abs(gyro.getHeading() - degrees) > 0) { //Robot has not completed turn
 			driveRight.setPower(-1 * speed); // // TODO: 2/8/2016  make sure that these go the same way
 			driveLeft.setPower(speed);
+			if(verbose)telemetry.addData("", gyro.getHeading());
 			waitOneFullHardwareCycle();
 		}
 		waitOneFullHardwareCycle();
+
+		resetGyro();
 	}
 
 	public void movePlow(double speed, int waitTime) throws InterruptedException
