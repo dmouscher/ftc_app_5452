@@ -17,6 +17,7 @@ public class Teleop extends LinearBase
 	final double  BASE_SPEED            = 0.005 ;
 	final double  PLOW_SPEED            = 0.500 ;
 	final double  WINCH_SPEED           = 0.500 ;
+	final double  HOOK_SPEED            = 0.050 ;
 	final boolean TELEMETRY             = true  ; //toggles telemetry
 
 	double driveSlowMultiplier = 1;
@@ -87,6 +88,9 @@ public class Teleop extends LinearBase
 
 			if(gamepad2.right_stick_y < -DEADZONE) { winch.setPower( WINCH_SPEED); }
 			if(gamepad2.right_stick_y >  DEADZONE) { winch.setPower(-WINCH_SPEED); }
+
+			if(gamepad2.left_stick_y < -DEADZONE) { hook.setPosition(Range.clip(hook.getPosition() + HOOK_SPEED, 0, 1)); }
+			if(gamepad2.left_stick_y >  DEADZONE) { hook.setPosition(Range.clip(hook.getPosition() - HOOK_SPEED, 0, 1)); }
 
 			if(TELEMETRY) //Shows which buttons are being used currently and which are not being used
 			{

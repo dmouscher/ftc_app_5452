@@ -74,6 +74,7 @@ public class LinearBase extends LinearOpMode
 		dropperBase.setPosition(BASE_RESTING);
 		rescueLeft .setPosition(0);
 		rescueRight.setPosition(0);
+		hook.setPosition(0);
 	}
 
 	public void initalize()
