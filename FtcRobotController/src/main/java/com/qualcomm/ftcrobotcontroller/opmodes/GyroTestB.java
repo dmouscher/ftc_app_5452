@@ -1,6 +1,6 @@
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
-public class GyroTest extends LinearBase
+public class GyroTestB extends LinearBase
 {
 	public void runOpMode() throws InterruptedException
 	{
@@ -13,16 +13,28 @@ public class GyroTest extends LinearBase
 		//turnG(90, 0.5);
 		//halt();
 
-        //Thread.sleep(1000);
+		//Thread.sleep(1000);
 
-        //turnGT(-90, 0.5);
+		//turnGT(-90, 0.5);
 
 		turnB("Left", 90, 0.5);
-        halt();
+		halt();
 
 		Thread.sleep(1000);
 
 		turnB("Right", 90, 0.5);
 		halt();
+
+		Thread.sleep(3000);
+
+		turnB("Left", 90, 0.5);
+		halt();
+
+		Thread.sleep(3000);
+
+		turnB("Left", 90, 0.5);
+		halt();
+
+		Thread.sleep(3000);
 	}
 }
