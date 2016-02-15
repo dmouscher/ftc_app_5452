@@ -8,14 +8,8 @@ public class EncoderSpeed extends Thread
 	public double speedLeft, speedRight = 0;
 	public double lastSpeedLeft, lastSpeedRight = 0;
 
-	public enum motorList { DRIVELEFT, DRIVERIGHT; }
+	public enum motorList { DRIVELEFT, DRIVERIGHT }
 	public boolean dontStop = true;
-
-	public EncoderSpeed(DcMotor driveLeft, DcMotor driveRight) // parametrized constructor
-	{
-		this.driveLeft = driveLeft;
-		this.driveRight = driveRight;
-	}
 
 	public void terminate() { dontStop = false; } // stops the thread
 

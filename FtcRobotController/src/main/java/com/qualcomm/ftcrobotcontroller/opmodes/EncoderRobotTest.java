@@ -5,12 +5,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class EncoderRobotTest extends com.qualcomm.ftcrobotcontroller.opmodes.LinearBase
 {
-	ElapsedTime clock = new ElapsedTime();
-
 	//final int     SMOOTH_LENGTH         = 10        ;
-	final boolean TELEMETRY             = true      ; //enables/disables telemetry
-	final double TICKS_PER_DEGREE       = 2900/90.0 ;
-	final double TICKS_PER_INCH         = 1000/6.375;
 
 	//double lastXLeft [] = new double[SMOOTH_LENGTH];
 	//double lastXRight[] = new double[SMOOTH_LENGTH];

@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class LinearBase extends LinearOpMode
 {
-	enum Direction { LEFT, RIGHT; }
+	enum Direction { LEFT, RIGHT }
 
 	DcMotor driveLeft;
 	DcMotor driveRight;
@@ -86,7 +86,7 @@ public class LinearBase extends LinearOpMode
 
 	public void initialize()
 	{
-		if(verbose) telemetry.addData("", "Initalizing");
+		if(verbose) telemetry.addData("", "Initializing");
 		mapHardware();
 		drivetrainSetMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 		resetServos();
@@ -96,7 +96,7 @@ public class LinearBase extends LinearOpMode
 		if(verbose) telemetry.addData("", "Initialization complete");
 	}
 
-	public void moveTarget(double dist, double speed, int waitTime) throws InterruptedException // TODO: Make a system that calculates the amount of time the program should wait based on the input speed and the input distance. Why haven't done this yet? Well I want to get some refrence as to what we are using before trying and guessing
+	public void moveTarget(double dist, double speed, int waitTime) throws InterruptedException
 	{
 		int idist = (int)dist;
 
@@ -109,7 +109,7 @@ public class LinearBase extends LinearOpMode
 		Thread.sleep(waitTime);
 	}
 
-	public void moveEn(int dist, double speed) throws InterruptedException // Test this
+	public void moveEn(int dist, double speed) throws InterruptedException // TODO: Test this
 	{
 		int startingLeft  = driveLeft.getCurrentPosition();
 		int startingRight = driveRight.getCurrentPosition();
@@ -215,7 +215,7 @@ public class LinearBase extends LinearOpMode
 		}
 
 		while(Math.abs(gyro.getHeading() - degrees) > 0) { //Robot has not completed turn
-			driveRight.setPower(-1 * speed); // // TODO: 2/8/2016  make sure that these go the same way
+			driveRight.setPower(-1 * speed); // TODO: 2/8/2016  make sure that these go the same way
 			driveLeft.setPower(speed);
 			if(verbose)telemetry.addData("", gyro.getHeading());
 			waitOneFullHardwareCycle();

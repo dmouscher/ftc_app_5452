@@ -1,8 +1,6 @@
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -11,7 +9,8 @@ import com.qualcomm.robotcore.hardware.Servo;
  *
  * Created to try and find what is causing inaccuracies with the gyro.
  */
-public class GyroServoTest extends LinearOpMode {
+public class GyroServoTest extends LinearOpMode
+{
     Servo servo;
     GyroSensor gyro;
 
