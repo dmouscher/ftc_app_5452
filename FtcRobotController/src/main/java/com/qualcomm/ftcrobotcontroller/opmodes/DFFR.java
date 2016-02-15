@@ -15,7 +15,7 @@ public class DFFR extends com.qualcomm.ftcrobotcontroller.opmodes.LinearBase
 
 		drivetrainSetMode(DcMotorController.RunMode.RUN_TO_POSITION);
 		dropperBase.setPosition(BASE_VERTICAL); // Raise up the climber-dropper
-		movePlow(0.75, 9500);                   // Extend the plow
+		movePlow(0.75, PLOW_EXTEND_LENGTH);     // Extend the plow
 		moveEn((int)(8*FT), 0.7);               // Move forwards 8 feet
 		turn(-20, 0.7, 3000);                   // Turn 20 degrees left
 		moveEn((int)(3*FT), 0.7);               // Move forwards 3 feet

@@ -36,6 +36,8 @@ public class LinearBase extends LinearOpMode
 	final double BASE_RESTING  = 0.267; // fits inside the sizing cube
 	final double BASE_VERTICAL = 0.538;
 
+	final int PLOW_EXTEND_LENGTH = 3800;
+
 	boolean verbose = false;
 	int truegyro = 0;
 

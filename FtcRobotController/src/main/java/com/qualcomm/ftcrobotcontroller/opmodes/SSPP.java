@@ -12,7 +12,7 @@ public class SSPP extends LinearBase
 		waitForStart();
 
 		dropperBase.setPosition(BASE_VERTICAL); // Raise up the climber-dropper
-		movePlow(0.75, 7000);
+		movePlow(0.75, PLOW_EXTEND_LENGTH);
 		Thread.sleep(5000);
 	}
 }
