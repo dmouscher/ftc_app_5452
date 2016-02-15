@@ -81,10 +81,10 @@ public class LinearBase extends LinearOpMode
 		dropperBase.setPosition(BASE_RESTING  );
 		rescueLeft .setPosition(RESCUELEFT_IN );
 		rescueRight.setPosition(RESCUERIGHT_IN);
-		hook       .setPosition(HOOK_RESTING  );
+		hook       .setPosition(HOOK_RESTING);
 	}
 
-	public void initalize()
+	public void initialize()
 	{
 		if(verbose) telemetry.addData("", "Initalizing");
 		mapHardware();

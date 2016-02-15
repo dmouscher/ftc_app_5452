@@ -11,7 +11,7 @@ public class DMNB extends com.qualcomm.ftcrobotcontroller.opmodes.LinearBase
 	{
 
 		mapHardware();
-		initalize();
+		initialize();
 		drivetrainSetMode(DcMotorController.RunMode.RUN_TO_POSITION);
 
 		waitForStart();

@@ -5,7 +5,7 @@ public class GyroTestGT extends LinearBase
 	public void runOpMode() throws InterruptedException
 	{
 		verbose = true;
-		initalize();
+		initialize();
 		waitForStart();
 
 		//moveEn(1440*2, 0.8); // just to make sure this works

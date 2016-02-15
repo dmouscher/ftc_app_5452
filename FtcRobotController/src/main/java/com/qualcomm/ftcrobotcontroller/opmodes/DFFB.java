@@ -10,7 +10,7 @@ public class DFFB extends LinearBase
 	public void runOpMode() throws InterruptedException
 	{
 		mapHardware();
-		initalize();
+		initialize();
 		waitForStart();
 
 		drivetrainSetMode(DcMotorController.RunMode.RUN_TO_POSITION);

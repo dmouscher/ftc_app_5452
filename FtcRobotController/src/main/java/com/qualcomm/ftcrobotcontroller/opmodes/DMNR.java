@@ -8,7 +8,7 @@ public class DMNR extends LinearBase
     public void runOpMode() throws InterruptedException
     {
         mapHardware();
-        initalize();
+        initialize();
         waitForStart();
 
 

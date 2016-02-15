@@ -8,7 +8,7 @@ public class SSPP extends LinearBase
 	public void runOpMode() throws InterruptedException
 	{
 		mapHardware();
-		initalize();
+		initialize();
 		waitForStart();
 
 		dropperBase.setPosition(BASE_VERTICAL); // Raise up the climber-dropper
