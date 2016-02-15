@@ -33,8 +33,13 @@ public class LinearBase extends LinearOpMode
 	final double IN  = 144.796;
 	final double FT  = 12*IN;
 
-	final double BASE_RESTING  = 0.267; // fits inside the sizing cube
-	final double BASE_VERTICAL = 0.538;
+	final double BASE_RESTING    = 0.280; // fits inside the sizing cube
+	final double BASE_VERTICAL   = 0.475;
+	final double RESCUELEFT_IN   = 0.280;
+	final double RESCUERIGHT_IN  = 0    ;
+	final double RESCUELEFT_OUT  = 1    ;
+	final double RESCUERIGHT_OUT = 0.775;
+	final double HOOK_RESTING    = 0    ;
 
 	final int PLOW_EXTEND_LENGTH = 3800;
 
@@ -73,10 +78,10 @@ public class LinearBase extends LinearOpMode
 
 	public void resetServos()
 	{
-		dropperBase.setPosition(BASE_RESTING);
-		rescueLeft .setPosition(0);
-		rescueRight.setPosition(0);
-		hook.setPosition(0);
+		dropperBase.setPosition(BASE_RESTING  );
+		rescueLeft .setPosition(RESCUELEFT_IN );
+		rescueRight.setPosition(RESCUERIGHT_IN);
+		hook       .setPosition(HOOK_RESTING  );
 	}
 
 	public void initalize()

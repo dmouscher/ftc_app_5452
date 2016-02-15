@@ -45,7 +45,6 @@ public class Teleop extends LinearBase
 		waitForStart();
 
 		//ES.start();
-		dropperBase.setPosition(BASE_VERTICAL);
 
 		while(opModeIsActive())
 		{
@@ -83,8 +82,8 @@ public class Teleop extends LinearBase
 			}
 			else if(!gamepad2.dpad_right) { isDpadRightPrimed = true; }
 
-			rescueLeft .setPosition(isRescueLeftActive  ? 0.850 : 0.0);
-			rescueRight.setPosition(isRescueRightActive ? 0.775 : 0.0);
+			rescueLeft .setPosition(isRescueLeftActive  ? RESCUELEFT_OUT  : RESCUELEFT_IN );
+			rescueRight.setPosition(isRescueRightActive ? RESCUERIGHT_OUT : RESCUERIGHT_IN);
 
 			if(gamepad2.right_stick_y < -DEADZONE) { winch.setPower( WINCH_SPEED); }
 			if(gamepad2.right_stick_y >  DEADZONE) { winch.setPower(-WINCH_SPEED); }
