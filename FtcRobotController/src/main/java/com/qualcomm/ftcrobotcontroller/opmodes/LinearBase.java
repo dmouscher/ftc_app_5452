@@ -2,10 +2,10 @@
 
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
-import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class LinearBase extends LinearOpMode
@@ -27,7 +27,7 @@ public class LinearBase extends LinearOpMode
 	Servo dropperBase;
 	Servo hook;
 
-	GyroSensor gyro;
+	ModernRoboticsI2cGyro gyro;
 
 	final double DEG = 2900/90.0;
 	final double IN  = 144.796;
@@ -63,7 +63,7 @@ public class LinearBase extends LinearOpMode
 		dropperBase = hardwareMap.servo.get("base");
 		hook = hardwareMap.servo.get("hook");
 
-		gyro = hardwareMap.gyroSensor.get("gyro"); // uncomment if you are using the gyro
+		gyro = (ModernRoboticsI2cGyro) hardwareMap.gyroSensor.get("gyro"); // uncomment if you are using the gyro
 
 		driveRight .setDirection(DcMotor.Direction.REVERSE);
 		plow       .setDirection(DcMotor.Direction.REVERSE);
@@ -185,7 +185,7 @@ public class LinearBase extends LinearOpMode
 			while(gyro.getHeading() > targetdeg || leftLocked)
 			{
 				waitOneFullHardwareCycle();
-				if(leftLocked) leftLocked = gyro.getHeading() < targetdeg || gyro.getHeading() > 354 || gyro.getHeading() < 5;
+				if(leftLocked) leftLocked = gyro.getIntegratedZValue() < targetdeg || gyro.getHeading() > 354 || gyro.getHeading() < 5;
 				telemetry.addData("Heading: ", gyro.getHeading());
 				telemetry.addData("Target: ", targetdeg);
 				telemetry.addData("Locked: ", leftLocked);
@@ -194,6 +194,26 @@ public class LinearBase extends LinearOpMode
 
 		if(verbose) telemetry.addData("", "Done.");
 
+	}
+
+	public void turnGyro(int deg, double speed) throws InterruptedException // Pos Values, turn right
+	{
+		int gyroinit = gyro.getIntegratedZValue();
+
+		driveLeft .setPower(speed * (deg > 0 ? 1 : -1));
+		driveRight.setPower(speed * (deg < 0 ? 1 : -1));
+
+		if(deg > 0)
+		{
+			while(gyroinit + deg < gyro.getIntegratedZValue()) { waitOneFullHardwareCycle(); }
+		}
+		else
+		{
+			while(gyroinit + deg > gyro.getIntegratedZValue()) { waitOneFullHardwareCycle(); }
+		}
+
+		driveLeft .setPower(0);
+		driveRight.setPower(0);
 	}
 
 	boolean firstTurn = true;
@@ -224,6 +244,8 @@ public class LinearBase extends LinearOpMode
 
 		resetGyro();
 	}
+
+
 
 	public void movePlow(double speed, int waitTime) throws InterruptedException
 	{
