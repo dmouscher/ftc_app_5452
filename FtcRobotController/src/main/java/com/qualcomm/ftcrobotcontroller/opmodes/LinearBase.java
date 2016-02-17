@@ -341,7 +341,7 @@ public class LinearBase extends LinearOpMode
 		if(verbose) telemetry.addData("", "Gyro sensor reset");
 	}
 
-	/*public int gyroDelta() {return gyroDistance - gyro.getIntegratedZValue();}
+	public int gyroDelta() {return gyroDistance - gyro.getIntegratedZValue();}
 	public void resetDelta(){gyroDistance  = gyro.getIntegratedZValue();}
 
 	public void gTurn(int degrees, double power) throws InterruptedException
@@ -355,7 +355,7 @@ public class LinearBase extends LinearOpMode
 		while(Math.abs(gyroDelta()) < Math.abs(degrees)){waitOneFullHardwareCycle();}
 		halt();
 		resetEncoders();
-	}*/
+	}
 
 	@Override
 	public void runOpMode() throws InterruptedException
