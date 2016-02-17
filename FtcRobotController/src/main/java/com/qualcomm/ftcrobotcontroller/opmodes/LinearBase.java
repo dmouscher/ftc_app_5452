@@ -44,7 +44,9 @@ public class LinearBase extends LinearOpMode
 	final int PLOW_EXTEND_LENGTH = 3800;
 
 	boolean verbose = false;
-	int truegyro = 0;
+
+	int truegyro;
+	int gyroDistance = 0;
 
 	public void mapHardware()
 	{
@@ -79,7 +81,7 @@ public class LinearBase extends LinearOpMode
 	public void resetServos()
 	{
 		dropperBase.setPosition(BASE_RESTING  );
-		rescueLeft .setPosition(RESCUELEFT_IN );
+		rescueLeft .setPosition(RESCUELEFT_IN);
 		rescueRight.setPosition(RESCUERIGHT_IN);
 		hook       .setPosition(HOOK_RESTING);
 	}
@@ -128,7 +130,7 @@ public class LinearBase extends LinearOpMode
 	public void turn(int deg, double speed, int waitTime) throws InterruptedException
 	{
 		driveLeft .setTargetPosition(driveLeft.getCurrentPosition() + (int) (-deg * DEG));
-		driveRight.setTargetPosition(driveRight.getCurrentPosition() + (int) ( deg * DEG));
+		driveRight.setTargetPosition(driveRight.getCurrentPosition() + (int) (deg * DEG));
 
 		driveLeft .setPower(-speed);
 		driveRight.setPower(speed);
@@ -146,10 +148,10 @@ public class LinearBase extends LinearOpMode
 		if(verbose) telemetry.addData("", "Motors should be started");
 
 		if(verbose) telemetry.addData("", "Starting loops");
-		while(deg > 0 && gyro.getHeading() < deg) { if(verbose) telemetry.addData("", gyro.getHeading()); } // turn right
+		while(deg > 0 && gyro.getIntegratedZValue() < deg) { if(verbose) telemetry.addData("", gyro.getIntegratedZValue()); waitOneFullHardwareCycle(); } // turn right
 
-		while(gyro.getHeading()  >= 0 & gyro.getHeading()  <= 5) waitOneFullHardwareCycle();
-		while(deg < 0 && (map(gyro.getHeading(), 359, 0, 0, 359) < deg)){ if(verbose) telemetry.addData("", (map(gyro.getHeading(), 359, 0, 0, 359))); } // turn left
+		while(deg < 0 & gyro.getIntegratedZValue()  >= 0) waitOneFullHardwareCycle();
+		while(deg < 0 & gyro.getIntegratedZValue() > -1*deg){ if(verbose) telemetry.addData("", gyro.getIntegratedZValue()); waitOneFullHardwareCycle(); } // turn left
 		if(verbose) telemetry.addData("", "Done looping");
 	}
 
@@ -198,18 +200,68 @@ public class LinearBase extends LinearOpMode
 
 	public void turnGyro(int deg, double speed) throws InterruptedException // Pos Values, turn right
 	{
+	int gyroinit = gyro.getIntegratedZValue();
+	int loopnum = 0;
+
+	driveLeft .setPower(speed * (deg < 0 ? 1 : -1));
+	driveRight.setPower(speed * (deg > 0 ? 1 : -1));
+
+	if(deg > 0)
+	{
+		while(gyroinit + deg > gyro.getIntegratedZValue())
+		{
+			waitOneFullHardwareCycle();
+			telemetry.addData("Gyroinit: ", gyroinit);
+			telemetry.addData("IZ-Value", gyro.getIntegratedZValue());
+			telemetry.addData("Loop #: ", loopnum);
+			loopnum++;
+		}
+	}
+	else
+	{
+		while(gyroinit + deg < gyro.getIntegratedZValue())
+		{
+			waitOneFullHardwareCycle();
+			telemetry.addData("Gyroinit: ", gyroinit);
+			telemetry.addData("IZ-Value", gyro.getIntegratedZValue());
+			telemetry.addData("Loop #: ", loopnum);
+			loopnum++;
+		}
+	}
+
+	driveLeft .setPower(0);
+	driveRight.setPower(0);
+}
+
+	public void turnGyro2(int deg, double speed) throws InterruptedException // Pos Values, turn right
+	{
 		int gyroinit = gyro.getIntegratedZValue();
+		int loopnum = 0;
 
 		driveLeft .setPower(speed * (deg > 0 ? 1 : -1));
 		driveRight.setPower(speed * (deg < 0 ? 1 : -1));
 
 		if(deg > 0)
 		{
-			while(gyroinit + deg < gyro.getIntegratedZValue()) { waitOneFullHardwareCycle(); }
+			while(gyroinit + deg > gyro.getIntegratedZValue())
+			{
+				waitOneFullHardwareCycle();
+				telemetry.addData("Gyroinit: ", gyroinit);
+				telemetry.addData("IZ-Value", gyro.getIntegratedZValue());
+				telemetry.addData("Loop #: ", loopnum);
+				loopnum++;
+			}
 		}
 		else
 		{
-			while(gyroinit + deg > gyro.getIntegratedZValue()) { waitOneFullHardwareCycle(); }
+			while(gyroinit + deg < gyro.getIntegratedZValue())
+			{
+				waitOneFullHardwareCycle();
+				telemetry.addData("Gyroinit: ", gyroinit);
+				telemetry.addData("IZ-Value", gyro.getIntegratedZValue());
+				telemetry.addData("Loop #: ", loopnum);
+				loopnum++;
+			}
 		}
 
 		driveLeft .setPower(0);
@@ -288,6 +340,22 @@ public class LinearBase extends LinearOpMode
 
 		if(verbose) telemetry.addData("", "Gyro sensor reset");
 	}
+
+	/*public int gyroDelta() {return gyroDistance - gyro.getIntegratedZValue();}
+	public void resetDelta(){gyroDistance  = gyro.getIntegratedZValue();}
+
+	public void gTurn(int degrees, double power) throws InterruptedException
+	{
+		resetDelta();               //Reset Gyro
+		float direction = Math.signum(degrees); //get +/- sign of target
+		driveLeft.setPower(-direction * power);
+		driveRight.setPower(direction * power);
+		//move in the right direction
+		//we start moving BEFORE the while loop.
+		while(Math.abs(gyroDelta()) < Math.abs(degrees)){waitOneFullHardwareCycle();}
+		halt();
+		resetEncoders();
+	}*/
 
 	@Override
 	public void runOpMode() throws InterruptedException
