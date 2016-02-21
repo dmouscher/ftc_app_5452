@@ -12,6 +12,7 @@ public class Teleop extends LinearBase
 	final double  TRIGGER_THRESHOLD     = 0.700 ;
 	final double  ROTATE_SPEED          = 0.850 ;
 	final double  DRIVE_SLOW_MULTIPLIER = 0.200 ;
+	final double  DRIVE_MED_MULTIPLIER  = 0.500 ;
 	final double  EXTEND_SPEED          = 0.990 ;
 	final double  FORWARD_SPEED         = 0.900 ;
 	final double  BASE_SPEED            = 0.005 ;
@@ -32,7 +33,7 @@ public class Teleop extends LinearBase
 	@Override
 	public void runOpMode() throws InterruptedException
 	{
-		mapHardware();
+		initialize();
 
 		gamepad1.setJoystickDeadzone(DEADZONE);
 		gamepad2.setJoystickDeadzone(DEADZONE);
@@ -48,9 +49,9 @@ public class Teleop extends LinearBase
 
 		while(opModeIsActive())
 		{
-			driveSlowMultiplier = gamepad1.left_bumper ? DRIVE_SLOW_MULTIPLIER : 1; //gamepad1.left_bumper triggers slow mode for motors
-			driveForwards = !isTriggered(1, Direction.LEFT);                        //gamepad1.left_trigger reverses drivetrain direction
-
+			driveSlowMultiplier = gamepad1.left_bumper ? DRIVE_SLOW_MULTIPLIER : gamepad1.right_bumper ? DRIVE_MED_MULTIPLIER : 1;
+			driveForwards = !isTriggered(1, Direction.LEFT); //the gamepad1 bumpers limit the speed
+			                                                 //of the robot, while gamepad1.left_trigger reverses the drivetrain direction
 			driveLeft .setPower((driveForwards ? gamepad1.left_stick_y  : -gamepad1.right_stick_y) * driveSlowMultiplier); //basic tank drive control
 			driveRight.setPower((driveForwards ? gamepad1.right_stick_y : -gamepad1.left_stick_y ) * driveSlowMultiplier);
 
@@ -82,7 +83,7 @@ public class Teleop extends LinearBase
 			}
 			else if(!gamepad2.dpad_right) { isDpadRightPrimed = true; }
 
-			rescueLeft .setPosition(isRescueLeftActive  ? RESCUELEFT_OUT  : RESCUELEFT_IN );
+			rescueLeft .setPosition(isRescueLeftActive  ? RESCUELEFT_OUT : RESCUELEFT_IN);
 			rescueRight.setPosition(isRescueRightActive ? RESCUERIGHT_OUT : RESCUERIGHT_IN);
 
 			if     (gamepad2.right_stick_y < -DEADZONE) winch.setPower( WINCH_SPEED);
