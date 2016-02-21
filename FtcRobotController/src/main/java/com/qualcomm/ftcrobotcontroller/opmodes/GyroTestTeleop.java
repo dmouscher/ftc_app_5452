@@ -31,8 +31,8 @@ public class GyroTestTeleop extends LinearBase
 			if(gamepad1.a) resetGyro();
 			if(gamepad1.b) gyro.resetZAxisIntegrator();
 
-			driveLeft .setPower(drivetrainSpeed * (gamepad1.dpad_left ? -1 : gamepad1.dpad_right ?  1 : 0));
-			driveRight.setPower(drivetrainSpeed * (gamepad1.dpad_left ?  1 : gamepad1.dpad_right ? -1 : 0));
+			driveLeft .setPower(drivetrainSpeed * (gamepad1.dpad_left ?  1 : gamepad1.dpad_right ? -1 : 0));
+			driveRight.setPower(drivetrainSpeed * (gamepad1.dpad_left ? -1 : gamepad1.dpad_right ?  1 : 0));
 
 			if(!isDpadActive) isDpadPrimed = true;
 
