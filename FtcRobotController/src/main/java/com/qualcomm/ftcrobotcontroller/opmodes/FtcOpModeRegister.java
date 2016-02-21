@@ -59,7 +59,7 @@ public class FtcOpModeRegister implements OpModeRegister
      * If two or more op modes are registered with the same name, the app will display an error.
      */
 
-		manager.register("Build #: 1146", Skeleton.class);
+		manager.register("Build #: 1149", Skeleton.class);
 		manager.register("Teleop", Teleop.class);
 		manager.register("SSSS", SSSS.class);
 		manager.register("SSPP", SSPP.class);

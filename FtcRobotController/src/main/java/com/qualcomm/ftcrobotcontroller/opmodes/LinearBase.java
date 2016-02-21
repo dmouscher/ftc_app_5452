@@ -39,7 +39,7 @@ public class LinearBase extends LinearOpMode
 	final double RESCUERIGHT_IN  = 0    ;
 	final double RESCUELEFT_OUT  = 1    ;
 	final double RESCUERIGHT_OUT = 0.775;
-	final double HOOK_RESTING    = 1    ;
+	final double HOOK_RESTING    = 0    ;
 
 	final int PLOW_EXTEND_LENGTH = 3800;
 
