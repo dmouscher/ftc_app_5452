@@ -80,10 +80,10 @@ public class LinearBase extends LinearOpMode
 
 	public void resetServos()
 	{
-		dropperBase.setPosition(BASE_RESTING);
-		rescueLeft .setPosition(RESCUELEFT_IN);
+		dropperBase.setPosition(BASE_RESTING  );
+		rescueLeft .setPosition(RESCUELEFT_IN );
 		rescueRight.setPosition(RESCUERIGHT_IN);
-		hook       .setPosition(HOOK_RESTING);
+		hook       .setPosition(HOOK_RESTING  );
 	}
 
 	public void initialize() throws InterruptedException
@@ -110,7 +110,7 @@ public class LinearBase extends LinearOpMode
 		Thread.sleep(waitTime);
 	}
 
-	public void moveEn(int dist, double speed) throws InterruptedException // TODO: Test this
+	/*public void moveEn(int dist, double speed) throws InterruptedException //Doesn't work, but needed for gyro sensor
 	{
 		int startingLeft  = driveLeft.getCurrentPosition();
 		int startingRight = driveRight.getCurrentPosition();
@@ -124,7 +124,7 @@ public class LinearBase extends LinearOpMode
 
 			waitOneFullHardwareCycle();
 		}
-	}
+	}*/
 
 	public void turn(int deg, double speed, int waitTime) throws InterruptedException
 	{
