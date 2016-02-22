@@ -24,8 +24,8 @@ public class GyroServoTest extends LinearOpMode
         gyro.calibrate();
         while(gyro.isCalibrating())waitOneFullHardwareCycle();
 
-        servo.setPosition(0.5);
+        waitForStart();
 
-        while(opModeIsActive())telemetry.addData("Headings", String.format("Target: %d, Current: %d", 90, gyro.getHeading()));
+        while(opModeIsActive())telemetry.addData("Headings", gyro);
     }
 }
