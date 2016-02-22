@@ -43,6 +43,8 @@ public class LinearBase extends LinearOpMode
 
 	final int PLOW_EXTEND_LENGTH = 3800;
 
+	final double DEGTRUE_MULTIPLIER = 0.9;
+
 	boolean verbose = false;
 
 	int truegyro;
@@ -139,41 +141,23 @@ public class LinearBase extends LinearOpMode
 
 	public void turnGyro(int deg, double speed) throws InterruptedException // Pos Values, turn right
 	{
-		//gyro.resetZAxisIntegrator();
-		//waitOneFullHardwareCycle();
-
 		int gyroinit = gyro.getIntegratedZValue();
 		int loopnum = 0;
-		int degtrue = (int)(-0.9 * deg);
+		int degtrue = (int)(-DEGTRUE_MULTIPLIER * deg);
 
 		driveLeft .setPower(speed * (degtrue > 0 ? 1 : -1));
 		driveRight.setPower(speed * (degtrue < 0 ? 1 : -1));
 
-		if(degtrue > 0)
+		while(degtrue > 0 ? gyroinit + degtrue > gyro.getIntegratedZValue() : gyroinit + degtrue < gyro.getIntegratedZValue())
 		{
-			while(gyroinit + degtrue > gyro.getIntegratedZValue())
-			{
-				waitOneFullHardwareCycle();
-				telemetry.addData("Gyroinit: ", gyroinit);
-				telemetry.addData("IZ-Value", gyro.getIntegratedZValue());
-				telemetry.addData("Loop #: ", loopnum);
-				loopnum++;
-			}
-		}
-		else
-		{
-			while(gyroinit + degtrue < gyro.getIntegratedZValue())
-			{
-				waitOneFullHardwareCycle();
-				telemetry.addData("Gyroinit: ", gyroinit);
-				telemetry.addData("IZ-Value", gyro.getIntegratedZValue());
-				telemetry.addData("Loop #: ", loopnum);
-				loopnum++;
-			}
+			telemetry.addData("Gyroinit: ", gyroinit);
+			telemetry.addData("IZ-Value", gyro.getIntegratedZValue());
+			telemetry.addData("Loop #: ", loopnum);
+			loopnum++;
+			waitOneFullHardwareCycle();
 		}
 
-		driveLeft .setPower(0);
-		driveRight.setPower(0);
+		halt();
 	}
 
 	public void movePlow(double speed, int waitTime) throws InterruptedException
