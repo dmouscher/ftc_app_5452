@@ -197,7 +197,7 @@ public class LinearBase extends LinearOpMode
 		if(verbose) telemetry.addData("", "Resetting gyro sensor");
 
 		gyro.calibrate();
-		while(gyro.isCalibrating())  {Thread.sleep(50) ;}
+		while(gyro.isCalibrating()) { Thread.sleep(50); }
 
 		if(verbose) telemetry.addData("", "Gyro sensor reset");
 	}
@@ -206,7 +206,5 @@ public class LinearBase extends LinearOpMode
 	public void resetDelta() { gyroDistance = gyro.getIntegratedZValue(); }
 
 	@Override
-	public void runOpMode() throws InterruptedException
-	{
-	}
+	public void runOpMode() throws InterruptedException {}
 }
