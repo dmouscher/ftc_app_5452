@@ -70,7 +70,6 @@ public class LinearBase extends LinearOpMode
 		gyro = (ModernRoboticsI2cGyro) hardwareMap.gyroSensor.get("gyro");
 
 		driveRight .setDirection(DcMotor.Direction.REVERSE);
-		plow       .setDirection(DcMotor.Direction.REVERSE);
 		rescueRight.setDirection(Servo  .Direction.REVERSE);
 	}
 
