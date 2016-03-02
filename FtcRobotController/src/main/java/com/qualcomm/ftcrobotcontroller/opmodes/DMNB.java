@@ -9,11 +9,8 @@ public class DMNB extends com.qualcomm.ftcrobotcontroller.opmodes.LinearBase
 	@Override
 	public void runOpMode() throws InterruptedException
 	{
-
-		mapHardware();
 		initialize();
 		drivetrainSetMode(DcMotorController.RunMode.RUN_TO_POSITION);
-
 		waitForStart();
 
 		movePlow(0.75, PLOW_EXTEND_LENGTH);

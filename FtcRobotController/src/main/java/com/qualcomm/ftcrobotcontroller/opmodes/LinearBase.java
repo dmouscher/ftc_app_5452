@@ -52,6 +52,8 @@ public class LinearBase extends LinearOpMode
 
 	public void mapHardware()
 	{
+		hardwareMap.logDevices(); // IDK what this does, but it its in every example program
+
 		driveLeft  = hardwareMap.dcMotor.get("left");
 		driveRight = hardwareMap.dcMotor.get("right");
 

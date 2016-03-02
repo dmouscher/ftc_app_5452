@@ -2,13 +2,15 @@
 
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
+import com.qualcomm.robotcore.hardware.DcMotorController;
+
 public class DMNR extends LinearBase
 {
     @Override
     public void runOpMode() throws InterruptedException
     {
-        mapHardware();
         initialize();
+        drivetrainSetMode(DcMotorController.RunMode.RUN_TO_POSITION);
         waitForStart();
 
         movePlow(0.75, PLOW_EXTEND_LENGTH);
