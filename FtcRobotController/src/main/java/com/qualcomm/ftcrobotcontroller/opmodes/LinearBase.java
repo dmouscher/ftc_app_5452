@@ -29,7 +29,7 @@ public class LinearBase extends LinearOpMode
 
 	ModernRoboticsI2cGyro gyro;
 
-	final double DEG = 2900/90.0;
+	final double DEG = 2900/90.0; // TODO: Retest these constants to make sure that they're still acurate
 	final double IN  = 144.796;
 	final double FT  = 12*IN;
 
@@ -113,7 +113,7 @@ public class LinearBase extends LinearOpMode
 		Thread.sleep(waitTime);
 	}
 
-	/*public void moveEn(int dist, double speed) throws InterruptedException //Doesn't work, but needed for gyro sensor
+	public void moveEn(int dist, double speed) throws InterruptedException // TODO: Find a way to move forward when the motors are set to DcMotorController.RunMode.RUN_USING_ENCODERS motor mode
 	{
 		int startingLeft  = driveLeft.getCurrentPosition();
 		int startingRight = driveRight.getCurrentPosition();
@@ -127,7 +127,7 @@ public class LinearBase extends LinearOpMode
 
 			waitOneFullHardwareCycle();
 		}
-	}*/
+	}
 
 	public void turn(int deg, double speed, int waitTime) throws InterruptedException
 	{
