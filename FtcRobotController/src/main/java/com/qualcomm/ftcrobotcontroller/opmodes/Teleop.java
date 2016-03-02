@@ -111,14 +111,14 @@ public class Teleop extends LinearBase
 		}
 	}
 
-	private void runAllMotors(double speed) //simply runs all drivetrain motors at the given speed
+	private void runAllMotors(double speed) // simply runs all drivetrain motors at the given speed
 	{
 		driveLeft .setPower(speed);
 		driveRight.setPower(speed);
 	}
 
-	public boolean isTriggered(int gamepad, Direction dir) //returns true if the given trigger has been pressed past the threshold constant
-	{                                                      //otherwise returns false
+	private boolean isTriggered(int gamepad, Direction dir) // returns true if the given trigger has been pressed past the threshold constant
+	{                                                       // otherwise returns false
 		if (gamepad == 1) { return (dir == Direction.LEFT ? gamepad1.left_trigger : gamepad1.right_trigger) > TRIGGER_THRESHOLD; }
 		else              { return (dir == Direction.LEFT ? gamepad2.left_trigger : gamepad2.right_trigger) > TRIGGER_THRESHOLD; }
 	}

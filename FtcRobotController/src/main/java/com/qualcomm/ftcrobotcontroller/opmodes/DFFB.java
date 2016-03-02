@@ -1,4 +1,6 @@
 // DFFB: Drive to Floor, Far, Blue
+// Drives to the floor goal/rescue beacon repair zone.
+// The robot starts out centered on the border between the 5th and 6th tiles directly facing the rescue beacon repair zone.
 
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
