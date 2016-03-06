@@ -21,7 +21,7 @@ public class DFNR extends com.qualcomm.ftcrobotcontroller.opmodes.LinearBase
 		turn(-20, 0.7, 2000);                   // Turn left 20 degrees
 		moveTarget((int)FT, 0.7, 10000);        // Move forward one foot
 		//moveForward(FT, 0.7, 1000);
-		dropperBase.setPosition(0.1);         // Dump
+		dropperBase.setPosition(0.1);           // Dump
 		Thread.sleep(1000);
 	}
 }

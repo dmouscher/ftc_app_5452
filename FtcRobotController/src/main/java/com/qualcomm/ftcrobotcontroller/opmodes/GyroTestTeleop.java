@@ -15,13 +15,13 @@ public class GyroTestTeleop extends LinearBase
 
 		while(opModeIsActive())
 		{
-			if(gamepad1.dpad_up && isDpadPrimed)
+			if(gamepad1.dpad_up && isDpadPrimed) //dpad_up increases speed
 			{
 				isDpadPrimed = false;
 				isDpadActive = true;
 				drivetrainSpeed = Range.clip(drivetrainSpeed += 0.05, 0, 1);
 			}
-			if(gamepad1.dpad_down && isDpadPrimed)
+			if(gamepad1.dpad_down && isDpadPrimed) //dpad_down decreases speed
 			{
 				isDpadPrimed = false;
 				isDpadActive = true;
@@ -29,7 +29,7 @@ public class GyroTestTeleop extends LinearBase
 			}
 
 			if(gamepad1.a) resetGyro();
-			if(gamepad1.b) gyro.resetZAxisIntegrator();
+			if(gamepad1.b) gyro.resetZAxisIntegrator(); //a and b reset the gyro in different ways
 
 			driveLeft .setPower(drivetrainSpeed * (gamepad1.dpad_left ?  1 : gamepad1.dpad_right ? -1 : 0));
 			driveRight.setPower(drivetrainSpeed * (gamepad1.dpad_left ? -1 : gamepad1.dpad_right ?  1 : 0));
