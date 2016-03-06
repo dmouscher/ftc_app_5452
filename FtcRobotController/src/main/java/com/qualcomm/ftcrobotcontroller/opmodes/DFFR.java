@@ -21,7 +21,7 @@ public class DFFR extends com.qualcomm.ftcrobotcontroller.opmodes.LinearBase
 		turn(-20, 0.7, 3000);                   // Turn 20 degrees left
 		moveTarget(3*FT, 0.7, 5000);            // Move forwards 3 feet
 		//moveForward(FT, 0.7, 1000);
-		dropperBase.setPosition(0.1);           // Dump
+		dropperBase.setPosition(BASE_DUMPING);  // Dump
 		Thread.sleep(1000);
 	}
 }

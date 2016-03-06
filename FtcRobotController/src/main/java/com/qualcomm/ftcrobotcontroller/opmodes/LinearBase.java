@@ -35,6 +35,7 @@ public class LinearBase extends LinearOpMode
 
 	final double BASE_RESTING    = 0.280; // fits inside the sizing cube
 	final double BASE_VERTICAL   = 0.475;
+	final double BASE_DUMPING    = 0.100;
 	final double RESCUELEFT_IN   = 0.280;
 	final double RESCUERIGHT_IN  = 0    ;
 	final double RESCUELEFT_OUT  = 1    ;

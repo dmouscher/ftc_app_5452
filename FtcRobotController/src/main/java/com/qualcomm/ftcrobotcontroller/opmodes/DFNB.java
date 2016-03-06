@@ -21,7 +21,7 @@ public class DFNB extends LinearBase
 		turn(20, 0.7, 2000);                     // Turn left 20 degrees
 		moveTarget(2*FT, 0.7, 10000);            // Move forward
 		//moveForward(FT, 0.7, 1000);
-		dropperBase.setPosition(0.1);            // Dump
+		dropperBase.setPosition(BASE_DUMPING);   // Dump
 		Thread.sleep(1000);
 	}
 }
