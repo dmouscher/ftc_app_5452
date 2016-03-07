@@ -29,7 +29,7 @@ public class LinearBase extends LinearOpMode
 
 	ModernRoboticsI2cGyro gyro;
 
-	final double DEG = 2900/90.0; // TODO: Retest these constants to make sure that they're still acurate
+	final double DEG = (2900*(360.0/370))/90; // TODO: Retest these constants to make sure that they're still acurate
 	final double IN  = 144.796;
 	final double FT  = 12*IN;
 
