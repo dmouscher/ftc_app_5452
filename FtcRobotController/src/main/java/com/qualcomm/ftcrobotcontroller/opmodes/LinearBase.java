@@ -48,7 +48,6 @@ public class LinearBase extends LinearOpMode
 
 	boolean verbose = false;
 
-	int truegyro;
 	int gyroDistance = 0;
 
 	public void mapHardware()
@@ -114,22 +113,6 @@ public class LinearBase extends LinearOpMode
 		Thread.sleep(waitTime);
 	}
 
-	public void moveEn(int dist, double speed) throws InterruptedException // TODO: Find a way to move forward when the motors are set to DcMotorController.RunMode.RUN_USING_ENCODERS motor mode
-	{
-		int startingLeft  = driveLeft.getCurrentPosition();
-		int startingRight = driveRight.getCurrentPosition();
-
-		driveLeft .setPower(speed);
-		driveRight.setPower(speed);
-
-		while (driveLeft.getCurrentPosition() - startingLeft < dist || driveRight.getCurrentPosition() - startingRight < dist)
-		{
-			if(verbose) telemetry.addData("M: ", driveLeft.getCurrentPosition() + ", " + driveRight.getCurrentPosition());
-
-			waitOneFullHardwareCycle();
-		}
-	}
-
 	public void turn(int deg, double speed, int waitTime) throws InterruptedException
 	{
 		driveLeft .setTargetPosition(driveLeft.getCurrentPosition() + (int) (-deg * DEG));
@@ -139,27 +122,6 @@ public class LinearBase extends LinearOpMode
 		driveRight.setPower(speed);
 
 		Thread.sleep(waitTime);
-	}
-
-	public void turnGyro(int deg, double speed) throws InterruptedException // Pos Values, turn right
-	{
-		int gyroinit = gyro.getIntegratedZValue();
-		int loopnum = 0;
-		int degtrue = (int)(-DEGTRUE_MULTIPLIER * deg);
-
-		driveLeft .setPower(speed * (degtrue > 0 ? 1 : -1));
-		driveRight.setPower(speed * (degtrue < 0 ? 1 : -1));
-
-		while(degtrue > 0 ? gyroinit + degtrue > gyro.getIntegratedZValue() : gyroinit + degtrue < gyro.getIntegratedZValue())
-		{
-			telemetry.addData("Gyroinit: ", gyroinit);
-			telemetry.addData("IZ-Value", gyro.getIntegratedZValue());
-			telemetry.addData("Loop #: ", loopnum);
-			loopnum++;
-			waitOneFullHardwareCycle();
-		}
-
-		halt();
 	}
 
 	public void movePlow(double speed, int waitTime) throws InterruptedException
@@ -176,9 +138,6 @@ public class LinearBase extends LinearOpMode
 		driveRight.setPower(0);
 		waitOneFullHardwareCycle();
 	}
-
-	public double map(double x, double in_min, double in_max, double out_min, double out_max) // Thanks to arduino.cc for providing the formula
-		{ return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min; }
 
 	public void resetEncoders()
 	{
@@ -203,9 +162,6 @@ public class LinearBase extends LinearOpMode
 
 		if(verbose) telemetry.addData("", "Gyro sensor reset");
 	}
-
-	public int gyroDelta() { return gyroDistance - gyro.getIntegratedZValue(); }
-	public void resetDelta() { gyroDistance = gyro.getIntegratedZValue(); }
 
 	@Override
 	public void runOpMode() throws InterruptedException {}

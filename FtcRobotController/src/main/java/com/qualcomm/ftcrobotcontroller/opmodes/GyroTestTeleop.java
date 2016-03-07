@@ -2,7 +2,7 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 
 import com.qualcomm.robotcore.util.Range;
 
-public class GyroTestTeleop extends LinearBase
+public class GyroTestTeleop extends GyroTest
 {
 	public void runOpMode() throws InterruptedException
 	{
