@@ -16,13 +16,14 @@ public class DDNB extends LinearBase
 		waitForStart();
 
 		dropperBase.setPosition(BASE_VERTICAL); // Raise up the climber-dropper
-		//movePlow(0.75, PLOW_EXTEND_LENGTH);     // Extend the plow
-		moveTarget((int) (6.75 * Math.sqrt(2) * FT), 0.7, 7500);   // Move forward
+		movePlow(0.75, PLOW_EXTEND_LENGTH);     // Extend the plow
+		moveTarget((int) (6.75 * Math.sqrt(2) * FT - 6*IN), 0.7, 7500);   // Move forward
 		turn(45, 0.7, 2000);                   // Turn
-		moveTarget((int) (1.25*FT), 0.7, 1000);
+		moveTarget((int) (2.4 * FT), 0.7, 3000);
 		dropperBase.setPosition(BASE_DUMPING);  // Dump
-		moveTarget((int)(-1*FT), 0.7, 2000);
-		moveTarget((int) (1.25*FT), 0.7, 1000);
+		Thread.sleep(1500);
+		moveTarget((int)(-1*FT), 0.7, 3000);
+		//moveTarget((int) (1.25*FT), 0.7, 1000);
 		Thread.sleep(1000);
 	}
 }
