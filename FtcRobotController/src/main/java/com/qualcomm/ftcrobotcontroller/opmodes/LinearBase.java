@@ -29,18 +29,18 @@ public class LinearBase extends LinearOpMode
 
 	ModernRoboticsI2cGyro gyro;
 
-	final double DEG = (2900*(360.0/370))/90; // TODO: Retest these constants to make sure that they're still acurate
+	final double DEG = (2900*(360.0/370))/90;
 	final double IN  = 144.796;
 	final double FT  = 12*IN;
 
-	final double BASE_RESTING    = 0.280; // fits inside the sizing cube
-	final double BASE_VERTICAL   = 0.475;
-	final double BASE_DUMPING    = 0.100;
-	final double RESCUELEFT_IN   = 0.280;
-	final double RESCUERIGHT_IN  = 0    ;
-	final double RESCUELEFT_OUT  = 1    ;
-	final double RESCUERIGHT_OUT = 0.775;
-	final double HOOK_RESTING    = 0    ;
+	final double BASE_RESTING    = 0.00  ; // fits inside the sizing cube
+	final double BASE_VERTICAL   = 0.47  ;
+	final double BASE_DUMPING    = 0.93  ;
+	final double RESCUELEFT_IN   = 0.28  ;
+	final double RESCUERIGHT_IN  = 0     ;
+	final double RESCUELEFT_OUT  = 1     ;
+	final double RESCUERIGHT_OUT = 0.775 ;
+	final double HOOK_RESTING    = 0     ;
 
 	final int PLOW_EXTEND_LENGTH = 3800;
 
