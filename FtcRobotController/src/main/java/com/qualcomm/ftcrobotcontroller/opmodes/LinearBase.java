@@ -86,7 +86,7 @@ public class LinearBase extends LinearOpMode
 		dropperBase.setPosition(BASE_RESTING  );
 		rescueLeft .setPosition(RESCUELEFT_IN );
 		rescueRight.setPosition(RESCUERIGHT_IN);
-		hook       .setPosition(HOOK_RESTING  );
+		hook       .setPosition(HOOK_RESTING);
 	}
 
 	public void initialize() throws InterruptedException
@@ -105,7 +105,7 @@ public class LinearBase extends LinearOpMode
 		int idist = (int)dist;
 
 		driveRight.setTargetPosition(driveRight.getCurrentPosition() + idist);
-		driveLeft .setTargetPosition(driveLeft .getCurrentPosition() + idist);
+		driveLeft .setTargetPosition(driveLeft.getCurrentPosition() + idist);
 
 		driveLeft .setPower(speed);
 		driveRight.setPower(speed);
@@ -130,6 +130,12 @@ public class LinearBase extends LinearOpMode
 		while(opModeIsActive() && waitTime == 0) { waitOneFullHardwareCycle(); } // Pauses indefinitely if 0 is entered for waitTime
 		Thread.sleep(waitTime);
 		plow.setPower(0);
+	}
+
+	public void movePlow() // Hopefully this works
+	{
+		OtherThreads t = new OtherThreads(plow);
+		t.start();
 	}
 
 	public void halt() throws InterruptedException
