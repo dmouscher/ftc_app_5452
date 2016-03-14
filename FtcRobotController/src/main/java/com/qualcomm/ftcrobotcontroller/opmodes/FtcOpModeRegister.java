@@ -69,8 +69,8 @@ public class FtcOpModeRegister implements OpModeRegister
 		manager.register("DFFB", DFFB.class);
 		manager.register("DMNB", DMNB.class);
 		manager.register("DMNR", DMNR.class);
-		manager.register("DDNB", DDNB.class);
-		manager.register("DDNR", DDNR.class);
+		manager.register("DDFB", DDFB.class);
+		manager.register("DDFR", DDFR.class);
 		manager.register("Reset Encoders", ResetEncoders.class);
 		manager.register("Retract Plow",RetractPlow.class);
 		manager.register("Gyro Test", GyroTestTeleop.class);

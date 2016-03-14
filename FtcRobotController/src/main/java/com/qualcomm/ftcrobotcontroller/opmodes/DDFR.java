@@ -6,7 +6,7 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 
 import com.qualcomm.robotcore.hardware.DcMotorController;
 
-public class DDNR extends com.qualcomm.ftcrobotcontroller.opmodes.LinearBase
+public class DDFR extends com.qualcomm.ftcrobotcontroller.opmodes.LinearBase
 {
 	@Override
 	public void runOpMode() throws InterruptedException
