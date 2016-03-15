@@ -19,7 +19,8 @@ public class DDFB extends LinearBase
 		movePlow(0.75, PLOW_EXTEND_LENGTH);     // Extend the plow
 		moveTarget((int) (6.75 * Math.sqrt(2) * FT - 6*IN), 0.7, 7500);   // Move forward
 		turn(45, 0.7, 2000);                   // Turn
-		moveTarget((int) (2.4 * FT), 0.7, 3000);
+		movePlow(-0.75, PLOW_EXTEND_LENGTH/2);     // Extend the plow
+		moveTarget((int) (2.4 * FT - 0.75 * IN), 0.35, 5000);
 		dropperBase.setPosition(BASE_DUMPING);  // Dump
 		Thread.sleep(1500);
 		moveTarget((int)(-1*FT), 0.7, 3000);
