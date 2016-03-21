@@ -1,6 +1,6 @@
 // DFFB: Drive to Floor, Far, Red
-// Drives to the floor goal/rescue beacon repair zone.
-// The robot starts out centered on the border between the 5th and 6th tiles directly facing the rescue beacon repair zone.
+// Drives to the rescue beacon repair zone.
+// The robot starts out centered on the border between the 5th and 6th tiles from the mountain directly facing the rescue beacon repair zone.
 
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
@@ -19,9 +19,7 @@ public class DFFR extends com.qualcomm.ftcrobotcontroller.opmodes.LinearBase
 		movePlow(0.75, PLOW_EXTEND_LENGTH);     // Extend the plow
 		moveTarget(8*FT, 0.7, 5000);            // Move forwards 8 feet
 		turn(-20, 0.7, 3000);                   // Turn 20 degrees left
-		moveTarget(3*FT, 0.7, 5000);            // Move forwards 3 feet
-		//moveForward(FT, 0.7, 1000);
-		dropperBase.setPosition(BASE_DUMPING);  // Dump
+		moveTarget(3*FT, 0.7, 5000);            // Move forwards
 		Thread.sleep(1000);
 	}
 }

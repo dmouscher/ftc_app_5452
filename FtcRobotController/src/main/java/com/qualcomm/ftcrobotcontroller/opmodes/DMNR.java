@@ -1,6 +1,6 @@
 // DMNR: Drive to Mountain, Near, Red
 // Drives partially up the nearest mountain zone.
-// The robot starts out facing the zones at a 45 degree angle from the wall and centered on the border between the 3rd and 4th tiles (from the left.)
+// The robot starts out facing the zones at a 45 degree angle from the wall and centered between the 3rd and 4th tiles from the mountain.
 
 package com.qualcomm.ftcrobotcontroller.opmodes;
 

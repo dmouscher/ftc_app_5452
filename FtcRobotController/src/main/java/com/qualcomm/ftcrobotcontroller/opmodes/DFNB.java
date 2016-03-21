@@ -1,6 +1,6 @@
 // DFNB: Drive to Floor, Near, Blue
 // Drives in front of the mountain to the floor goal/rescue beacon repair zone.
-// The robot starts out facing the zones at a 45 degree angle from the wall and centered on the border between the 3rd and 4th tiles (from the left.)
+// The robot starts out facing the zones at a 45 degree angle from the wall centered between the 3rd and 4th tiles from the mountain
 
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
@@ -15,13 +15,11 @@ public class DFNB extends LinearBase
 		drivetrainSetMode(DcMotorController.RunMode.RUN_TO_POSITION);
 		waitForStart();
 
-		dropperBase.setPosition(BASE_VERTICAL);  // Raise up the climber-dropper
-		movePlow(0.75, PLOW_EXTEND_LENGTH);      // Extend the plow
-		moveTarget((int) (5.7 * FT), 0.7, 5000); // Move forward 5.7 feet
-		turn(20, 0.7, 2000);                     // Turn left 20 degrees
-		moveTarget(2*FT, 0.7, 10000);            // Move forward
-		//moveForward(FT, 0.7, 1000);
-		dropperBase.setPosition(BASE_DUMPING);   // Dump
+		dropperBase.setPosition(BASE_VERTICAL); // Raise up the climber-dropper
+		movePlow(0.75, PLOW_EXTEND_LENGTH);     // Extend the plow
+		moveTarget(5.7 * FT, 0.7, 5000);        // Move forwards
+		turn(20, 0.7, 2000);                    // Turn
+		moveTarget(2*FT, 0.7, 10000);           // Move forwards
 		Thread.sleep(1000);
 	}
 }

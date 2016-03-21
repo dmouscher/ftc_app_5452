@@ -3,9 +3,6 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 
-/**
- * Created by mlowery2 on 3/9/2016.
- */
 public class OtherThreads implements Runnable
 {
 	DcMotor plow;

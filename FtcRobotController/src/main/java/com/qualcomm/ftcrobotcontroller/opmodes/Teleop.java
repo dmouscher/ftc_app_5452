@@ -64,7 +64,7 @@ public class Teleop extends LinearBase
 				runAllMotors(FORWARD_SPEED * driveSlowMultiplier * (gamepad1.b ? 1 : -1));
 
 			if(gamepad2.left_bumper ^ isTriggered(2, Direction.LEFT)) //gamepad2.left_bumper extends the base servo, left_trigger retracts it
-				dropperBase.setPosition(Range.clip(dropperBase.getPosition() + BASE_SPEED * (gamepad2.left_bumper ? 1 : -1), 0.2, 1));
+				dropperBase.setPosition(Range.clip(dropperBase.getPosition() + BASE_SPEED * (gamepad2.left_bumper ? 1 : -1), 0.01, 1));
 
 			if(gamepad2.dpad_left && isDpadLeftPrimed) //Makes it so that trigger happens only on button press, not continuously
 			{

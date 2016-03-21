@@ -2,9 +2,6 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 
 import com.qualcomm.robotcore.hardware.DcMotorController;
 
-/**
- * Created by Jefferson Starship on 3/6/2016.
- */
 public class ConstTest extends LinearBase
 {
 	double inch = IN;
