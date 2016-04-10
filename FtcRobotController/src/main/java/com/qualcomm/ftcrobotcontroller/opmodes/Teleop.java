@@ -76,11 +76,11 @@ public class Teleop extends LinearBase
 			if(gamepad2.dpad_right && isDpadRightPrimed)
 			{
 				isDpadRightPrimed = false;
-				isRescueRightActive ^= true; //toggles isRescueLeftActive
+				isRescueRightActive ^= true; //toggles isRescueRightActive
 			}
 			else if(!gamepad2.dpad_right) { isDpadRightPrimed = true; }
 
-			rescueLeft .setPosition(isRescueLeftActive  ? RESCUELEFT_OUT : RESCUELEFT_IN);
+			rescueLeft .setPosition(isRescueLeftActive  ? RESCUELEFT_OUT  : RESCUELEFT_IN );
 			rescueRight.setPosition(isRescueRightActive ? RESCUERIGHT_OUT : RESCUERIGHT_IN);
 
 			if     (gamepad2.right_stick_y < -DEADZONE) winch.setPower( WINCH_SPEED);
@@ -96,16 +96,15 @@ public class Teleop extends LinearBase
 				telemetry.addData("Base servo", dropperBase.getPosition());
 				telemetry.addData("Joysticks", gamepad1.left_stick_y + ", " + gamepad1.right_stick_y);
 
-				telemetry.addData("Buttons 1", (gamepad1.y                      ? "[1Y] "  : "") + (gamepad1.b            ? "[1B] "  : "") +
-					                           (isTriggered(1, Direction.LEFT ) ? "[1LT] " : "")); //Update when button usage changes
+				telemetry.addData("Buttons 1", (gamepad1.left_bumper            ? "[1LB] " : "") + (gamepad1.right_bumper ? "[1RB] " : "") +
+						                       (isTriggered(1, Direction.LEFT ) ? "[1LT] " : "")); //Update when button usage changes
 
 				telemetry.addData("Buttons 2", (gamepad2.a                      ? "[2A] "  : "") + (gamepad2.b            ? "[2B] "  : "") +
 											   (gamepad2.x                      ? "[2A] "  : "") + (gamepad2.y            ? "[2Y] "  : "") +
-											   (gamepad2.left_bumper            ? "[2LB] " : "") + (gamepad2.right_bumper ? "[2RB] " : "") +
-											   (gamepad1.dpad_up                ? "[1DU] " : "") + (gamepad1.dpad_down    ? "[1DD] " : "") +
-											   (gamepad1.dpad_left              ? "[1DL] " : "") + (gamepad1.dpad_right   ? "[1DR] " : "") +
-											   (isTriggered(2, Direction.LEFT ) ? "[2LT] " : "") +
-											   (isTriggered(2, Direction.RIGHT) ? "[2RT] " : "")); //Update when button usage changes
+											   (gamepad2.left_bumper            ? "[2LB] " : "") + (gamepad2.dpad_up      ? "[2DU] " : "") +
+						                       (gamepad2.dpad_down              ? "[2DD] " : "") + (gamepad2.dpad_left    ? "[2DL] " : "") +
+						                       (gamepad2.dpad_right             ? "[2DR] " : "") +
+											   (isTriggered(2, Direction.LEFT ) ? "[2LT] " : "")); //Update when button usage changes
 			}
 			waitOneFullHardwareCycle();
 		}

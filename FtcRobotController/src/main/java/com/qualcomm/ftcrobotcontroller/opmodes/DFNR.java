@@ -17,7 +17,7 @@ public class DFNR extends com.qualcomm.ftcrobotcontroller.opmodes.LinearBase
 
 		dropperBase.setPosition(BASE_VERTICAL); // Raise up the climber-dropper
 		movePlow(0.75, PLOW_EXTEND_LENGTH);     // Extend the plow
-		moveTarget(5.7*FT, 0.7, 5000);          // Move forward 5.7 feet
+		moveTarget(5.7 * FT, 0.7, 5000);        // Move forward 5.7 feet
 		turn(-20, 0.7, 2000);                   // Turn left 20 degrees
 		moveTarget(FT, 0.7, 10000);             // Move forwards one foot
 		Thread.sleep(1000);

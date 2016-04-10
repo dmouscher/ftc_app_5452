@@ -1,4 +1,5 @@
-// SSPP: Stay still; protract plow    // Our naming conventions are really unwise
+// SSPP: Stay still; protract plow (Our naming conventions are really unwise)
+
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
 public class SSPP extends LinearBase

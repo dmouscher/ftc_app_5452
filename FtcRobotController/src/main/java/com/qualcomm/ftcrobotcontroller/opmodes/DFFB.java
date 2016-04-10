@@ -15,11 +15,11 @@ public class DFFB extends LinearBase
 		drivetrainSetMode(DcMotorController.RunMode.RUN_TO_POSITION);
 		waitForStart();
 
-		dropperBase.setPosition(BASE_VERTICAL); // Raise the climber-dropper
-		movePlow(0.75, PLOW_EXTEND_LENGTH);     // Extend the plow
-		moveTarget(10 * FT, 0.7, 5000);         // Move forwards
-		turn(20, 0.7, 3000);                    // Turn
-		moveTarget(3*FT - .66 * IN, 0.7, 5000);            // Move forwards
+		dropperBase.setPosition(BASE_VERTICAL);   // Raise the climber-dropper
+		movePlow(0.75, PLOW_EXTEND_LENGTH);       // Extend the plow
+		moveTarget(10 * FT, 0.7, 5000);           // Move forwards
+		turn(20, 0.7, 3000);                      // Turn
+		moveTarget(3 * FT - .66 * IN, 0.7, 5000); // Move forwards
 		Thread.sleep(1000);
 	}
 }

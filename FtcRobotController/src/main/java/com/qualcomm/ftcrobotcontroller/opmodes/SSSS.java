@@ -1,4 +1,5 @@
-// SSSS: Stay still; salute servo    // Our naming conventions are really unwise
+// SSSS: Stay still; salute servo (Our naming conventions are really unwise)
+
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
 public class SSSS extends LinearBase

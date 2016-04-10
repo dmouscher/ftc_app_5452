@@ -15,17 +15,17 @@ public class DDFB extends LinearBase
 		drivetrainSetMode(DcMotorController.RunMode.RUN_TO_POSITION);
 		waitForStart();
 
-		dropperBase.setPosition(BASE_VERTICAL);                 // Raise up the climber-dropper
-		movePlow(0.75, PLOW_EXTEND_LENGTH);                     // Extend the plow
+		dropperBase.setPosition(BASE_VERTICAL);          // Raise up the climber-dropper
+		movePlow(0.75, PLOW_EXTEND_LENGTH);              // Extend the plow
 		moveTarget(6.75 * Math.sqrt(2) * FT, 0.7, 7500); // Move forwards
-		turn(45, 0.7, 2000);                                    // Turn
-		movePlow(-0.75, PLOW_EXTEND_LENGTH / 2);                  // Extend the plow
-		moveTarget(2.34 * FT, 0.35, 5000);            // Move forwards
-		dropperBase.setPosition(BASE_DUMPING);                  // Dump
-		Thread.sleep(3500);                                     // Wait for dump
-		moveTarget(-FT, 0.7, 3000);                             // Move backwards
+		turn(45, 0.7, 2000);                             // Turn
+		movePlow(-0.75, PLOW_EXTEND_LENGTH / 2);         // Extend the plow
+		moveTarget(2.34 * FT, 0.35, 5000);               // Move forwards
+		dropperBase.setPosition(BASE_DUMPING);           // Dump
+		Thread.sleep(3500);                              // Wait for dump
+		moveTarget(-FT, 0.7, 3000);                      // Move backwards
 		Thread.sleep(1000);
-		dropperBase.setPosition(BASE_VERTICAL);
+		dropperBase.setPosition(BASE_VERTICAL);          // Raise up the climber-dropper
 		Thread.sleep(1000);
 	}
 }

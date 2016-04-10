@@ -19,12 +19,12 @@ public class DDFR extends LinearBase
 		moveTarget(6.75 * Math.sqrt(2) * FT - 9 * IN, 0.7, 7500); // Move forwards
 		turn(-45, 0.7, 2000);                                     // Turn
 		movePlow(-0.75, PLOW_EXTEND_LENGTH/2);                    // Extend the plow
-		moveTarget(2.4 * FT - 2 * IN, 0.35, 4000);              // Move forwards
+		moveTarget(2.4 * FT - 2 * IN, 0.35, 4000);                // Move forwards
 		dropperBase.setPosition(BASE_DUMPING);                    // Dump
 		Thread.sleep(3500);                                       // Wait for dump
 		moveTarget(-FT, 0.7, 3000);                               // Move backwards
 		Thread.sleep(1000);
-		dropperBase.setPosition(BASE_VERTICAL);
+		dropperBase.setPosition(BASE_VERTICAL);                   // Raise up the climber-dropper
 		Thread.sleep(2000);
 	}
 }

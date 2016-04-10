@@ -5,10 +5,12 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class EncoderRobotTest extends com.qualcomm.ftcrobotcontroller.opmodes.LinearBase
 {
-	//final int     SMOOTH_LENGTH         = 10        ;
+	/*
+	final int SMOOTH_LENGTH = 10;
 
-	//double lastXLeft [] = new double[SMOOTH_LENGTH];
-	//double lastXRight[] = new double[SMOOTH_LENGTH];
+	double[] lastXLeft  = new double[SMOOTH_LENGTH];
+	double[] lastXRight = new double[SMOOTH_LENGTH];
+	*/
 
 	public void runOpMode()
 	{

@@ -1,6 +1,7 @@
 // DMNB: Drive to Mountain, Near, Blue
 // Drives partially up the nearest mountain zone.
 // The robot starts out facing the zones at a 45 degree angle from the wall and centered between the 3rd and 4th tiles from the mountain.
+// This op mode is not fully tested/implemented
 
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
@@ -15,9 +16,9 @@ public class DMNB extends com.qualcomm.ftcrobotcontroller.opmodes.LinearBase
 		drivetrainSetMode(DcMotorController.RunMode.RUN_TO_POSITION);
 		waitForStart();
 
-		movePlow(0.75, PLOW_EXTEND_LENGTH);
-		moveTarget((int)(42*IN /* 12 ft times the distance you want.*/), 0.8, 5000);
-		turn(135, 0.8, 3000); /* Make sure this turns right */
-		moveTarget((int)(18*IN /* 12 ft times the distance you want. Also used 12 to turn inches into feet. */), 0.8, 3000);
+		movePlow(0.75, PLOW_EXTEND_LENGTH); // Extend the plow
+		moveTarget(42 * IN, 0.8, 5000);     // Move forwards
+		turn(135, 0.8, 3000);               // Sharply turns right
+		moveTarget(18 * IN, 0.8, 3000);     // Move forwards onto ramp
 	}
 }

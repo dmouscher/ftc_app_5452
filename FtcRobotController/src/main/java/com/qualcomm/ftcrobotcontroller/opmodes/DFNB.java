@@ -19,7 +19,7 @@ public class DFNB extends LinearBase
 		movePlow(0.75, PLOW_EXTEND_LENGTH);     // Extend the plow
 		moveTarget(5.7 * FT, 0.7, 5000);        // Move forwards
 		turn(20, 0.7, 2000);                    // Turn
-		moveTarget(2*FT, 0.7, 10000);           // Move forwards
+		moveTarget(2 * FT, 0.7, 10000);         // Move forwards
 		Thread.sleep(1000);
 	}
 }
