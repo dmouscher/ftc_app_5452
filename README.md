@@ -1,11 +1,11 @@
 # ftc_app_5452
 ![alt-text](5452logo.png "Team logo")
 
-This is the official coding repository for FTC Team 5452: Robot to the Knee.
+This was the official coding repository for FTC Team 5452: Robot to the Knee during the RES-Q Season (2015-2016).
 
-This repository is kept updated with ftc_app, available [here](https://github.com/ftctechnh/ftc_app). Its version is currently v 16.02.09.
+This repository is based off version 16.02.09 of the ftc_app repository, available [here](https://github.com/ftctechnh/ftc_app).
 
-For more information check out [our website](ftc5452.weebly.com).
+To see our repository for the Velocity Vortex Season (2016-2017), click [here](https://github.com/Sass-Meister/ftc_app_5452_2016-2017).
 
 
-Last updated: 6/15/16
+Last updated: 5/25/17
